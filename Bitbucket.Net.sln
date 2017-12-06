@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2010
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bitbucket.Net", "src\Bitbucket.Net\Bitbucket.Net.csproj", "{51EBF9F3-7DFA-4C72-B38D-D07B1ED7FCEE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bitbucket.Net.Tests", "test\Bitbucket.Net.Tests\Bitbucket.Net.Tests.csproj", "{8B19F6CB-D193-4C6E-B644-FEA7D027AC3D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{51EBF9F3-7DFA-4C72-B38D-D07B1ED7FCEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51EBF9F3-7DFA-4C72-B38D-D07B1ED7FCEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51EBF9F3-7DFA-4C72-B38D-D07B1ED7FCEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51EBF9F3-7DFA-4C72-B38D-D07B1ED7FCEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B19F6CB-D193-4C6E-B644-FEA7D027AC3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B19F6CB-D193-4C6E-B644-FEA7D027AC3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B19F6CB-D193-4C6E-B644-FEA7D027AC3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B19F6CB-D193-4C6E-B644-FEA7D027AC3D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {06DABD0E-1A16-4B84-9DF3-A1B8E73D18AF}
+	EndGlobalSection
+EndGlobal
