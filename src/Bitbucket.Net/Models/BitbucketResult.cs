@@ -11,5 +11,4 @@ namespace Bitbucket.Net.Models
         public int Start { get; set; }
         public int NextPageStart { get; set; }
     }
-
 }

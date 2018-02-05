@@ -1,10 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Bitbucket.Net.Common;
 using Bitbucket.Net.Models;
 using Flurl;
 using Flurl.Http;
+using Flurl.Http.Configuration;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Bitbucket.Net
 {
@@ -22,6 +27,28 @@ namespace Bitbucket.Net
         }
 
         private Url GetBaseUrl() => new Url(_url).AppendPathSegment("/rest/api/1.0");
+
+        private async Task<TResult> ReadResponseContentAsync<TResult>(HttpResponseMessage responseMessage)
+        {
+            string content = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
+            return JsonConvert.DeserializeObject<TResult>(content);
+        }
+
+        private async Task HandleErrorsAsync(HttpResponseMessage response)
+        {
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorResponse = await ReadResponseContentAsync<ErrorResponse>(response).ConfigureAwait(false);
+                string errorMessage = string.Join(Environment.NewLine, errorResponse.Errors.Select(x => x.Message));
+                throw new InvalidOperationException($"Http request failed ({(int)response.StatusCode} - {response.StatusCode}):\n{errorMessage}");
+            }
+        }
+
+        private async Task<TResult> HandleResponseAsync<TResult>(HttpResponseMessage responseMessage)
+        {
+            await HandleErrorsAsync(responseMessage).ConfigureAwait(false);
+            return await ReadResponseContentAsync<TResult>(responseMessage).ConfigureAwait(false);
+        }
 
         private async Task<IEnumerable<T>> GetPagedResultsAsync<T>(int? maxPages, IDictionary<string, object> queryParamValues, Func<IDictionary<string, object>, Task<BitbucketResult<T>>> selector)
         {
@@ -202,6 +229,18 @@ namespace Bitbucket.Net
                 .WithBasicAuth(_userName, _password)
                 .GetJsonAsync<PullRequest>()
                 .ConfigureAwait(false);
+        }
+
+        public async Task<PullRequest> CreatePullRequestAsync(string projectKey, string repositorySlug, PullRequestInfo pullRequestInfo)
+        {
+            var response = await GetBaseUrl()
+                .AppendPathSegment($"/projects/{projectKey}/repos/{repositorySlug}/pull-requests")
+                .ConfigureClient(settings => settings.JsonSerializer = new NewtonsoftJsonSerializer(new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() }))
+                .WithBasicAuth(_userName, _password)
+                .PostJsonAsync(pullRequestInfo)
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync<PullRequest>(response).ConfigureAwait(false);
         }
     }
 }

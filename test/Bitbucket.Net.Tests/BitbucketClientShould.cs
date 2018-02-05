@@ -95,5 +95,44 @@ namespace Bitbucket.Net.Tests
             var result = await _client.GetPullRequestAsync(projectKey, repositorySlug, id).ConfigureAwait(false);
             Assert.NotNull(result);
         }
+
+        [Theory]
+        [InlineData("Tools", "Test")]
+        public async Task CreatePullRequestAsync(string projectKey, string repositorySlug)
+        {
+            var result = await _client.CreatePullRequestAsync(projectKey, repositorySlug, new PullRequestInfo
+            {
+                Title = "Test Pull Request",
+                Description = "This is a test pull request",
+                State = PullRequestState.Open,
+                Open = true,
+                Closed = false,
+                FromRef = new FromToRef
+                {
+                    Id = "refs/heads/feature-test",
+                    Repository = new RepositoryRef
+                    {
+                        Name = null,
+                        Slug = repositorySlug,
+                        Project = new ProjectRef { Key = projectKey }
+                    }
+                },
+                ToRef = new FromToRef
+                {
+                    Id = "refs/heads/master",
+                    Repository = new RepositoryRef
+                    {
+                        Name = null,
+                        Slug = repositorySlug,
+                        Project = new ProjectRef { Key = projectKey }
+                    }
+                },
+                Locked = false
+            }).ConfigureAwait(false);
+
+            int id = result.Id;
+            var results = await _client.GetPullRequestAsync(projectKey, repositorySlug, id).ConfigureAwait(false);
+            Assert.NotNull(results);
+        }
     }
 }
