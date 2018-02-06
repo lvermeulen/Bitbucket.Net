@@ -6,10 +6,10 @@
     <Authors>Luk Vermeulen</Authors>
     <Company>Luk Vermeulen</Company>
     <Product>Bitbucket.Net</Product>
-    <Copyright>Copyright 2017 by Luk Vermeulen. All rights reserved.</Copyright>
+    <Copyright>Copyright 2018 by Luk Vermeulen. All rights reserved.</Copyright>
     <PackageLicenseUrl>https://github.com/lvermeulen/Bitbucket/blob/master/LICENSE</PackageLicenseUrl>
-    <PackageProjectUrl>https://github.com/lvermeulen/Bitbucket</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/lvermeulen/Bitbucket</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/lvermeulen/Bitbucket.Net</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/lvermeulen/Bitbucket.Net</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>bitbucket</PackageTags>
     <PackageIconUrl>https://i.imgur.com/OsDAzyV.png</PackageIconUrl>
@@ -17,7 +17,7 @@
 
   <ItemGroup>
     <PackageReference Include="Flurl.Http" Version="1.1.2" />
-    <PackageReference Include="Microsoft.CSharp" Version="4.4.0" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.4.1" />
   </ItemGroup>
 
 </Project>

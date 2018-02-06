@@ -73,7 +73,6 @@ namespace Bitbucket.Net.Tests
             Assert.NotNull(branchesToDelete);
         }
 
-
         [Theory]
         [InlineData("Tools", "Test", PullRequestState.All)]
         [InlineData("Tools", "Test", PullRequestState.Merged)]
@@ -98,7 +97,7 @@ namespace Bitbucket.Net.Tests
 
         [Theory]
         [InlineData("Tools", "Test")]
-        public async Task CreatePullRequestAsync(string projectKey, string repositorySlug)
+        public async Task CreateAndDeletePullRequestAsync(string projectKey, string repositorySlug)
         {
             var result = await _client.CreatePullRequestAsync(projectKey, repositorySlug, new PullRequestInfo
             {
