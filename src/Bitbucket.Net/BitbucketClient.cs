@@ -34,6 +34,12 @@ namespace Bitbucket.Net
             return JsonConvert.DeserializeObject<TResult>(content);
         }
 
+        private async Task<bool> ReadResponseContentAsync(HttpResponseMessage responseMessage)
+        {
+            string content = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
+            return content == "";
+        }
+
         private async Task HandleErrorsAsync(HttpResponseMessage response)
         {
             if (!response.IsSuccessStatusCode)
@@ -48,6 +54,12 @@ namespace Bitbucket.Net
         {
             await HandleErrorsAsync(responseMessage).ConfigureAwait(false);
             return await ReadResponseContentAsync<TResult>(responseMessage).ConfigureAwait(false);
+        }
+
+        private async Task<bool> HandleResponseAsync(HttpResponseMessage responseMessage)
+        {
+            await HandleErrorsAsync(responseMessage).ConfigureAwait(false);
+            return await ReadResponseContentAsync(responseMessage).ConfigureAwait(false);
         }
 
         private async Task<IEnumerable<T>> GetPagedResultsAsync<T>(int? maxPages, IDictionary<string, object> queryParamValues, Func<IDictionary<string, object>, Task<BitbucketResult<T>>> selector)
@@ -241,6 +253,18 @@ namespace Bitbucket.Net
                 .ConfigureAwait(false);
 
             return await HandleResponseAsync<PullRequest>(response).ConfigureAwait(false);
+        }
+
+        public async Task<bool> DeletePullRequest(string projectKey, string repositorySlug, PullRequest pullRequest)
+        {
+            var response = await GetBaseUrl()
+                .AppendPathSegment($"/projects/{projectKey}/repos/{repositorySlug}/pull-requests/{pullRequest.Id}")
+                .ConfigureClient(settings => settings.JsonSerializer = new NewtonsoftJsonSerializer(new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() }))
+                .WithBasicAuth(_userName, _password)
+                .SendJsonAsync(HttpMethod.Delete, new VersionInfo { Version = pullRequest.Version })
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync(response).ConfigureAwait(false);
         }
     }
 }
