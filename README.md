@@ -17,7 +17,7 @@ Client for Bitbucket
 * [ ] Markup
 * [ ] Profile
 * [X] Projects
-* [X] Repos
+* [ ] Repos
 * [ ] Tasks
 * [ ] Users
 
