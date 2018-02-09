@@ -19,7 +19,22 @@ namespace Bitbucket.Net
                 .GetJsonAsync<Cluster>()
                 .ConfigureAwait(false);
         }
+
+        public async Task<LicenseDetails> GetLicenseAsync()
+        {
+            return await GetAdminUrl("/license")
+                .GetJsonAsync<LicenseDetails>()
+                .ConfigureAwait(false);
+        }
+
+        public async Task<LicenseDetails> UpdateLicenseAsync(LicenseInfo licenseInfo)
+        {
+            var response = await GetProjectsUrl()
+                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
+                .PostJsonAsync(licenseInfo)
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync<LicenseDetails>(response).ConfigureAwait(false);
+        }
     }
-
-
 }

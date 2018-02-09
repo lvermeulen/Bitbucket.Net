@@ -5,9 +5,7 @@ using Bitbucket.Net.Common;
 using Bitbucket.Net.Models.Common;
 using Bitbucket.Net.Models.Projects;
 using Flurl.Http;
-using Flurl.Http.Configuration;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 
 namespace Bitbucket.Net
 {
@@ -46,7 +44,7 @@ namespace Bitbucket.Net
         public async Task<Project> CreateProjectAsync(ProjectDefinition projectDefinition)
         {
             var response = await GetProjectsUrl()
-                .ConfigureRequest(settings => settings.JsonSerializer = new NewtonsoftJsonSerializer(new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() }))
+                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .PostJsonAsync(projectDefinition)
                 .ConfigureAwait(false);
 
