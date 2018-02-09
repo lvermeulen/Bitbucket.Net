@@ -32,6 +32,21 @@ namespace Bitbucket.Net.Common
             [PullRequestOrder.Oldest] = "OLDEST"
         };
 
+        private static readonly Dictionary<Permissions, string> s_stringByPermission = new Dictionary<Permissions, string>
+        {
+            [Permissions.Admin] = "ADMIN",
+            [Permissions.LicensedUser] = "LICENSED_USER",
+            [Permissions.ProjectAdmin] = "PROJECT_ADMIN",
+            [Permissions.ProjectCreate] = "PROJECT_CREATE",
+            [Permissions.ProjectRead] = "PROJECT_READ",
+            [Permissions.ProjectView] = "PROJECT_VIEW",
+            [Permissions.ProjectWrite] = "PROJECT_WRITE",
+            [Permissions.RepoAdmin] = "REPO_ADMIN",
+            [Permissions.RepoRead] = "REPO_READ",
+            [Permissions.RepoWrite] = "REPO_WRITE",
+            [Permissions.SysAdmin] = "SYS_ADMIN",
+        };
+
         public static string BoolToString(bool value) => value
             ? "true"
             : "false";
@@ -71,6 +86,16 @@ namespace Bitbucket.Net.Common
             if (!s_stringByPullRequestOrder.TryGetValue(order, out string result))
             {
                 throw new ArgumentException($"Unknown pull request order: {order}");
+            }
+
+            return result;
+        }
+
+        public static string PermissionToString(Permissions permission)
+        {
+            if (!s_stringByPermission.TryGetValue(permission, out string result))
+            {
+                throw new ArgumentException($"Unknown permission: {permission}");
             }
 
             return result;

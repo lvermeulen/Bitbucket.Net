@@ -1,9 +1,13 @@
-﻿namespace Bitbucket.Net.Models.Projects
+﻿using Bitbucket.Net.Common;
+using Newtonsoft.Json;
+
+namespace Bitbucket.Net.Models.Projects
 {
     public class GroupPermission
     {
         public Group Group { get; set; }
-        public string Permission { get; set; }
+        [JsonConverter(typeof(PermissionsConverter))]
+        public Permissions Permission { get; set; }
 
         public override string ToString() => $"{Permission} - {Group}";
     }
