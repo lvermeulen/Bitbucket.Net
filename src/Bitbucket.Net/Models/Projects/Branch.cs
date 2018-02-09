@@ -2,11 +2,10 @@
 
 namespace Bitbucket.Net.Models.Projects
 {
-    public class Branch
+    public class Branch : BranchRef
     {
         private BranchMetaData _branchMetadata;
 
-        public string Id { get; set; }
         public string DisplayId { get; set; }
         public string Type { get; set; }
         public string LatestCommit { get; set; }
@@ -52,11 +51,5 @@ namespace Bitbucket.Net.Models.Projects
         public dynamic Metadata { get; set; }
 
         public override string ToString() => DisplayId;
-    }
-
-    public enum BranchOrderBy
-    {
-        Alphabetical,
-        Modification
     }
 }

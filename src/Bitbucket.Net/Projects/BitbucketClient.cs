@@ -346,6 +346,33 @@ namespace Bitbucket.Net
                 .ConfigureAwait(false);
         }
 
+        public async Task<Branch> CreateBranchAsync(string projectKey, string repositorySlug, BranchInfo branchInfo)
+        {
+            var response = await GetProjectsUrl($"/{projectKey}/repos/{repositorySlug}/branches")
+                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
+                .PostJsonAsync(branchInfo)
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync<Branch>(response).ConfigureAwait(false);
+        }
+
+        public async Task<Branch> GetDefaultBranchAsync(string projectKey, string repositorySlug)
+        {
+            return await GetProjectsUrl($"/{projectKey}/repos/{repositorySlug}/branches/default")
+                .GetJsonAsync<Branch>()
+                .ConfigureAwait(false);
+        }
+
+        public async Task<bool> SetDefaultBranchAsync(string projectKey, string repositorySlug, BranchRef branchRef)
+        {
+            var response = await GetProjectsUrl($"/{projectKey}/repos/{repositorySlug}/branches")
+                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
+                .PutJsonAsync(branchRef)
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync(response).ConfigureAwait(false);
+        }
+
         public async Task<IEnumerable<PullRequest>> GetPullRequestsAsync(string projectKey, string repositorySlug,
             int? maxPages = null,
             int? limit = null,
