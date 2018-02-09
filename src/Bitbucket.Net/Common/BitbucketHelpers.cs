@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Bitbucket.Net.Models;
+using Bitbucket.Net.Models.Projects;
 
 namespace Bitbucket.Net.Common
 {

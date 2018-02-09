@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Bitbucket.Net.Models;
+using Bitbucket.Net.Models.Common;
 using Flurl;
 using Newtonsoft.Json;
 

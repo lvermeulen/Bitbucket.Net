@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Bitbucket.Net.Models
+namespace Bitbucket.Net.Models.Projects
 {
     public class Links
     {

@@ -1,4 +1,4 @@
-﻿namespace Bitbucket.Net.Models
+﻿namespace Bitbucket.Net.Models.Projects
 {
     public class FromToRef
     {

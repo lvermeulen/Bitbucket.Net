@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace Bitbucket.Net.Models
+namespace Bitbucket.Net.Models.Projects
 {
     public class PullRequestInfo
     {

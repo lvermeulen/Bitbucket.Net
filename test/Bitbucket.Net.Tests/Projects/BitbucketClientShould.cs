@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Bitbucket.Net.Common;
-using Bitbucket.Net.Models;
+using Bitbucket.Net.Models.Projects;
 using Xunit;
 
 namespace Bitbucket.Net.Tests
