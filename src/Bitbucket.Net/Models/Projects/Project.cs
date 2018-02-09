@@ -1,10 +1,8 @@
 ﻿namespace Bitbucket.Net.Models.Projects
 {
-    public class Project : ProjectRef
+    public class Project : ProjectDefinition
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
         public bool Public { get; set; }
         public string Type { get; set; }
         public Links Links { get; set; }

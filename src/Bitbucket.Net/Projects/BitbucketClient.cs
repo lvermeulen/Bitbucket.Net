@@ -43,6 +43,16 @@ namespace Bitbucket.Net
                 .ConfigureAwait(false);
         }
 
+        public async Task<Project> CreateProjectAsync(ProjectDefinition projectDefinition)
+        {
+            var response = await GetProjectsUrl()
+                .ConfigureRequest(settings => settings.JsonSerializer = new NewtonsoftJsonSerializer(new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() }))
+                .PostJsonAsync(projectDefinition)
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync<Project>(response).ConfigureAwait(false);
+        }
+
         public async Task<IEnumerable<Repository>> GetRepositoriesAsync(string projectKey,
             int? maxPages = null,
             int? limit = null,
