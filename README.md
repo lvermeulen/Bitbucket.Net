@@ -8,6 +8,13 @@ Client for Bitbucket
 
 ## Features
 * [ ] Admin
+	* [ ] Groups
+	* [ ] Users
+	* [ ] Cluster
+	* [ ] License
+	* [ ] Mail Server
+	* [ ] Permissions
+	* [ ] Pull Requests
 * [ ] Application Properties
 * [ ] Dashboard
 * [ ] Groups
@@ -16,7 +23,26 @@ Client for Bitbucket
 * [ ] Logs
 * [ ] Markup
 * [ ] Profile
-* [X] Projects
+* [ ] Projects
+	* [X] Projects
+	* [X] Permissions
+	* [ ] Repos
+		* [ ] Repos
+		* [ ] Branches
+		* [ ] Browse
+		* [ ] Changes
+		* [ ] Commits
+		* [ ] Compare
+		* [ ] Diff
+		* [ ] Last Modified
+		* [ ] Participants
+		* [ ] Permissions
+		* [ ] Pull Requests
+		* [ ] Raw
+		* [ ] Settings
+		* [ ] Tags
+		* [ ] Webhooks
+	* [ ] Settings
 * [ ] Repos
 * [ ] Tasks
 * [ ] Users
