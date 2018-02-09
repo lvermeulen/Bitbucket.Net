@@ -53,6 +53,25 @@ namespace Bitbucket.Net
             return await HandleResponseAsync<Project>(response).ConfigureAwait(false);
         }
 
+        public async Task<bool> DeleteProjectAsync(string projectKey)
+        {
+            var response = await GetProjectsUrl($"/{projectKey}")
+                .DeleteAsync()
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync(response).ConfigureAwait(false);
+        }
+
+        public async Task<Project> UpdateProjectAsync(string projectKey, ProjectDefinition projectDefinition)
+        {
+            var response = await GetProjectsUrl($"/{projectKey}")
+                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
+                .PutJsonAsync(projectDefinition)
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync<Project>(response).ConfigureAwait(false);
+        }
+
         public async Task<IEnumerable<Repository>> GetRepositoriesAsync(string projectKey,
             int? maxPages = null,
             int? limit = null,
@@ -182,7 +201,7 @@ namespace Bitbucket.Net
         public async Task<PullRequest> CreatePullRequestAsync(string projectKey, string repositorySlug, PullRequestInfo pullRequestInfo)
         {
             var response = await GetProjectsUrl($"/{projectKey}/repos/{repositorySlug}/pull-requests")
-                .ConfigureRequest(settings => settings.JsonSerializer = new NewtonsoftJsonSerializer(new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() }))
+                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .PostJsonAsync(pullRequestInfo)
                 .ConfigureAwait(false);
 
@@ -192,7 +211,7 @@ namespace Bitbucket.Net
         public async Task<bool> DeletePullRequest(string projectKey, string repositorySlug, PullRequest pullRequest)
         {
             var response = await GetProjectsUrl($"/{projectKey}/repos/{repositorySlug}/pull-requests/{pullRequest.Id}")
-                .ConfigureRequest(settings => settings.JsonSerializer = new NewtonsoftJsonSerializer(new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() }))
+                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .SendJsonAsync(HttpMethod.Delete, new VersionInfo { Version = pullRequest.Version })
                 .ConfigureAwait(false);
 
