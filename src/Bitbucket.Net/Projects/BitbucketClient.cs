@@ -72,6 +72,16 @@ namespace Bitbucket.Net
             return await HandleResponseAsync<Project>(response).ConfigureAwait(false);
         }
 
+        public async Task<Project> GetProjectAsync(string projectKey)
+        {
+            var response = await GetProjectsUrl($"/{projectKey}")
+                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
+                .GetJsonAsync()
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync<Project>(response).ConfigureAwait(false);
+        }
+
         public async Task<IEnumerable<Repository>> GetRepositoriesAsync(string projectKey,
             int? maxPages = null,
             int? limit = null,
