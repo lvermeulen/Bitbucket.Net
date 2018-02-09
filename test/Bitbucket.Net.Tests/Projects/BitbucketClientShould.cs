@@ -16,6 +16,13 @@ namespace Bitbucket.Net.Tests
             Assert.True(results.Any());
         }
 
+        [Fact]
+        public async Task IsProjectDefaultPermissionAsync()
+        {
+            bool result = await _client.IsProjectDefaultPermissionAsync("Tools", Permissions.ProjectRead);
+            Assert.True(result);
+        }
+
         [Theory]
         [InlineData("Tools", 1)]
         public async Task GetRepositoriesAsync(string projectKey, int maxPages)

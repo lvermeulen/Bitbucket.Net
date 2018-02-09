@@ -51,6 +51,8 @@ namespace Bitbucket.Net.Common
             ? "true"
             : "false";
 
+        public static bool StringToBool(string value) => value.Equals("true", StringComparison.OrdinalIgnoreCase);
+
         public static string BranchOrderByToString(BranchOrderBy orderBy)
         {
             if (!s_stringByBranchOrderBy.TryGetValue(orderBy, out string result))

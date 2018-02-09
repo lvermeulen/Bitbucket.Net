@@ -28,10 +28,12 @@ namespace Bitbucket.Net
 
         private Url GetBaseUrl() => new Url(_url).AppendPathSegment("/rest/api/1.0");
 
-        private async Task<TResult> ReadResponseContentAsync<TResult>(HttpResponseMessage responseMessage)
+        private async Task<TResult> ReadResponseContentAsync<TResult>(HttpResponseMessage responseMessage, Func<string, TResult> contentHandler = null)
         {
             string content = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
-            return JsonConvert.DeserializeObject<TResult>(content);
+            return contentHandler != null 
+                ? contentHandler(content) 
+                : JsonConvert.DeserializeObject<TResult>(content);
         }
 
         private async Task<bool> ReadResponseContentAsync(HttpResponseMessage responseMessage)
@@ -50,10 +52,10 @@ namespace Bitbucket.Net
             }
         }
 
-        private async Task<TResult> HandleResponseAsync<TResult>(HttpResponseMessage responseMessage)
+        private async Task<TResult> HandleResponseAsync<TResult>(HttpResponseMessage responseMessage, Func<string, TResult> contentHandler = null)
         {
             await HandleErrorsAsync(responseMessage).ConfigureAwait(false);
-            return await ReadResponseContentAsync<TResult>(responseMessage).ConfigureAwait(false);
+            return await ReadResponseContentAsync(responseMessage, contentHandler).ConfigureAwait(false);
         }
 
         private async Task<bool> HandleResponseAsync(HttpResponseMessage responseMessage)

@@ -224,6 +224,42 @@ namespace Bitbucket.Net
                 .ConfigureAwait(false);
         }
 
+        public async Task<bool> IsProjectDefaultPermissionAsync(string projectKey, Permissions permission)
+        {
+            var response = await GetProjectsUrl($"/{projectKey}/permissions/{BitbucketHelpers.PermissionToString(permission)}/all")
+                .GetAsync()
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync<bool>(response, s => 
+                    BitbucketHelpers.StringToBool(JsonConvert.DeserializeObject<dynamic>(s).permitted.ToString()))
+                .ConfigureAwait(false);
+        }
+
+        private async Task<bool> SetProjectDefaultPermissionAsync(string projectKey, Permissions permission, bool allow)
+        {
+            var queryParamValues = new Dictionary<string, object>
+            {
+                ["allow"] = BitbucketHelpers.BoolToString(allow)
+            };
+
+            var response = await GetProjectsUrl($"/{projectKey}/permissions/{BitbucketHelpers.PermissionToString(permission)}/all")
+                .SetQueryParams(queryParamValues)
+                .PostAsync(new StringContent(""))
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync(response).ConfigureAwait(false);
+        }
+
+        public async Task<bool> GrantProjectPermissionToAllAsync(string projectKey, Permissions permission)
+        {
+            return await SetProjectDefaultPermissionAsync(projectKey, permission, true);
+        }
+
+        public async Task<bool> RevokeProjectPermissionFromAllAsync(string projectKey, Permissions permission)
+        {
+            return await SetProjectDefaultPermissionAsync(projectKey, permission, false);
+        }
+
         public async Task<IEnumerable<Repository>> GetRepositoriesAsync(string projectKey,
             int? maxPages = null,
             int? limit = null,
