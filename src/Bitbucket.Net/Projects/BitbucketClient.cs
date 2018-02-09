@@ -13,10 +13,12 @@ namespace Bitbucket.Net
 {
     public partial class BitbucketClient
     {
-        private IFlurlRequest GetProjectsUrl(string path = null) => GetBaseUrl()
+        private IFlurlRequest GetProjectsUrl() => GetBaseUrl()
             .AppendPathSegment("/projects")
-            .AppendPathSegment(path)
             .WithBasicAuth(_userName, _password);
+
+        private IFlurlRequest GetProjectsUrl(string path) => GetProjectsUrl()
+            .AppendPathSegment(path);
 
         public async Task<IEnumerable<Project>> GetProjectsAsync(
             int? maxPages = null,
