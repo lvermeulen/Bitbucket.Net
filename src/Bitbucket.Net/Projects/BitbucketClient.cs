@@ -373,6 +373,27 @@ namespace Bitbucket.Net
             return await HandleResponseAsync(response).ConfigureAwait(false);
         }
 
+        public async Task<IEnumerable<Change>> GetChangesAsync(string projectKey, string repositorySlug, string until, string since = null,
+            int? maxPages = null,
+            int? limit = null,
+            int? start = null)
+        {
+            var queryParamValues = new Dictionary<string, object>
+            {
+                ["limit"] = limit,
+                ["start"] = start,
+                ["since"] = since,
+                ["until"] = until
+            };
+
+            return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
+                    await GetProjectsUrl($"/{projectKey}/repos/{repositorySlug}/changes")
+                        .SetQueryParams(qpv)
+                        .GetJsonAsync<BitbucketResult<Change>>()
+                        .ConfigureAwait(false))
+                .ConfigureAwait(false);
+        }
+
         public async Task<IEnumerable<PullRequest>> GetPullRequestsAsync(string projectKey, string repositorySlug,
             int? maxPages = null,
             int? limit = null,
