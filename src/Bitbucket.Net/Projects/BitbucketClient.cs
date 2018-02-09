@@ -13,7 +13,7 @@ namespace Bitbucket.Net
 {
     public partial class BitbucketClient
     {
-        private IFlurlClient GetProjectsUrl(string path = null) => GetBaseUrl()
+        private IFlurlRequest GetProjectsUrl(string path = null) => GetBaseUrl()
             .AppendPathSegment("/projects")
             .AppendPathSegment(path)
             .WithBasicAuth(_userName, _password);
@@ -160,7 +160,7 @@ namespace Bitbucket.Net
         public async Task<PullRequest> CreatePullRequestAsync(string projectKey, string repositorySlug, PullRequestInfo pullRequestInfo)
         {
             var response = await GetProjectsUrl($"/{projectKey}/repos/{repositorySlug}/pull-requests")
-                .ConfigureClient(settings => settings.JsonSerializer = new NewtonsoftJsonSerializer(new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() }))
+                .ConfigureRequest(settings => settings.JsonSerializer = new NewtonsoftJsonSerializer(new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() }))
                 .PostJsonAsync(pullRequestInfo)
                 .ConfigureAwait(false);
 
@@ -170,7 +170,7 @@ namespace Bitbucket.Net
         public async Task<bool> DeletePullRequest(string projectKey, string repositorySlug, PullRequest pullRequest)
         {
             var response = await GetProjectsUrl($"/{projectKey}/repos/{repositorySlug}/pull-requests/{pullRequest.Id}")
-                .ConfigureClient(settings => settings.JsonSerializer = new NewtonsoftJsonSerializer(new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() }))
+                .ConfigureRequest(settings => settings.JsonSerializer = new NewtonsoftJsonSerializer(new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() }))
                 .SendJsonAsync(HttpMethod.Delete, new VersionInfo { Version = pullRequest.Version })
                 .ConfigureAwait(false);
 
