@@ -23,16 +23,21 @@ namespace Bitbucket.Net
         public async Task<IEnumerable<Project>> GetProjectsAsync(
             int? maxPages = null,
             int? limit = null,
-            int? start = null)
+            int? start = null,
+            string name = null,
+            Permissions? permission = null)
         {
             var queryParamValues = new Dictionary<string, object>
             {
                 ["limit"] = limit,
-                ["start"] = start
+                ["start"] = start,
+                ["name"] = name,
+                ["permission"] = BitbucketHelpers.PermissionToString(permission)
             };
 
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
                 await GetProjectsUrl()
+                    .SetQueryParams(qpv)
                     .GetJsonAsync<BitbucketResult<Project>>()
                     .ConfigureAwait(false))
                 .ConfigureAwait(false);
@@ -51,6 +56,7 @@ namespace Bitbucket.Net
 
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
                 await GetProjectsUrl($"/{projectKey}")
+                    .SetQueryParams(qpv)
                     .GetJsonAsync<BitbucketResult<Repository>>()
                     .ConfigureAwait(false))
                 .ConfigureAwait(false);
@@ -71,6 +77,7 @@ namespace Bitbucket.Net
 
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
                     await GetProjectsUrl($"/{projectKey}/repos/{repositorySlug}/permissions/groups")
+                        .SetQueryParams(qpv)
                         .GetJsonAsync<BitbucketResult<GroupPermission>>()
                         .ConfigureAwait(false))
                 .ConfigureAwait(false);
@@ -91,6 +98,7 @@ namespace Bitbucket.Net
 
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
                     await GetProjectsUrl($"/{projectKey}/repos/{repositorySlug}/permissions/users")
+                        .SetQueryParams(qpv)
                         .GetJsonAsync<BitbucketResult<UserPermission>>()
                         .ConfigureAwait(false))
                 .ConfigureAwait(false);
@@ -117,6 +125,7 @@ namespace Bitbucket.Net
 
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
                 await GetProjectsUrl($"/{projectKey}/repos/{repositorySlug}/branches")
+                    .SetQueryParams(qpv)
                     .GetJsonAsync<BitbucketResult<Branch>>()
                     .ConfigureAwait(false))
                 .ConfigureAwait(false);
@@ -147,6 +156,7 @@ namespace Bitbucket.Net
 
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
                 await GetProjectsUrl($"/{projectKey}/repos/{repositorySlug}/pull-requests")
+                    .SetQueryParams(qpv)
                     .GetJsonAsync<BitbucketResult<PullRequest>>()
                     .ConfigureAwait(false))
                 .ConfigureAwait(false);

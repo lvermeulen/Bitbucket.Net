@@ -12,7 +12,7 @@ namespace Bitbucket.Net.Tests
         [Fact]
         public async Task GetProjectsAsync()
         {
-            var results = await _client.GetProjectsAsync().ConfigureAwait(false);
+            var results = await _client.GetProjectsAsync(permission: Permissions.ProjectRead).ConfigureAwait(false);
             Assert.True(results.Any());
         }
 

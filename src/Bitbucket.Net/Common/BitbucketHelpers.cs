@@ -100,5 +100,12 @@ namespace Bitbucket.Net.Common
 
             return result;
         }
+
+        public static string PermissionToString(Permissions? permission)
+        {
+            return permission.HasValue 
+                ? PermissionToString(permission.Value) 
+                : null;
+        }
     }
 }
