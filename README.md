@@ -10,8 +10,8 @@ Client for Bitbucket
 * [ ] Admin
 	* [ ] Groups
 	* [ ] Users
-	* [ ] Cluster
-	* [ ] License
+	* [X] Cluster
+	* [X] License
 	* [ ] Mail Server
 	* [ ] Permissions
 	* [ ] Pull Requests
@@ -43,7 +43,7 @@ Client for Bitbucket
 		* [ ] Tags
 		* [ ] Webhooks
 	* [ ] Settings
-* [ ] Repos
+* [X] Repos
 * [ ] Tasks
 * [ ] Users
 
