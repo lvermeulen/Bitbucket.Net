@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
+using Bitbucket.Net.Common;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 namespace Bitbucket.Net.Models.Projects
 {
@@ -8,8 +8,8 @@ namespace Bitbucket.Net.Models.Projects
     {
         public string Title { get; set; }
         public string Description { get; set; }
-        [JsonConverter(typeof(StringEnumConverter))]
-        public PullRequestState State { get; set; }
+        [JsonConverter(typeof(PullRequestStatesConverter))]
+        public PullRequestStates State { get; set; }
         public bool Open { get; set; }
         public bool Closed { get; set; }
         public FromToRef FromRef { get; set; }

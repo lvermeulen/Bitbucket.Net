@@ -5,18 +5,19 @@ using Newtonsoft.Json;
 
 namespace Bitbucket.Net.Models.Projects
 {
-    public class PullRequest : PullRequestInfo
+    public class CommentRef
     {
+        public Properties Properties { get; set; }
         public int Id { get; set; }
         public int Version { get; set; }
+        public string Text { get; set; }
+        public User Author { get; set; }
         [JsonConverter(typeof(UnixDateTimeOffsetConverter))]
         public DateTimeOffset? CreatedDate { get; set; }
         [JsonConverter(typeof(UnixDateTimeOffsetConverter))]
         public DateTimeOffset? UpdatedDate { get; set; }
-        public Participant Author { get; set; }
-        public List<Participant> Participants { get; set; }
-        public Links Links { get; set; }
-
-        public override string ToString() => $"{Author.User.DisplayName}: {Title ?? "(untitled)"}";
+        public List<CommentRef> Comments { get; set; }
+        public List<object> Tasks { get; set; }
+        public Permittedoperations PermittedOperations { get; set; }
     }
 }

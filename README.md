@@ -31,7 +31,7 @@ Client for Bitbucket
 		* [X] Branches
 		* [ ] Browse
 		* [X] Changes
-		* [ ] Commits
+		* [X] Commits
 		* [ ] Compare
 		* [ ] Diff
 		* [ ] Last Modified

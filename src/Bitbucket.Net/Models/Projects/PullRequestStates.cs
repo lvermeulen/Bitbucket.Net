@@ -1,6 +1,6 @@
 ﻿namespace Bitbucket.Net.Models.Projects
 {
-    public enum PullRequestState
+    public enum PullRequestStates
     {
         Open,
         Declined,

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Bitbucket.Net.Common;
 using Bitbucket.Net.Models.Projects;
 using Xunit;
 
@@ -63,28 +62,28 @@ namespace Bitbucket.Net.Tests
             var list = results.ToList();
             Assert.True(list.Any());
 
-            var deleteStates = new[] { PullRequestState.Merged, PullRequestState.Declined };
+            var deleteStates = new[] { PullRequestStates.Merged, PullRequestStates.Declined };
             var branchesToDelete = list.Where(branch => 
                 !branch.IsDefault
                 && deleteStates.Any(state => state == branch.BranchMetadata?.OutgoingPullRequest?.PullRequest?.State)
-                && branch.BranchMetadata?.OutgoingPullRequest?.PullRequest?.UpdatedDate.FromUnixTimeSeconds() < DateTimeOffset.UtcNow.Date.AddDays(-daysOlderThanToday)
+                && branch.BranchMetadata?.OutgoingPullRequest?.PullRequest?.UpdatedDate < DateTimeOffset.UtcNow.Date.AddDays(-daysOlderThanToday)
                 && branch.BranchMetadata?.AheadBehind?.Ahead == 0);
 
             Assert.NotNull(branchesToDelete);
         }
 
         [Theory]
-        [InlineData("Tools", "Test", PullRequestState.All)]
-        [InlineData("Tools", "Test", PullRequestState.Merged)]
-        public async Task GetPullRequestsAsync(string projectKey, string repositorySlug, PullRequestState state)
+        [InlineData("Tools", "Test", PullRequestStates.All)]
+        [InlineData("Tools", "Test", PullRequestStates.Merged)]
+        public async Task GetPullRequestsAsync(string projectKey, string repositorySlug, PullRequestStates state)
         {
             var results = await _client.GetPullRequestsAsync(projectKey, repositorySlug, state: state, maxPages: 1).ConfigureAwait(false);
             Assert.True(results.Any());
         }
 
         [Theory]
-        [InlineData("Tools", "Test", PullRequestState.All)]
-        public async Task GetPullRequestAsync(string projectKey, string repositorySlug, PullRequestState state)
+        [InlineData("Tools", "Test", PullRequestStates.All)]
+        public async Task GetPullRequestAsync(string projectKey, string repositorySlug, PullRequestStates state)
         {
             var results = await _client.GetPullRequestsAsync(projectKey, repositorySlug, state: state, maxPages: 1).ConfigureAwait(false);
             var list = results.ToList();
@@ -103,7 +102,7 @@ namespace Bitbucket.Net.Tests
             {
                 Title = "Test Pull Request",
                 Description = "This is a test pull request",
-                State = PullRequestState.Open,
+                State = PullRequestStates.Open,
                 Open = true,
                 Closed = false,
                 FromRef = new FromToRef

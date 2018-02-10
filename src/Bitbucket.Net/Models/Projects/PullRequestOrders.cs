@@ -1,6 +1,6 @@
 ﻿namespace Bitbucket.Net.Models.Projects
 {
-    public enum PullRequestOrder
+    public enum PullRequestOrders
     {
         Newest,
         Oldest

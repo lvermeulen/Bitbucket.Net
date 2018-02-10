@@ -1,6 +1,6 @@
 ﻿namespace Bitbucket.Net.Models.Projects
 {
-    public class PullRequestUser
+    public class Participant
     {
         public User User { get; set; }
         public string Role { get; set; }

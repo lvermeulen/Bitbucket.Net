@@ -1,6 +1,6 @@
 ﻿namespace Bitbucket.Net.Models.Projects
 {
-    public enum PullRequestDirection
+    public enum PullRequestDirections
     {
         Incoming,
         Outgoing

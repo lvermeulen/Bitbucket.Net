@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace Bitbucket.Net.Models.Projects
 {
-    public class PullRequest : PullRequestInfo
+    public class Comment : PullRequestInfo
     {
         public int Id { get; set; }
         public int Version { get; set; }
@@ -16,7 +16,5 @@ namespace Bitbucket.Net.Models.Projects
         public Participant Author { get; set; }
         public List<Participant> Participants { get; set; }
         public Links Links { get; set; }
-
-        public override string ToString() => $"{Author.User.DisplayName}: {Title ?? "(untitled)"}";
     }
 }

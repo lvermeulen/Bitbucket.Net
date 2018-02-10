@@ -1,16 +1,23 @@
 ﻿using System;
+using Bitbucket.Net.Common;
+using Newtonsoft.Json;
 
 namespace Bitbucket.Net.Models.Admin
 {
     public class LicenseDetails : LicenseInfo
     {
-        public DateTime? CreationDate { get; set; }
-        public DateTime? PurchaseDate { get; set; }
-        public DateTime? ExpiryDate { get; set; }
+        [JsonConverter(typeof(UnixDateTimeOffsetConverter))]
+        public DateTimeOffset? CreationDate { get; set; }
+        [JsonConverter(typeof(UnixDateTimeOffsetConverter))]
+        public DateTimeOffset? PurchaseDate { get; set; }
+        [JsonConverter(typeof(UnixDateTimeOffsetConverter))]
+        public DateTimeOffset? ExpiryDate { get; set; }
         public int NumberOfDaysBeforeExpiry { get; set; }
-        public DateTime? MaintenanceExpiryDate { get; set; }
+        [JsonConverter(typeof(UnixDateTimeOffsetConverter))]
+        public DateTimeOffset? MaintenanceExpiryDate { get; set; }
         public int NumberOfDaysBeforeMaintenanceExpiry { get; set; }
-        public DateTime? GracePeriodEndDate { get; set; }
+        [JsonConverter(typeof(UnixDateTimeOffsetConverter))]
+        public DateTimeOffset? GracePeriodEndDate { get; set; }
         public int NumberOfDaysBeforeGracePeriodExpiry { get; set; }
         public int MaximumNumberOfUsers { get; set; }
         public bool UnlimitedNumberOfUsers { get; set; }

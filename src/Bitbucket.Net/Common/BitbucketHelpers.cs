@@ -12,24 +12,24 @@ namespace Bitbucket.Net.Common
             [BranchOrderBy.Modification] = "MODIFICATION"
         };
 
-        private static readonly Dictionary<PullRequestDirection, string> s_stringByPullRequestDirection = new Dictionary<PullRequestDirection, string>
+        private static readonly Dictionary<PullRequestDirections, string> s_stringByPullRequestDirection = new Dictionary<PullRequestDirections, string>
         {
-            [PullRequestDirection.Incoming] = "INCOMING",
-            [PullRequestDirection.Outgoing] = "OUTGOING"
+            [PullRequestDirections.Incoming] = "INCOMING",
+            [PullRequestDirections.Outgoing] = "OUTGOING"
         };
 
-        private static readonly Dictionary<PullRequestState, string> s_stringByPullRequestState = new Dictionary<PullRequestState, string>
+        private static readonly Dictionary<PullRequestStates, string> s_stringByPullRequestState = new Dictionary<PullRequestStates, string>
         {
-            [PullRequestState.Open] = "OPEN",
-            [PullRequestState.Declined] = "DECLINED",
-            [PullRequestState.Merged] = "MERGED",
-            [PullRequestState.All] = "ALL"
+            [PullRequestStates.Open] = "OPEN",
+            [PullRequestStates.Declined] = "DECLINED",
+            [PullRequestStates.Merged] = "MERGED",
+            [PullRequestStates.All] = "ALL"
         };
 
-        private static readonly Dictionary<PullRequestOrder, string> s_stringByPullRequestOrder = new Dictionary<PullRequestOrder, string>
+        private static readonly Dictionary<PullRequestOrders, string> s_stringByPullRequestOrder = new Dictionary<PullRequestOrders, string>
         {
-            [PullRequestOrder.Newest] = "NEWEST",
-            [PullRequestOrder.Oldest] = "OLDEST"
+            [PullRequestOrders.Newest] = "NEWEST",
+            [PullRequestOrders.Oldest] = "OLDEST"
         };
 
         private static readonly Dictionary<Permissions, string> s_stringByPermission = new Dictionary<Permissions, string>
@@ -45,6 +45,13 @@ namespace Bitbucket.Net.Common
             [Permissions.RepoRead] = "REPO_READ",
             [Permissions.RepoWrite] = "REPO_WRITE",
             [Permissions.SysAdmin] = "SYS_ADMIN",
+        };
+
+        private static readonly Dictionary<MergeCommits, string> s_stringByMergeCommits = new Dictionary<MergeCommits, string>
+        {
+            [MergeCommits.Exclude] = "exclude",
+            [MergeCommits.Include] = "include",
+            [MergeCommits.Only] = "only" 
         };
 
         public static string BoolToString(bool value) => value
@@ -63,7 +70,7 @@ namespace Bitbucket.Net.Common
             return result;
         }
 
-        public static string PullRequestDirectionToString(PullRequestDirection direction)
+        public static string PullRequestDirectionToString(PullRequestDirections direction)
         {
             if (!s_stringByPullRequestDirection.TryGetValue(direction, out string result))
             {
@@ -73,7 +80,7 @@ namespace Bitbucket.Net.Common
             return result;
         }
 
-        public static string PullRequestStateToString(PullRequestState state)
+        public static string PullRequestStateToString(PullRequestStates state)
         {
             if (!s_stringByPullRequestState.TryGetValue(state, out string result))
             {
@@ -83,7 +90,7 @@ namespace Bitbucket.Net.Common
             return result;
         }
 
-        public static string PullRequestOrderToString(PullRequestOrder order)
+        public static string PullRequestOrderToString(PullRequestOrders order)
         {
             if (!s_stringByPullRequestOrder.TryGetValue(order, out string result))
             {
@@ -108,6 +115,16 @@ namespace Bitbucket.Net.Common
             return permission.HasValue 
                 ? PermissionToString(permission.Value) 
                 : null;
+        }
+
+        public static string MergeCommitsToString(MergeCommits mergeCommits)
+        {
+            if (!s_stringByMergeCommits.TryGetValue(mergeCommits, out string result))
+            {
+                throw new ArgumentException($"Unknown merge commit: {mergeCommits}");
+            }
+
+            return result;
         }
     }
 }
