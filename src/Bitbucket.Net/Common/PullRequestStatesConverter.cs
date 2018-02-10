@@ -15,7 +15,7 @@ namespace Bitbucket.Net.Common
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             string pullRequestStateString = (string)reader.Value;
-            return Enum.Parse(typeof(Permissions), pullRequestStateString, true);
+            return Enum.Parse(typeof(PullRequestStates), pullRequestStateString, true);
         }
 
         public override bool CanConvert(Type objectType)

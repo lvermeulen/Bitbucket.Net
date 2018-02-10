@@ -58,11 +58,6 @@ namespace Bitbucket.Net.Common
                 return reader.Value;
             }
 
-            if (reader.TokenType != JsonToken.String)
-            {
-                throw new JsonSerializationException($"Unexpected token parsing date. Expected long or Int64, got {reader.TokenType}.");
-            }
-
             string dateText = reader.Value.ToString();
 
             if (string.IsNullOrEmpty(dateText) && isNullable)

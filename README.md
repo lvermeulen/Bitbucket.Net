@@ -19,7 +19,7 @@ Client for Bitbucket
 * [ ] Dashboard
 * [ ] Groups
 * [ ] Hooks
-* [ ] Inbox
+* [X] Inbox
 * [ ] Logs
 * [ ] Markup
 * [ ] Profile

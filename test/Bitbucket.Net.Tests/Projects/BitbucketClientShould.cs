@@ -63,7 +63,7 @@ namespace Bitbucket.Net.Tests
             Assert.True(list.Any());
 
             var deleteStates = new[] { PullRequestStates.Merged, PullRequestStates.Declined };
-            var branchesToDelete = list.Where(branch => 
+            var branchesToDelete = list.Where(branch =>
                 !branch.IsDefault
                 && deleteStates.Any(state => state == branch.BranchMetadata?.OutgoingPullRequest?.PullRequest?.State)
                 && branch.BranchMetadata?.OutgoingPullRequest?.PullRequest?.UpdatedDate < DateTimeOffset.UtcNow.Date.AddDays(-daysOlderThanToday)
