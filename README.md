@@ -44,7 +44,7 @@ Client for Bitbucket
 		* [ ] Webhooks
 	* [ ] Settings
 * [X] Repos
-* [ ] Tasks
+* [X] Tasks
 * [ ] Users
 
 

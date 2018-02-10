@@ -1,8 +1,9 @@
 ﻿using System;
 using Bitbucket.Net.Common;
+using Bitbucket.Net.Models.Projects;
 using Newtonsoft.Json;
 
-namespace Bitbucket.Net.Models.Projects
+namespace Bitbucket.Net.Models.Tasks
 {
     public abstract class TaskRef
     {
