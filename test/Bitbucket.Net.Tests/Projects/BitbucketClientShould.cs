@@ -140,7 +140,7 @@ namespace Bitbucket.Net.Tests
             var pullRequest = await _client.GetPullRequestAsync(projectKey, repositorySlug, id).ConfigureAwait(false);
             Assert.NotNull(pullRequest);
 
-            await _client.DeletePullRequest(projectKey, repositorySlug, pullRequest).ConfigureAwait(false);
+            await _client.DeletePullRequestAsync(projectKey, repositorySlug, pullRequest.Id, new VersionInfo { Version = -1 }).ConfigureAwait(false);
         }
     }
 }

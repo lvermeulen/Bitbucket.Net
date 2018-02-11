@@ -750,13 +750,6 @@ namespace Bitbucket.Net
                 .ConfigureAwait(false);
         }
 
-        public async Task<PullRequest> GetPullRequestAsync(string projectKey, string repositorySlug, int id)
-        {
-            return await GetProjectsReposUrl(projectKey, repositorySlug, $"/pull-requests/{id}")
-                .GetJsonAsync<PullRequest>()
-                .ConfigureAwait(false);
-        }
-
         public async Task<PullRequest> CreatePullRequestAsync(string projectKey, string repositorySlug, PullRequestInfo pullRequestInfo)
         {
             var response = await GetProjectsReposUrl(projectKey, repositorySlug, "/pull-requests")
@@ -767,14 +760,157 @@ namespace Bitbucket.Net
             return await HandleResponseAsync<PullRequest>(response).ConfigureAwait(false);
         }
 
-        public async Task<bool> DeletePullRequest(string projectKey, string repositorySlug, PullRequest pullRequest)
+        public async Task<PullRequest> GetPullRequestAsync(string projectKey, string repositorySlug, long pullRequestId)
         {
-            var response = await GetProjectsReposUrl(projectKey, repositorySlug, "/pull-requests/{pullRequest.Id}")
+            return await GetProjectsReposUrl(projectKey, repositorySlug, $"/pull-requests/{pullRequestId}")
+                .GetJsonAsync<PullRequest>()
+                .ConfigureAwait(false);
+        }
+
+        public async Task<PullRequest> UpdatePullRequestAsync(string projectKey, string repositorySlug, long pullRequestId, PullRequestUpdate pullRequestUpdate)
+        {
+            var response = await GetProjectsReposUrl(projectKey, repositorySlug, $"/pull-requests/{pullRequestId}")
                 .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
-                .SendJsonAsync(HttpMethod.Delete, new VersionInfo { Version = pullRequest.Version })
+                .PutJsonAsync(pullRequestUpdate)
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync<PullRequest>(response).ConfigureAwait(false);
+        }
+
+        public async Task<bool> DeletePullRequestAsync(string projectKey, string repositorySlug, long pullRequestId, VersionInfo versionInfo)
+        {
+            var response = await GetProjectsReposUrl(projectKey, repositorySlug, $"/pull-requests/{pullRequestId}")
+                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
+                .SendJsonAsync(HttpMethod.Delete, versionInfo)
                 .ConfigureAwait(false);
 
             return await HandleResponseAsync(response).ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<PullRequestActivity>> GetPullRequestActivitiesAsync(string projectKey, string repositorySlug, long pullRequestId,
+            long? fromId = null,
+            PullRequestFromTypes? fromType = null,
+            int? maxPages = null,
+            int? limit = null,
+            int? start = null)
+        {
+            var queryParamValues = new Dictionary<string, object>
+            {
+                ["limit"] = limit,
+                ["start"] = start,
+                ["fromId"] = fromId,
+                ["fromType"] = BitbucketHelpers.PullRequestFromTypeToString(fromType)
+            };
+
+            return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
+                    await GetProjectsReposUrl(projectKey, repositorySlug, $"/pull-requests/{pullRequestId}/activities")
+                        .SetQueryParams(qpv)
+                        .GetJsonAsync<BitbucketResult<PullRequestActivity>>()
+                        .ConfigureAwait(false))
+                .ConfigureAwait(false);
+        }
+
+        public async Task<bool> DeclinePullRequestAsync(string projectKey, string repositorySlug, long pullRequestId, int version = -1)
+        {
+            var queryParamValues = new Dictionary<string, object>
+            {
+                ["version"] = version
+            };
+
+            var response = await GetProjectsReposUrl(projectKey, repositorySlug, $"/pull-requests/{pullRequestId}/decline")
+                .SetQueryParams(queryParamValues)
+                .DeleteAsync()
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync(response).ConfigureAwait(false);
+        }
+
+        public async Task<PullRequestMergeState> GetPullRequestMergeStateAsync(string projectKey, string repositorySlug, long pullRequestId, int version = -1)
+        {
+            var queryParamValues = new Dictionary<string, object>
+            {
+                ["version"] = version
+            };
+
+            return await GetProjectsReposUrl(projectKey, repositorySlug, $"/pull-requests/{pullRequestId}/merge")
+                .SetQueryParams(queryParamValues)
+                .GetJsonAsync<PullRequestMergeState>()
+                .ConfigureAwait(false);
+        }
+
+        public async Task<PullRequest> MergePullRequestAsync(string projectKey, string repositorySlug, long pullRequestId, int version = -1)
+        {
+            var queryParamValues = new Dictionary<string, object>
+            {
+                ["version"] = version
+            };
+
+            var response = await GetProjectsReposUrl(projectKey, repositorySlug, $"/pull-requests/{pullRequestId}/merge")
+                .SetQueryParams(queryParamValues)
+                .PostJsonAsync(new StringContent(""))
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync<PullRequest>(response).ConfigureAwait(false);
+        }
+
+        public async Task<PullRequest> ReopenPullRequestAsync(string projectKey, string repositorySlug, long pullRequestId, int version = -1)
+        {
+            var queryParamValues = new Dictionary<string, object>
+            {
+                ["version"] = version
+            };
+
+            var response = await GetProjectsReposUrl(projectKey, repositorySlug, $"/pull-requests/{pullRequestId}/reopen")
+                .SetQueryParams(queryParamValues)
+                .PostJsonAsync(new StringContent(""))
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync<PullRequest>(response).ConfigureAwait(false);
+        }
+
+        public async Task<Reviewer> ApprovePullRequestAsync(string projectKey, string repositorySlug, long pullRequestId)
+        {
+            var response = await GetProjectsReposUrl(projectKey, repositorySlug, $"/pull-requests/{pullRequestId}/approve")
+                .PostJsonAsync(new StringContent(""))
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync<Reviewer>(response).ConfigureAwait(false);
+        }
+
+        public async Task<Reviewer> DeletePullRequestApprovalAsync(string projectKey, string repositorySlug, long pullRequestId)
+        {
+            var response = await GetProjectsReposUrl(projectKey, repositorySlug, $"/pull-requests/{pullRequestId}/approve")
+                .DeleteAsync()
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync<Reviewer>(response).ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<Change>> GetPullRequestChangesAsync(string projectKey, string repositorySlug, long pullRequestId,
+            ChangeScopes changeScope = ChangeScopes.All,
+            string sinceId = null,
+            string untilId = null,
+            bool withComments = true,
+            int? maxPages = null,
+            int? limit = null,
+            int? start = null)
+        {
+            var queryParamValues = new Dictionary<string, object>
+            {
+                ["limit"] = limit,
+                ["start"] = start,
+                ["changeScope"] = BitbucketHelpers.ChangeScopeToString(changeScope),
+                ["sinceId"] = sinceId,
+                ["untilId"] = untilId,
+                ["withComments"] = BitbucketHelpers.BoolToString(withComments)
+            };
+
+            return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
+                    await GetProjectsReposUrl(projectKey, repositorySlug, $"/pull-requests/{pullRequestId}/changes")
+                        .SetQueryParams(qpv)
+                        .GetJsonAsync<BitbucketResult<Change>>()
+                        .ConfigureAwait(false))
+                .ConfigureAwait(false);
         }
     }
 }

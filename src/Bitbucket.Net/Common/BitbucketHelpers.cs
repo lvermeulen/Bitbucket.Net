@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using Bitbucket.Net.Models.Logs;
 using Bitbucket.Net.Models.Projects;
 
 namespace Bitbucket.Net.Common
@@ -32,6 +34,12 @@ namespace Bitbucket.Net.Common
             [PullRequestOrders.Oldest] = "OLDEST"
         };
 
+        private static readonly Dictionary<PullRequestFromTypes, string> s_stringByPullRequestFromType = new Dictionary<PullRequestFromTypes, string>
+        {
+            [PullRequestFromTypes.Comment] = "COMMENT",
+            [PullRequestFromTypes.Activity] = "ACTIVITY"
+        };
+
         private static readonly Dictionary<Permissions, string> s_stringByPermissions = new Dictionary<Permissions, string>
         {
             [Permissions.Admin] = "ADMIN",
@@ -59,6 +67,35 @@ namespace Bitbucket.Net.Common
             [Roles.Author] = "AUTHOR",
             [Roles.Reviewer] = "REVIEWER",
             [Roles.Participant] = "PARTICIPANT"
+        };
+
+        private static readonly Dictionary<LineTypes, string> s_stringByLineTypes = new Dictionary<LineTypes, string>
+        {
+            [LineTypes.Added] = "ADDED",
+            [LineTypes.Removed] = "REMOVED",
+            [LineTypes.Context] = "CONTEXT"
+        };
+
+        private static readonly Dictionary<FileTypes, string> s_stringByFileTypes = new Dictionary<FileTypes, string>
+        {
+            [FileTypes.From] = "FROM",
+            [FileTypes.To] = "TO"
+        };
+
+        private static readonly Dictionary<ChangeScopes, string> s_stringByChangeScopes = new Dictionary<ChangeScopes, string>
+        {
+            [ChangeScopes.All] = "ALL",
+            [ChangeScopes.Unreviewed] = "UNREVIEWED",
+            [ChangeScopes.Range] = "RANGE"
+        };
+
+        private static readonly Dictionary<LogLevels, string> s_stringByLogLevels = new Dictionary<LogLevels, string>
+        {
+            [LogLevels.Trace] = "TRACE",
+            [LogLevels.Debug] = "DEBUG",
+            [LogLevels.Info] = "INFO",
+            [LogLevels.Warn] = "WARN",
+            [LogLevels.Error] = "ERROR"
         };
 
         public static string BoolToString(bool value) => value
@@ -107,6 +144,23 @@ namespace Bitbucket.Net.Common
             return result;
         }
 
+        public static string PullRequestFromTypeToString(PullRequestFromTypes fromType)
+        {
+            if (!s_stringByPullRequestFromType.TryGetValue(fromType, out string result))
+            {
+                throw new ArgumentException($"Unknown pull request from type: {fromType}");
+            }
+
+            return result;
+        }
+
+        public static string PullRequestFromTypeToString(PullRequestFromTypes? fromType)
+        {
+            return fromType.HasValue
+                ? PullRequestFromTypeToString(fromType.Value)
+                : null;
+        }
+
         public static string PermissionToString(Permissions permission)
         {
             if (!s_stringByPermissions.TryGetValue(permission, out string result))
@@ -149,6 +203,58 @@ namespace Bitbucket.Net.Common
             return role.HasValue
                 ? RoleToString(role.Value)
                 : null;
+        }
+
+        public static string LineTypeToString(LineTypes lineType)
+        {
+            if (!s_stringByLineTypes.TryGetValue(lineType, out string result))
+            {
+                throw new ArgumentException($"Unknown line type: {lineType}");
+            }
+
+            return result;
+        }
+
+        public static string FileTypeToString(FileTypes fileType)
+        {
+            if (!s_stringByFileTypes.TryGetValue(fileType, out string result))
+            {
+                throw new ArgumentException($"Unknown file type: {fileType}");
+            }
+
+            return result;
+        }
+
+        public static string ChangeScopeToString(ChangeScopes changeScope)
+        {
+            if (!s_stringByChangeScopes.TryGetValue(changeScope, out string result))
+            {
+                throw new ArgumentException($"Unknown change scope: {changeScope}");
+            }
+
+            return result;
+        }
+
+        public static string LogLevelToString(LogLevels logLevel)
+        {
+            if (!s_stringByLogLevels.TryGetValue(logLevel, out string result))
+            {
+                throw new ArgumentException($"Unknown log level: {logLevel}");
+            }
+
+            return result;
+        }
+
+        public static LogLevels StringToLogLevel(string s)
+        {
+            var pair = s_stringByLogLevels.FirstOrDefault(kvp => kvp.Value.Equals(s, StringComparison.OrdinalIgnoreCase));
+            // ReSharper disable once SuspiciousTypeConversion.Global
+            if (EqualityComparer<KeyValuePair<LogLevels, string>>.Default.Equals(pair))
+            {
+                throw new ArgumentException($"Unknown log level: {s}");
+            }
+
+            return pair.Key;
         }
     }
 }

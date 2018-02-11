@@ -20,7 +20,7 @@ Client for Bitbucket
 * [ ] Groups
 * [ ] Hooks
 * [X] Inbox
-* [ ] Logs
+* [X] Logs
 * [ ] Markup
 * [ ] Profile
 * [ ] Projects
@@ -38,7 +38,7 @@ Client for Bitbucket
 		* [ ] Last Modified
 		* [X] Participants
 		* [ ] Permissions
-		* [ ] Pull Requests
+		* [-] Pull Requests
 		* [ ] Raw
 		* [ ] Settings
 		* [ ] Tags
