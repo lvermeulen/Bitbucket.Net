@@ -32,7 +32,7 @@ namespace Bitbucket.Net.Common
             [PullRequestOrders.Oldest] = "OLDEST"
         };
 
-        private static readonly Dictionary<Permissions, string> s_stringByPermission = new Dictionary<Permissions, string>
+        private static readonly Dictionary<Permissions, string> s_stringByPermissions = new Dictionary<Permissions, string>
         {
             [Permissions.Admin] = "ADMIN",
             [Permissions.LicensedUser] = "LICENSED_USER",
@@ -52,6 +52,13 @@ namespace Bitbucket.Net.Common
             [MergeCommits.Exclude] = "exclude",
             [MergeCommits.Include] = "include",
             [MergeCommits.Only] = "only" 
+        };
+
+        private static readonly Dictionary<Roles, string> s_stringByRoles = new Dictionary<Roles, string>
+        {
+            [Roles.Author] = "AUTHOR",
+            [Roles.Reviewer] = "REVIEWER",
+            [Roles.Participant] = "PARTICIPANT"
         };
 
         public static string BoolToString(bool value) => value
@@ -102,7 +109,7 @@ namespace Bitbucket.Net.Common
 
         public static string PermissionToString(Permissions permission)
         {
-            if (!s_stringByPermission.TryGetValue(permission, out string result))
+            if (!s_stringByPermissions.TryGetValue(permission, out string result))
             {
                 throw new ArgumentException($"Unknown permission: {permission}");
             }
@@ -125,6 +132,23 @@ namespace Bitbucket.Net.Common
             }
 
             return result;
+        }
+
+        public static string RoleToString(Roles role)
+        {
+            if (!s_stringByRoles.TryGetValue(role, out string result))
+            {
+                throw new ArgumentException($"Unknown role: {role}");
+            }
+
+            return result;
+        }
+
+        public static string RoleToString(Roles? role)
+        {
+            return role.HasValue
+                ? RoleToString(role.Value)
+                : null;
         }
     }
 }

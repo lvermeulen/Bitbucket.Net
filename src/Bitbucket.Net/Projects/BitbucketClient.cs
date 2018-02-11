@@ -694,7 +694,32 @@ namespace Bitbucket.Net
                 .ConfigureAwait(false);
         }
 
-    public async Task<IEnumerable<PullRequest>> GetPullRequestsAsync(string projectKey, string repositorySlug,
+        public async Task<IEnumerable<Identity>> GetRepositoryParticipantsAsync(string projectKey, string repositorySlug, 
+            PullRequestDirections direction = PullRequestDirections.Incoming,
+            string filter = null,
+            Roles? role = null,
+            int? maxPages = null,
+            int? limit = null,
+            int? start = null)
+        {
+            var queryParamValues = new Dictionary<string, object>
+            {
+                ["limit"] = limit,
+                ["start"] = start,
+                ["direction"] = BitbucketHelpers.PullRequestDirectionToString(direction),
+                ["filter"] = filter,
+                ["role"] = BitbucketHelpers.RoleToString(role)
+            };
+
+            return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
+                    await GetProjectsReposUrl(projectKey, repositorySlug, "/participants")
+                        .SetQueryParams(qpv)
+                        .GetJsonAsync<BitbucketResult<Identity>>()
+                        .ConfigureAwait(false))
+                .ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<PullRequest>> GetPullRequestsAsync(string projectKey, string repositorySlug,
             int? maxPages = null,
             int? limit = null,
             int? start = null,

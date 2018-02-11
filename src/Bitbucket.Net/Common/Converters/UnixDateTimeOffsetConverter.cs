@@ -2,7 +2,7 @@
 using System.Linq;
 using Newtonsoft.Json;
 
-namespace Bitbucket.Net.Common
+namespace Bitbucket.Net.Common.Converters
 {
     public class UnixDateTimeOffsetConverter : JsonConverter
     {

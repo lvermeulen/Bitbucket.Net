@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Bitbucket.Net.Common;
 using Bitbucket.Net.Models.Common;
 using Bitbucket.Net.Models.Projects;
 using Flurl.Http;
@@ -20,13 +21,13 @@ namespace Bitbucket.Net
             int? maxPages = null,
             int? limit = 25,
             int? start = 0,
-            string role = "reviewer")
+            Roles role = Roles.Reviewer)
         {
             var queryParamValues = new Dictionary<string, object>
             {
                 ["limit"] = limit,
                 ["start"] = start,
-                ["role"] = role
+                ["role"] = BitbucketHelpers.RoleToString(role)
             };
 
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
