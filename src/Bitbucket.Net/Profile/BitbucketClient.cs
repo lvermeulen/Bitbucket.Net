@@ -9,30 +9,26 @@ namespace Bitbucket.Net
 {
     public partial class BitbucketClient
     {
-        private IFlurlRequest GetReposUrl() => GetBaseUrl()
-            .AppendPathSegment("/repos");
+        private IFlurlRequest GetProfileUrl() => GetBaseUrl()
+            .AppendPathSegment("/profile");
 
-        public async Task<IEnumerable<Repository>> GetRepositoriesAsync(
+        private IFlurlRequest GetProfileUrl(string path) => GetProfileUrl()
+            .AppendPathSegment(path);
+
+        public async Task<IEnumerable<Repository>> GetRecentReposAsync(Permissions? permission = null,
             int? maxPages = null,
             int? limit = null,
-            int? start = null,
-            string name = null,
-            string projectName = null,
-            Permissions? permission = null,
-            bool isPublic = false)
+            int? start = null)
         {
             var queryParamValues = new Dictionary<string, object>
             {
                 ["limit"] = limit,
                 ["start"] = start,
-                ["name"] = name,
-                ["projectname"] = projectName,
-                ["permission"] = BitbucketHelpers.PermissionToString(permission),
-                ["visibility"] = isPublic ? "public" : "private"
+                ["permission"] = BitbucketHelpers.PermissionToString(permission)
             };
 
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
-                await GetReposUrl()
+                await GetProfileUrl("/recent/repos")
                     .SetQueryParams(qpv)
                     .GetJsonAsync<BitbucketResult<Repository>>()
                     .ConfigureAwait(false))

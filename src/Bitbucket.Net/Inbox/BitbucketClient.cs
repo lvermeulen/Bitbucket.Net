@@ -11,8 +11,7 @@ namespace Bitbucket.Net
     public partial class BitbucketClient
     {
         private IFlurlRequest GetInboxUrl() => GetBaseUrl()
-            .AppendPathSegment("/inbox")
-            .WithBasicAuth(_userName, _password);
+            .AppendPathSegment("/inbox");
 
         private IFlurlRequest GetInboxUrl(string path) => GetInboxUrl()
             .AppendPathSegment(path);

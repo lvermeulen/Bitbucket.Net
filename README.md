@@ -22,7 +22,7 @@ Client for Bitbucket
 * [X] Inbox
 * [X] Logs
 * [ ] Markup
-* [ ] Profile
+* [X] Profile
 * [ ] Projects
 	* [X] Projects
 	* [X] Permissions

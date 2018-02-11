@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Bitbucket.Net.Models.Common;
 using Flurl;
+using Flurl.Http;
 using Flurl.Http.Configuration;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -26,7 +27,9 @@ namespace Bitbucket.Net
             _password = password;
         }
 
-        private Url GetBaseUrl() => new Url(_url).AppendPathSegment("/rest/api/1.0");
+        private IFlurlRequest GetBaseUrl() => new Url(_url)
+            .AppendPathSegment("/rest/api/1.0")
+            .WithBasicAuth(_userName, _password);
 
         private async Task<TResult> ReadResponseContentAsync<TResult>(HttpResponseMessage responseMessage, Func<string, TResult> contentHandler = null)
         {

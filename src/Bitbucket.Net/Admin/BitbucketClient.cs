@@ -7,8 +7,7 @@ namespace Bitbucket.Net
     public partial class BitbucketClient
     {
         private IFlurlRequest GetAdminUrl() => GetBaseUrl()
-            .AppendPathSegment("/admin")
-            .WithBasicAuth(_userName, _password);
+            .AppendPathSegment("/admin");
 
         private IFlurlRequest GetAdminUrl(string path) => GetAdminUrl()
             .AppendPathSegment(path);

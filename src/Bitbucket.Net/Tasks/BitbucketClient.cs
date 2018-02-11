@@ -7,8 +7,7 @@ namespace Bitbucket.Net
     public partial class BitbucketClient
     {
         private IFlurlRequest GetTasksUrl() => GetBaseUrl()
-            .AppendPathSegment("/tasks")
-            .WithBasicAuth(_userName, _password);
+            .AppendPathSegment("/tasks");
 
         private IFlurlRequest GetTasksUrl(string path) => GetTasksUrl()
             .AppendPathSegment(path);

@@ -10,8 +10,7 @@ namespace Bitbucket.Net
     public partial class BitbucketClient
     {
         private IFlurlRequest GetLogsUrl() => GetBaseUrl()
-            .AppendPathSegment("/logs")
-            .WithBasicAuth(_userName, _password);
+            .AppendPathSegment("/logs");
 
         private IFlurlRequest GetLogsUrl(string path) => GetLogsUrl()
             .AppendPathSegment(path);
