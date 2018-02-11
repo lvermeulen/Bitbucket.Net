@@ -33,7 +33,8 @@ Client for Bitbucket
 		* [X] Changes
 		* [X] Commits
 		* [X] Compare
-		* [ ] Diff
+		* [X] Diff
+		* [X] Files
 		* [ ] Last Modified
 		* [ ] Participants
 		* [ ] Permissions

@@ -585,7 +585,7 @@ namespace Bitbucket.Net
             return await HandleResponseAsync(response).ConfigureAwait(false);
         }
 
-        public async Task<IEnumerable<Change>> GetRepositoryCompareChanges(string projectKey, string repositorySlug, string from, string to, 
+        public async Task<IEnumerable<Change>> GetRepositoryCompareChangesAsync(string projectKey, string repositorySlug, string from, string to, 
             string fromRepo = null,
             int? maxPages = null,
             int? limit = null,
@@ -608,7 +608,7 @@ namespace Bitbucket.Net
                 .ConfigureAwait(false);
         }
 
-        public async Task<Differences> GetRepositoryCompareDiff(string projectKey, string repositorySlug, string from, string to,
+        public async Task<Differences> GetRepositoryCompareDiffAsync(string projectKey, string repositorySlug, string from, string to,
             string fromRepo = null,
             string srcPath = null,
             int contextLines = -1,
@@ -630,7 +630,7 @@ namespace Bitbucket.Net
                 .ConfigureAwait(false);
         }
 
-        public async Task<IEnumerable<Commit>> GetRepositoryCompareCommits(string projectKey, string repositorySlug, string from, string to,
+        public async Task<IEnumerable<Commit>> GetRepositoryCompareCommitsAsync(string projectKey, string repositorySlug, string from, string to,
             string fromRepo = null,
             int? maxPages = null,
             int? limit = null,
@@ -653,7 +653,48 @@ namespace Bitbucket.Net
                 .ConfigureAwait(false);
         }
 
-        public async Task<IEnumerable<PullRequest>> GetPullRequestsAsync(string projectKey, string repositorySlug,
+        public async Task<Differences> GetRepositoryDiffAsync(string projectKey, string repositorySlug, string until,
+            int contextLines = -1, 
+            string since = null, 
+            string srcPath = null,
+            string whitespace = "ignore-all")
+        {
+            var queryParamValues = new Dictionary<string, object>
+            {
+                ["contextLines"] = contextLines,
+                ["since"] = since,
+                ["srcPath"] = srcPath,
+                ["until"] = until,
+                ["whitespace"] = whitespace
+            };
+
+            return await GetProjectsReposUrl(projectKey, repositorySlug, "/diff")
+                .SetQueryParams(queryParamValues)
+                .GetJsonAsync<Differences>()
+                .ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<string>> GetRepositoryFilesAsync(string projectKey, string repositorySlug, string at = null,
+            int? maxPages = null,
+            int? limit = null,
+            int? start = null)
+        {
+            var queryParamValues = new Dictionary<string, object>
+            {
+                ["limit"] = limit,
+                ["start"] = start,
+                ["at"] = at
+            };
+
+            return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
+                    await GetProjectsReposUrl(projectKey, repositorySlug, "/files")
+                        .SetQueryParams(qpv)
+                        .GetJsonAsync<BitbucketResult<string>>()
+                        .ConfigureAwait(false))
+                .ConfigureAwait(false);
+        }
+
+    public async Task<IEnumerable<PullRequest>> GetPullRequestsAsync(string projectKey, string repositorySlug,
             int? maxPages = null,
             int? limit = null,
             int? start = null,

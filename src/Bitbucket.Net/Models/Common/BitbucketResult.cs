@@ -9,6 +9,6 @@ namespace Bitbucket.Net.Models.Common
         public bool IsLastPage { get; set; }
         public List<T> Values { get; set; }
         public int Start { get; set; }
-        public int NextPageStart { get; set; }
+        public int? NextPageStart { get; set; }
     }
 }

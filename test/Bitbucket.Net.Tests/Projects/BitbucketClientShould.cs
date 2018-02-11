@@ -73,6 +73,14 @@ namespace Bitbucket.Net.Tests
         }
 
         [Theory]
+        [InlineData("Tools", "Test")]
+        public async Task GetRepositoryFilesAsync(string projectKey, string repositorySlug)
+        {
+            var results = await _client.GetRepositoryFilesAsync(projectKey, repositorySlug);
+            Assert.True(results.Any());
+        }
+
+        [Theory]
         [InlineData("Tools", "Test", PullRequestStates.All)]
         [InlineData("Tools", "Test", PullRequestStates.Merged)]
         public async Task GetPullRequestsAsync(string projectKey, string repositorySlug, PullRequestStates state)
