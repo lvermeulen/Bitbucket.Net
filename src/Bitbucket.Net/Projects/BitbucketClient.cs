@@ -585,6 +585,74 @@ namespace Bitbucket.Net
             return await HandleResponseAsync(response).ConfigureAwait(false);
         }
 
+        public async Task<IEnumerable<Change>> GetRepositoryCompareChanges(string projectKey, string repositorySlug, string from, string to, 
+            string fromRepo = null,
+            int? maxPages = null,
+            int? limit = null,
+            int? start = null)
+        {
+            var queryParamValues = new Dictionary<string, object>
+            {
+                ["limit"] = limit,
+                ["start"] = start,
+                ["from"] = from,
+                ["to"] = to,
+                ["fromRepo"] = fromRepo
+            };
+
+            return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
+                    await GetProjectsReposUrl(projectKey, repositorySlug, "/compare/changes")
+                        .SetQueryParams(qpv)
+                        .GetJsonAsync<BitbucketResult<Change>>()
+                        .ConfigureAwait(false))
+                .ConfigureAwait(false);
+        }
+
+        public async Task<Differences> GetRepositoryCompareDiff(string projectKey, string repositorySlug, string from, string to,
+            string fromRepo = null,
+            string srcPath = null,
+            int contextLines = -1,
+            string whitespace = "ignore-all")
+        {
+            var queryParamValues = new Dictionary<string, object>
+            {
+                ["from"] = from,
+                ["to"] = to,
+                ["fromRepo"] = fromRepo,
+                ["srcPath"] = srcPath,
+                ["contextLines"] = contextLines,
+                ["whitespace"] = whitespace,
+            };
+
+            return await GetProjectsReposUrl(projectKey, repositorySlug, "/compare/diff")
+                .SetQueryParams(queryParamValues)
+                .GetJsonAsync<Differences>()
+                .ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<Commit>> GetRepositoryCompareCommits(string projectKey, string repositorySlug, string from, string to,
+            string fromRepo = null,
+            int? maxPages = null,
+            int? limit = null,
+            int? start = null)
+        {
+            var queryParamValues = new Dictionary<string, object>
+            {
+                ["limit"] = limit,
+                ["start"] = start,
+                ["from"] = from,
+                ["to"] = to,
+                ["fromRepo"] = fromRepo
+            };
+
+            return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
+                await GetProjectsReposUrl(projectKey, repositorySlug, "/compare/commits")
+                        .SetQueryParams(qpv)
+                        .GetJsonAsync<BitbucketResult<Commit>>()
+                        .ConfigureAwait(false))
+                .ConfigureAwait(false);
+        }
+
         public async Task<IEnumerable<PullRequest>> GetPullRequestsAsync(string projectKey, string repositorySlug,
             int? maxPages = null,
             int? limit = null,
