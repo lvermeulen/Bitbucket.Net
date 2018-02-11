@@ -102,6 +102,10 @@ namespace Bitbucket.Net.Common
             ? "true"
             : "false";
 
+        public static string BoolToString(bool? value) => value.HasValue
+            ? BoolToString(value)
+            : null;
+
         public static bool StringToBool(string value) => value.Equals("true", StringComparison.OrdinalIgnoreCase);
 
         public static string BranchOrderByToString(BranchOrderBy orderBy)
@@ -144,7 +148,7 @@ namespace Bitbucket.Net.Common
             return result;
         }
 
-        public static string PullRequestFromTypeToString(PullRequestFromTypes fromType)
+        private static string PullRequestFromTypeToString(PullRequestFromTypes fromType)
         {
             if (!s_stringByPullRequestFromType.TryGetValue(fromType, out string result))
             {
@@ -154,12 +158,9 @@ namespace Bitbucket.Net.Common
             return result;
         }
 
-        public static string PullRequestFromTypeToString(PullRequestFromTypes? fromType)
-        {
-            return fromType.HasValue
-                ? PullRequestFromTypeToString(fromType.Value)
-                : null;
-        }
+        public static string PullRequestFromTypeToString(PullRequestFromTypes? fromType) => fromType.HasValue
+            ? PullRequestFromTypeToString(fromType.Value)
+            : null;
 
         public static string PermissionToString(Permissions permission)
         {
@@ -171,12 +172,9 @@ namespace Bitbucket.Net.Common
             return result;
         }
 
-        public static string PermissionToString(Permissions? permission)
-        {
-            return permission.HasValue 
-                ? PermissionToString(permission.Value) 
-                : null;
-        }
+        public static string PermissionToString(Permissions? permission) => permission.HasValue 
+            ? PermissionToString(permission.Value) 
+            : null;
 
         public static string MergeCommitsToString(MergeCommits mergeCommits)
         {
@@ -198,12 +196,9 @@ namespace Bitbucket.Net.Common
             return result;
         }
 
-        public static string RoleToString(Roles? role)
-        {
-            return role.HasValue
-                ? RoleToString(role.Value)
-                : null;
-        }
+        public static string RoleToString(Roles? role) => role.HasValue
+            ? RoleToString(role.Value)
+            : null;
 
         public static string LineTypeToString(LineTypes lineType)
         {

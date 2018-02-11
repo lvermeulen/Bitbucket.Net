@@ -35,5 +35,58 @@ namespace Bitbucket.Net
 
             return await HandleResponseAsync<LicenseDetails>(response).ConfigureAwait(false);
         }
+
+        public async Task<MailServerConfiguration> GetMailServerAsync()
+        {
+            return await GetAdminUrl("/mail-server")
+                .GetJsonAsync<MailServerConfiguration>()
+                .ConfigureAwait(false);
+        }
+
+        public async Task<MailServerConfiguration> UpdateMailServerAsync(MailServerConfiguration mailServerConfiguration)
+        {
+            var response = await GetAdminUrl("/mail-server")
+                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
+                .PutJsonAsync(mailServerConfiguration)
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync<MailServerConfiguration>(response).ConfigureAwait(false);
+        }
+
+        public async Task<bool> DeleteMailServerAsync()
+        {
+            var response = await GetAdminUrl("/mail-server")
+                .DeleteAsync()
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync(response).ConfigureAwait(false);
+        }
+
+        public async Task<string> GetMailServerSenderAddressAsync()
+        {
+            var response = await GetAdminUrl("/mail-server/sender-address")
+                .GetAsync()
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync(response, s => s).ConfigureAwait(false);
+        }
+
+        public async Task<string> UpdateMailServerSenderAddressAsync(string senderAddress)
+        {
+            var response = await GetAdminUrl("/mail-server/sender-address")
+                .PutJsonAsync(senderAddress)
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync(response, s => s).ConfigureAwait(false);
+        }
+
+        public async Task<bool> DeleteMailServerSenderAddressAsync()
+        {
+            var response = await GetAdminUrl("/mail-server/sender-address")
+                .DeleteAsync()
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync(response).ConfigureAwait(false);
+        }
     }
 }

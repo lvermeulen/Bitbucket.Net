@@ -12,7 +12,7 @@ Client for Bitbucket
 	* [ ] Users
 	* [X] Cluster
 	* [X] License
-	* [ ] Mail Server
+	* [X] Mail Server
 	* [ ] Permissions
 	* [ ] Pull Requests
 * [ ] Application Properties
@@ -21,7 +21,7 @@ Client for Bitbucket
 * [ ] Hooks
 * [X] Inbox
 * [X] Logs
-* [ ] Markup
+* [X] Markup
 * [X] Profile
 * [ ] Projects
 	* [X] Projects
