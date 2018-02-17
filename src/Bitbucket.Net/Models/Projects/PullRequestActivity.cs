@@ -1,4 +1,6 @@
-﻿namespace Bitbucket.Net.Models.Projects
+﻿using Bitbucket.Net.Models.Users;
+
+namespace Bitbucket.Net.Models.Projects
 {
     public class PullRequestActivity
     {

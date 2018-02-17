@@ -46,6 +46,6 @@ Client for Bitbucket
 	* [ ] Settings
 * [X] Repos
 * [X] Tasks
-* [ ] Users
+* [X] Users
 
 

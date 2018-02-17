@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Bitbucket.Net.Common;
 using Bitbucket.Net.Models.Common;
 using Bitbucket.Net.Models.Projects;
+using Bitbucket.Net.Models.Users;
 using Flurl.Http;
 using Newtonsoft.Json;
 
