@@ -1,6 +1,6 @@
-﻿namespace Bitbucket.Net.Models.Projects
+﻿namespace Bitbucket.Net.Models.Users
 {
-    public class Group
+    public class Named
     {
         public string Name { get; set; }
 

@@ -1,10 +1,45 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Bitbucket.Net.Models.Admin;
 using Xunit;
 
 namespace Bitbucket.Net.Tests
 {
     public partial class BitbucketClientShould
     {
+        [Fact]
+        public async Task GetAdminGroupsAsync()
+        {
+            var results = await _client.GetAdminGroupsAsync().ConfigureAwait(false);
+            Assert.NotEmpty(results);
+        }
+
+        [Fact]
+        public async Task AddAdminGroupUsersAsync()
+        {
+            var result = await _client.AddAdminGroupUsersAsync(new UsersGroup
+            {
+                Group = "stash-users",
+                Users = new List<string> { "lvermeulen" }
+            }).ConfigureAwait(false);
+
+            Assert.True(result);
+        }
+
+        [Fact]
+        public async Task GetAdminGroupMoreMembersAsync()
+        {
+            var results = await _client.GetAdminGroupMoreMembersAsync("stash-users").ConfigureAwait(false);
+            Assert.NotEmpty(results);
+        }
+
+        [Fact]
+        public async Task GetAdminGroupMoreNonMembersAsync()
+        {
+            var results = await _client.GetAdminGroupMoreNonMembersAsync("stash-users").ConfigureAwait(false);
+            Assert.NotEmpty(results);
+        }
+
         [Fact]
         public async Task GetClusterAsync()
         {

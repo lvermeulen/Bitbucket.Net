@@ -1,8 +1,7 @@
 ﻿namespace Bitbucket.Net.Models.Users
 {
-    public class Identity
+    public class Identity : Named
     {
-        public string Name { get; set; }
         public string EmailAddress { get; set; }
     }
 }

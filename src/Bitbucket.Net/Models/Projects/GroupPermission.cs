@@ -1,11 +1,12 @@
 ﻿using Bitbucket.Net.Common.Converters;
+using Bitbucket.Net.Models.Users;
 using Newtonsoft.Json;
 
 namespace Bitbucket.Net.Models.Projects
 {
     public class GroupPermission
     {
-        public Group Group { get; set; }
+        public Named Group { get; set; }
         [JsonConverter(typeof(PermissionsConverter))]
         public Permissions Permission { get; set; }
 

@@ -8,7 +8,7 @@ Client for Bitbucket
 
 ## Features
 * [ ] Admin
-	* [ ] Groups
+	* [X] Groups
 	* [ ] Users
 	* [X] Cluster
 	* [X] License
@@ -38,7 +38,7 @@ Client for Bitbucket
 		* [ ] Last Modified
 		* [X] Participants
 		* [ ] Permissions
-		* [-] Pull Requests
+		* [ ] Pull Requests
 		* [ ] Raw
 		* [ ] Settings
 		* [ ] Tags

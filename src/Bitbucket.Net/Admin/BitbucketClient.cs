@@ -1,5 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
 using Bitbucket.Net.Models.Admin;
+using Bitbucket.Net.Models.Common;
 using Flurl.Http;
 
 namespace Bitbucket.Net
@@ -11,6 +14,98 @@ namespace Bitbucket.Net
 
         private IFlurlRequest GetAdminUrl(string path) => GetAdminUrl()
             .AppendPathSegment(path);
+
+        public async Task<IEnumerable<DeletableGroup>> GetAdminGroupsAsync(string filter = null,
+            int? maxPages = null,
+            int? limit = null,
+            int? start = null)
+        {
+            var queryParamValues = new Dictionary<string, object>
+            {
+                ["limit"] = limit,
+                ["start"] = start,
+                ["filter"] = filter
+            };
+
+            return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
+                    await GetAdminUrl("/groups")
+                        .SetQueryParams(qpv)
+                        .GetJsonAsync<BitbucketResult<DeletableGroup>>()
+                        .ConfigureAwait(false))
+                .ConfigureAwait(false);
+        }
+
+        public async Task<DeletableGroup> CreateAdminGroupAsync(string name)
+        {
+            var response = await GetAdminUrl("/groups")
+                .SetQueryParam("name", name)
+                .PostAsync(new StringContent(""))
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync<DeletableGroup>(response).ConfigureAwait(false);
+        }
+
+        public async Task<DeletableGroup> DeleteAdminGroupAsync(string name)
+        {
+            var response = await GetAdminUrl("/groups")
+                .SetQueryParam("name", name)
+                .DeleteAsync()
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync<DeletableGroup>(response).ConfigureAwait(false);
+        }
+
+        public async Task<bool> AddAdminGroupUsersAsync(UsersGroup usersGroup)
+        {
+            var response = await GetAdminUrl("/groups/add-users")
+                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
+                .PostJsonAsync(usersGroup)
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync(response).ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<UserInfo>> GetAdminGroupMoreMembersAsync(string context, string filter = null,
+            int? maxPages = null,
+            int? limit = null,
+            int? start = null)
+        {
+            var queryParamValues = new Dictionary<string, object>
+            {
+                ["limit"] = limit,
+                ["start"] = start,
+                ["context"] = context,
+                ["filter"] = filter
+            };
+
+            return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
+                    await GetAdminUrl("/groups/more-members")
+                        .SetQueryParams(qpv)
+                        .GetJsonAsync<BitbucketResult<UserInfo>>()
+                        .ConfigureAwait(false))
+                .ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<UserInfo>> GetAdminGroupMoreNonMembersAsync(string context, string filter = null,
+            int? maxPages = null,
+            int? limit = null,
+            int? start = null)
+        {
+            var queryParamValues = new Dictionary<string, object>
+            {
+                ["limit"] = limit,
+                ["start"] = start,
+                ["context"] = context,
+                ["filter"] = filter
+            };
+
+            return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
+                    await GetAdminUrl("/groups/more-none-members")
+                        .SetQueryParams(qpv)
+                        .GetJsonAsync<BitbucketResult<UserInfo>>()
+                        .ConfigureAwait(false))
+                .ConfigureAwait(false);
+        }
 
         public async Task<Cluster> GetClusterAsync()
         {
@@ -28,7 +123,7 @@ namespace Bitbucket.Net
 
         public async Task<LicenseDetails> UpdateLicenseAsync(LicenseInfo licenseInfo)
         {
-            var response = await GetProjectsUrl()
+            var response = await GetAdminUrl("/license")
                 .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .PostJsonAsync(licenseInfo)
                 .ConfigureAwait(false);
