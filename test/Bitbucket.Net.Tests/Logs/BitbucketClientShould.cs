@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
-using Bitbucket.Net.Models.Logs;
+using Bitbucket.Net.Core.Models.Logs;
 using Xunit;
 
-namespace Bitbucket.Net.Tests
+namespace Bitbucket.Net.Core.Tests
 {
     public partial class BitbucketClientShould
     {

@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Bitbucket.Net.Models.Admin;
+using Bitbucket.Net.Core.Models.Admin;
 using Xunit;
 
-namespace Bitbucket.Net.Tests
+namespace Bitbucket.Net.Core.Tests
 {
     public partial class BitbucketClientShould
     {

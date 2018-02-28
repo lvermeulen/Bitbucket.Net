@@ -1,4 +1,4 @@
-﻿using Bitbucket.Net.Models.Projects;
+﻿using Bitbucket.Net.Core.Models.Projects;
 
 namespace Bitbucket.Net.Common.Converters
 {

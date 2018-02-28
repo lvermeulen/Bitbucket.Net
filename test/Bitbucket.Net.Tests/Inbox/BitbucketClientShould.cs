@@ -1,16 +1,17 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using Bitbucket.Net.Core.Models.Projects;
 using Xunit;
 
-namespace Bitbucket.Net.Tests
+namespace Bitbucket.Net.Core.Tests
 {
     public partial class BitbucketClientShould
     {
         [Fact]
         public async Task GetInboxPullRequestsAsync()
         {
-            var results = await _client.GetInboxPullRequestsAsync(role: Models.Projects.Roles.Author).ConfigureAwait(false);
-            Assert.True(results.Any());
+            var results = await _client.GetInboxPullRequestsAsync(role: Roles.Author).ConfigureAwait(false);
+            Assert.True(Enumerable.Any(results));
         }
 
         [Fact]

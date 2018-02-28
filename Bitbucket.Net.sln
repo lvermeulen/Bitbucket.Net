@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bitbucket.Net", "src\Bitbucket.Net\Bitbucket.Net.csproj", "{51EBF9F3-7DFA-4C72-B38D-D07B1ED7FCEE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bitbucket.Net.Tests", "test\Bitbucket.Net.Tests\Bitbucket.Net.Tests.csproj", "{8B19F6CB-D193-4C6E-B644-FEA7D027AC3D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bitbucket.Net.Core.Tests", "test\Bitbucket.Net.Tests\Bitbucket.Net.Core.Tests.csproj", "{8B19F6CB-D193-4C6E-B644-FEA7D027AC3D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{CBBC7722-A73C-4504-81D7-E1FB82B851A5}"
 	ProjectSection(SolutionItems) = preProject
