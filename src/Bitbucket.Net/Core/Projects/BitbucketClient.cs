@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Bitbucket.Net.Common;
 using Bitbucket.Net.Common.Models;
+using Bitbucket.Net.Core.Models.Admin;
 using Bitbucket.Net.Core.Models.Projects;
 using Bitbucket.Net.Core.Models.Users;
 using Flurl.Http;

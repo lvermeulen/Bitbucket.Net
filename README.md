@@ -13,7 +13,7 @@ Client for Bitbucket
 	* [X] Cluster
 	* [X] License
 	* [X] Mail Server
-	* [ ] Permissions
+	* [X] Permissions
 	* [ ] Pull Requests
 * [ ] Application Properties
 * [ ] Dashboard

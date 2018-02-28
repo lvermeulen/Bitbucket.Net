@@ -2,7 +2,7 @@
 using Bitbucket.Net.Core.Models.Users;
 using Newtonsoft.Json;
 
-namespace Bitbucket.Net.Core.Models.Projects
+namespace Bitbucket.Net.Core.Models.Admin
 {
     public class UserPermission
     {

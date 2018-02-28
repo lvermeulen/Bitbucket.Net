@@ -4,7 +4,9 @@ using System.Threading.Tasks;
 using Bitbucket.Net.Common;
 using Bitbucket.Net.Common.Models;
 using Bitbucket.Net.Core.Models.Admin;
+using Bitbucket.Net.Core.Models.Users;
 using Flurl.Http;
+using PasswordChange = Bitbucket.Net.Core.Models.Admin.PasswordChange;
 
 namespace Bitbucket.Net.Core
 {
@@ -347,6 +349,138 @@ namespace Bitbucket.Net.Core
                 .ConfigureAwait(false);
 
             return await HandleResponseAsync(response).ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<GroupPermission>> GetAdminGroupPermissionsAsync(string filter = null,
+            int? maxPages = null,
+            int? limit = null,
+            int? start = null)
+        {
+            var queryParamValues = new Dictionary<string, object>
+            {
+                ["limit"] = limit,
+                ["start"] = start,
+                ["filter"] = filter
+            };
+
+            return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
+                    await GetAdminUrl("/permissions/groups")
+                        .SetQueryParams(qpv)
+                        .GetJsonAsync<BitbucketResult<GroupPermission>>()
+                        .ConfigureAwait(false))
+                .ConfigureAwait(false);
+        }
+
+        public async Task<bool> UpdateAdminGroupPermissionsAsync(Permissions permission, string name)
+        {
+            var queryParamValues = new Dictionary<string, object>
+            {
+                ["permission"] = permission,
+                ["name"] = name
+            };
+
+            var response = await GetAdminUrl("/permissions/groups")
+                .SetQueryParams(queryParamValues)
+                .PutJsonAsync(new StringContent(""))
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync(response).ConfigureAwait(false);
+        }
+
+        public async Task<bool> DeleteAdminGroupPermissionsAsync(string name)
+        {
+            var response = await GetAdminUrl("/permissions/groups")
+                .SetQueryParam("name", name)
+                .DeleteAsync()
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync(response).ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<DeletableGroupOrUser>> GetAdminGroupPermissionsNoneAsync(string filter = null,
+            int? maxPages = null,
+            int? limit = null,
+            int? start = null)
+        {
+            var queryParamValues = new Dictionary<string, object>
+            {
+                ["limit"] = limit,
+                ["start"] = start,
+                ["filter"] = filter
+            };
+
+            return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
+                    await GetAdminUrl("/permissions/groups/none")
+                        .SetQueryParams(qpv)
+                        .GetJsonAsync<BitbucketResult<DeletableGroupOrUser>>()
+                        .ConfigureAwait(false))
+                .ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<UserPermission>> GetAdminUserPermissionsAsync(string filter = null,
+            int? maxPages = null,
+            int? limit = null,
+            int? start = null)
+        {
+            var queryParamValues = new Dictionary<string, object>
+            {
+                ["limit"] = limit,
+                ["start"] = start,
+                ["filter"] = filter
+            };
+
+            return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
+                    await GetAdminUrl("/permissions/users")
+                        .SetQueryParams(qpv)
+                        .GetJsonAsync<BitbucketResult<UserPermission>>()
+                        .ConfigureAwait(false))
+                .ConfigureAwait(false);
+        }
+
+        public async Task<bool> UpdateAdminUserPermissionsAsync(Permissions permission, string name)
+        {
+            var queryParamValues = new Dictionary<string, object>
+            {
+                ["permission"] = permission,
+                ["name"] = name
+            };
+
+            var response = await GetAdminUrl("/permissions/users")
+                .SetQueryParams(queryParamValues)
+                .PutJsonAsync(new StringContent(""))
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync(response).ConfigureAwait(false);
+        }
+
+        public async Task<bool> DeleteAdminUserPermissionsAsync(string name)
+        {
+            var response = await GetAdminUrl("/permissions/users")
+                .SetQueryParam("name", name)
+                .DeleteAsync()
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync(response).ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<User>> GetAdminUserPermissionsNoneAsync(string filter = null,
+            int? maxPages = null,
+            int? limit = null,
+            int? start = null)
+        {
+            var queryParamValues = new Dictionary<string, object>
+            {
+                ["limit"] = limit,
+                ["start"] = start,
+                ["filter"] = filter
+            };
+
+            return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
+                    await GetAdminUrl("/permissions/users/none")
+                        .SetQueryParams(qpv)
+                        .GetJsonAsync<BitbucketResult<User>>()
+                        .ConfigureAwait(false))
+                .ConfigureAwait(false);
         }
     }
 }

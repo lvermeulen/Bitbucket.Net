@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Bitbucket.Net.Core.Models.Admin;
 using Bitbucket.Net.Core.Models.Logs;
 using Bitbucket.Net.Core.Models.Projects;
 

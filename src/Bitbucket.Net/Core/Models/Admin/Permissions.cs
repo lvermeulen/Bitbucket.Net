@@ -1,4 +1,4 @@
-﻿namespace Bitbucket.Net.Core.Models.Projects
+﻿namespace Bitbucket.Net.Core.Models.Admin
 {
     public enum Permissions
     {
