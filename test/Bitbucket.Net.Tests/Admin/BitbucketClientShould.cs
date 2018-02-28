@@ -17,7 +17,7 @@ namespace Bitbucket.Net.Core.Tests
         [Fact]
         public async Task AddAdminGroupUsersAsync()
         {
-            var result = await _client.AddAdminGroupUsersAsync(new UsersGroup
+            var result = await _client.AddAdminGroupUsersAsync(new GroupUsers
             {
                 Group = "stash-users",
                 Users = new List<string> { "lvermeulen" }
@@ -37,6 +37,13 @@ namespace Bitbucket.Net.Core.Tests
         public async Task GetAdminGroupMoreNonMembersAsync()
         {
             var results = await _client.GetAdminGroupMoreNonMembersAsync("stash-users").ConfigureAwait(false);
+            Assert.NotEmpty(results);
+        }
+
+        [Fact]
+        public async Task GetAdminUsersAsync()
+        {
+            var results = await _client.GetAdminUsersAsync().ConfigureAwait(false);
             Assert.NotEmpty(results);
         }
 

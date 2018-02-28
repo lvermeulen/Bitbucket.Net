@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Bitbucket.Net.Common;
 using Bitbucket.Net.Common.Models;
 using Bitbucket.Net.Core.Models.Admin;
 using Flurl.Http;
@@ -15,7 +16,7 @@ namespace Bitbucket.Net.Core
         private IFlurlRequest GetAdminUrl(string path) => GetAdminUrl()
             .AppendPathSegment(path);
 
-        public async Task<IEnumerable<DeletableGroup>> GetAdminGroupsAsync(string filter = null,
+        public async Task<IEnumerable<DeletableGroupOrUser>> GetAdminGroupsAsync(string filter = null,
             int? maxPages = null,
             int? limit = null,
             int? start = null)
@@ -30,36 +31,36 @@ namespace Bitbucket.Net.Core
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
                     await GetAdminUrl("/groups")
                         .SetQueryParams(qpv)
-                        .GetJsonAsync<BitbucketResult<DeletableGroup>>()
+                        .GetJsonAsync<BitbucketResult<DeletableGroupOrUser>>()
                         .ConfigureAwait(false))
                 .ConfigureAwait(false);
         }
 
-        public async Task<DeletableGroup> CreateAdminGroupAsync(string name)
+        public async Task<DeletableGroupOrUser> CreateAdminGroupAsync(string name)
         {
             var response = await GetAdminUrl("/groups")
                 .SetQueryParam("name", name)
                 .PostAsync(new StringContent(""))
                 .ConfigureAwait(false);
 
-            return await HandleResponseAsync<DeletableGroup>(response).ConfigureAwait(false);
+            return await HandleResponseAsync<DeletableGroupOrUser>(response).ConfigureAwait(false);
         }
 
-        public async Task<DeletableGroup> DeleteAdminGroupAsync(string name)
+        public async Task<DeletableGroupOrUser> DeleteAdminGroupAsync(string name)
         {
             var response = await GetAdminUrl("/groups")
                 .SetQueryParam("name", name)
                 .DeleteAsync()
                 .ConfigureAwait(false);
 
-            return await HandleResponseAsync<DeletableGroup>(response).ConfigureAwait(false);
+            return await HandleResponseAsync<DeletableGroupOrUser>(response).ConfigureAwait(false);
         }
 
-        public async Task<bool> AddAdminGroupUsersAsync(UsersGroup usersGroup)
+        public async Task<bool> AddAdminGroupUsersAsync(GroupUsers groupUsers)
         {
             var response = await GetAdminUrl("/groups/add-users")
                 .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
-                .PostJsonAsync(usersGroup)
+                .PostJsonAsync(groupUsers)
                 .ConfigureAwait(false);
 
             return await HandleResponseAsync(response).ConfigureAwait(false);
@@ -105,6 +106,170 @@ namespace Bitbucket.Net.Core
                         .GetJsonAsync<BitbucketResult<UserInfo>>()
                         .ConfigureAwait(false))
                 .ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<UserInfo>> GetAdminUsersAsync(string filter = null,
+            int? maxPages = null,
+            int? limit = null,
+            int? start = null)
+        {
+            var queryParamValues = new Dictionary<string, object>
+            {
+                ["limit"] = limit,
+                ["start"] = start,
+                ["filter"] = filter
+            };
+
+            return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
+                    await GetAdminUrl("/users")
+                        .SetQueryParams(qpv)
+                        .GetJsonAsync<BitbucketResult<UserInfo>>()
+                        .ConfigureAwait(false))
+                .ConfigureAwait(false);
+        }
+
+        public async Task<bool> CreateAdminUserAsync(string name, string password, string displayName, string emailAddress,
+            bool addToDefaultGroup = true, string notify = "false")
+        {
+            var queryParamValues = new Dictionary<string, object>
+            {
+                ["name"] = name,
+                ["password"] = password,
+                ["displayName"] = displayName,
+                ["emailAddress"] = emailAddress,
+                ["addToDefaultGroup"] = BitbucketHelpers.BoolToString(addToDefaultGroup),
+                ["notify"] = notify
+            };
+
+            var response = await GetAdminUrl("/users")
+                .SetQueryParams(queryParamValues)
+                .PostAsync(new StringContent(""))
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync(response).ConfigureAwait(false);
+        }
+
+        public async Task<UserInfo> UpdateAdminUserAsync(string name = null, string displayName = null, string email = null)
+        {
+            var data = new
+            {
+                //TODO: UpdateAdminUserAsync
+            };
+
+            var response = await GetAdminUrl("/users")
+                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
+                .PutJsonAsync(data)
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync<UserInfo>(response).ConfigureAwait(false);
+        }
+
+        public async Task<UserInfo> DeleteAdminUserAsync(string name)
+        {
+            var response = await GetAdminUrl("/users")
+                .SetQueryParam("name", name)
+                .DeleteAsync()
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync<UserInfo>(response).ConfigureAwait(false);
+        }
+
+        public async Task<bool> AddAdminUserGroupsAsync(UserGroups userGroups)
+        {
+            var response = await GetAdminUrl("/users/add-groups")
+                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
+                .PostJsonAsync(userGroups)
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync(response).ConfigureAwait(false);
+        }
+
+        public async Task<bool> DeleteAdminUserCaptcha(string name)
+        {
+            var response = await GetAdminUrl("/users/captcha")
+                .SetQueryParam("name", name)
+                .DeleteAsync()
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync(response).ConfigureAwait(false);
+        }
+
+        public async Task<bool> UpdateAdminUserCredentialsAsync(PasswordChange passwordChange)
+        {
+            var response = await GetAdminUrl("/users/credentials")
+                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
+                .PutJsonAsync(passwordChange)
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync(response).ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<DeletableGroupOrUser>> GetAdminUserMoreMembersAsync(string context, string filter = null,
+            int? maxPages = null,
+            int? limit = null,
+            int? start = null)
+        {
+            var queryParamValues = new Dictionary<string, object>
+            {
+                ["limit"] = limit,
+                ["start"] = start,
+                ["context"] = context,
+                ["filter"] = filter
+            };
+
+            return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
+                    await GetAdminUrl("/users/more-members")
+                        .SetQueryParams(qpv)
+                        .GetJsonAsync<BitbucketResult<DeletableGroupOrUser>>()
+                        .ConfigureAwait(false))
+                .ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<DeletableGroupOrUser>> GetAdminUserMoreNonMembersAsync(string context, string filter = null,
+            int? maxPages = null,
+            int? limit = null,
+            int? start = null)
+        {
+            var queryParamValues = new Dictionary<string, object>
+            {
+                ["limit"] = limit,
+                ["start"] = start,
+                ["context"] = context,
+                ["filter"] = filter
+            };
+
+            return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
+                    await GetAdminUrl("/users/more-none-members")
+                        .SetQueryParams(qpv)
+                        .GetJsonAsync<BitbucketResult<DeletableGroupOrUser>>()
+                        .ConfigureAwait(false))
+                .ConfigureAwait(false);
+        }
+
+        public async Task<bool> RemoveAdminUserFromGroupAsync(string userName, string groupName)
+        {
+            var data = new
+            {
+                context = userName,
+                itemName = groupName
+            };
+
+            var response = await GetAdminUrl("/users/remove-group")
+                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
+                .PostJsonAsync(data)
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync(response).ConfigureAwait(false);
+        }
+
+        public async Task<UserInfo> RenameAdminUserAsync(UserRename userRename)
+        {
+            var response = await GetAdminUrl("users/rename")
+                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
+                .PostJsonAsync(userRename)
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync<UserInfo>(response).ConfigureAwait(false);
         }
 
         public async Task<Cluster> GetClusterAsync()

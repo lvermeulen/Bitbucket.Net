@@ -2,7 +2,7 @@
 
 namespace Bitbucket.Net.Core.Models.Admin
 {
-    public class DeletableGroup : Named
+    public class DeletableGroupOrUser : Named
     {
         public bool Deletable { get; set; }
     }
