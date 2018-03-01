@@ -7,7 +7,7 @@
 Client for Bitbucket
 
 ## Features
-* [ ] Admin
+* [X] Admin
 	* [X] Groups
 	* [X] Users
 	* [X] Cluster
