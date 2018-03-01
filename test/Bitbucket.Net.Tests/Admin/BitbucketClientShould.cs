@@ -37,7 +37,7 @@ namespace Bitbucket.Net.Core.Tests
         public async Task GetAdminGroupMoreNonMembersAsync()
         {
             var results = await _client.GetAdminGroupMoreNonMembersAsync("stash-users").ConfigureAwait(false);
-            Assert.NotEmpty(results);
+            Assert.NotNull(results);
         }
 
         [Fact]
@@ -48,30 +48,79 @@ namespace Bitbucket.Net.Core.Tests
         }
 
         [Fact]
-        public async Task GetClusterAsync()
+        public async Task GetAdminUserMoreMembersAsync()
         {
-            var result = await _client.GetClusterAsync().ConfigureAwait(false);
+            var results = await _client.GetAdminUserMoreMembersAsync("lvermeulen");
+            Assert.NotEmpty(results);
+        }
+
+        [Fact]
+        public async Task GetAdminUserMoreNonMembersAsync()
+        {
+            var results = await _client.GetAdminUserMoreNonMembersAsync("lvermeulen");
+            Assert.NotNull(results);
+        }
+
+        [Fact]
+        public async Task GetAdminGroupPermissionsAsync()
+        {
+            var results = await _client.GetAdminGroupPermissionsAsync();
+            Assert.NotEmpty(results);
+        }
+
+        [Fact]
+        public async Task GetAdminGroupPermissionsNoneAsync()
+        {
+            var results = await _client.GetAdminGroupPermissionsNoneAsync();
+            Assert.NotNull(results);
+        }
+
+        [Fact]
+        public async Task GetAdminUserPermissionsAsync()
+        {
+            var results = await _client.GetAdminUserPermissionsAsync();
+            Assert.NotEmpty(results);
+        }
+
+        [Fact]
+        public async Task GetAdminUserPermissionsNoneAsync()
+        {
+            var results = await _client.GetAdminUserPermissionsNoneAsync();
+            Assert.NotNull(results);
+        }
+
+        [Fact]
+        public async Task GetAdminMergeStrategiesAsync()
+        {
+            var result = await _client.GetAdminPullRequestsMergeStrategiesAsync("git").ConfigureAwait(false);
             Assert.NotNull(result);
         }
 
         [Fact]
-        public async Task GetLicenseAsync()
+        public async Task GetAdminClusterAsync()
         {
-            var result = await _client.GetLicenseAsync().ConfigureAwait(false);
+            var result = await _client.GetAdminClusterAsync().ConfigureAwait(false);
             Assert.NotNull(result);
         }
 
         [Fact]
-        public async Task GetMailServerAsync()
+        public async Task GetAdminLicenseAsync()
         {
-            var result = await _client.GetMailServerAsync().ConfigureAwait(false);
+            var result = await _client.GetAdminLicenseAsync().ConfigureAwait(false);
             Assert.NotNull(result);
         }
 
         [Fact]
-        public async Task GetMailServerSenderAddressAsync()
+        public async Task GetAdminMailServerAsync()
         {
-            string result = await _client.GetMailServerSenderAddressAsync().ConfigureAwait(false);
+            var result = await _client.GetAdminMailServerAsync().ConfigureAwait(false);
+            Assert.NotNull(result);
+        }
+
+        [Fact]
+        public async Task GetAdminMailServerSenderAddressAsync()
+        {
+            string result = await _client.GetAdminMailServerSenderAddressAsync().ConfigureAwait(false);
             Assert.Equal("noreply@test.com", result);
         }
     }

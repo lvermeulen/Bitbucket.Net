@@ -8,5 +8,10 @@ namespace Bitbucket.Net.Common.Converters
         {
             return BitbucketHelpers.LineTypeToString(value);
         }
+
+        protected override LineTypes ConvertFromString(string s)
+        {
+            return BitbucketHelpers.StringToLineType(s);
+        }
     }
 }

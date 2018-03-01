@@ -8,5 +8,10 @@ namespace Bitbucket.Net.Common.Converters
         {
             return BitbucketHelpers.RoleToString(value);
         }
+
+        protected override Roles ConvertFromString(string s)
+        {
+            return BitbucketHelpers.StringToRole(s);
+        }
     }
 }

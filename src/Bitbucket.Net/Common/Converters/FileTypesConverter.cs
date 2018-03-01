@@ -8,5 +8,10 @@ namespace Bitbucket.Net.Common.Converters
         {
             return BitbucketHelpers.FileTypeToString(value);
         }
+
+        protected override FileTypes ConvertFromString(string s)
+        {
+            return BitbucketHelpers.StringToFileType(s);
+        }
     }
 }

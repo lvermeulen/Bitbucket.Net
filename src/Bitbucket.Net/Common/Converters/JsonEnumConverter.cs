@@ -8,6 +8,8 @@ namespace Bitbucket.Net.Common.Converters
     {
         protected abstract string ConvertToString(TEnum value);
 
+        protected abstract TEnum ConvertFromString(string s);
+
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
             var actualValue = (TEnum)value;
@@ -17,7 +19,7 @@ namespace Bitbucket.Net.Common.Converters
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             string s = (string)reader.Value;
-            return Enum.Parse(typeof(TEnum), s, true);
+            return ConvertFromString(s);
         }
 
         public override bool CanConvert(Type objectType)

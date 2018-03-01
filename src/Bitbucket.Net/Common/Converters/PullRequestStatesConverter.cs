@@ -8,5 +8,10 @@ namespace Bitbucket.Net.Common.Converters
         {
             return BitbucketHelpers.PullRequestStateToString(value);
         }
+
+        protected override PullRequestStates ConvertFromString(string s)
+        {
+            return BitbucketHelpers.StringToPullRequestState(s);
+        }
     }
 }

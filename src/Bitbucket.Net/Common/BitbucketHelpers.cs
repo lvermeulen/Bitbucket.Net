@@ -139,6 +139,18 @@ namespace Bitbucket.Net.Common
             return result;
         }
 
+        public static PullRequestStates StringToPullRequestState(string s)
+        {
+            var pair = s_stringByPullRequestState.FirstOrDefault(kvp => kvp.Value.Equals(s, StringComparison.OrdinalIgnoreCase));
+            // ReSharper disable once SuspiciousTypeConversion.Global
+            if (EqualityComparer<KeyValuePair<PullRequestStates, string>>.Default.Equals(pair))
+            {
+                throw new ArgumentException($"Unknown pull request state: {s}");
+            }
+
+            return pair.Key;
+        }
+
         public static string PullRequestOrderToString(PullRequestOrders order)
         {
             if (!s_stringByPullRequestOrder.TryGetValue(order, out string result))
@@ -177,6 +189,18 @@ namespace Bitbucket.Net.Common
             ? PermissionToString(permission.Value) 
             : null;
 
+        public static Permissions StringToPermission(string s)
+        {
+            var pair = s_stringByPermissions.FirstOrDefault(kvp => kvp.Value.Equals(s, StringComparison.OrdinalIgnoreCase));
+            // ReSharper disable once SuspiciousTypeConversion.Global
+            if (EqualityComparer<KeyValuePair<Permissions, string>>.Default.Equals(pair))
+            {
+                throw new ArgumentException($"Unknown permission: {s}");
+            }
+
+            return pair.Key;
+        }
+
         public static string MergeCommitsToString(MergeCommits mergeCommits)
         {
             if (!s_stringByMergeCommits.TryGetValue(mergeCommits, out string result))
@@ -201,6 +225,18 @@ namespace Bitbucket.Net.Common
             ? RoleToString(role.Value)
             : null;
 
+        public static Roles StringToRole(string s)
+        {
+            var pair = s_stringByRoles.FirstOrDefault(kvp => kvp.Value.Equals(s, StringComparison.OrdinalIgnoreCase));
+            // ReSharper disable once SuspiciousTypeConversion.Global
+            if (EqualityComparer<KeyValuePair<Roles, string>>.Default.Equals(pair))
+            {
+                throw new ArgumentException($"Unknown role: {s}");
+            }
+
+            return pair.Key;
+        }
+
         public static string LineTypeToString(LineTypes lineType)
         {
             if (!s_stringByLineTypes.TryGetValue(lineType, out string result))
@@ -211,6 +247,18 @@ namespace Bitbucket.Net.Common
             return result;
         }
 
+        public static LineTypes StringToLineType(string s)
+        {
+            var pair = s_stringByLineTypes.FirstOrDefault(kvp => kvp.Value.Equals(s, StringComparison.OrdinalIgnoreCase));
+            // ReSharper disable once SuspiciousTypeConversion.Global
+            if (EqualityComparer<KeyValuePair<LineTypes, string>>.Default.Equals(pair))
+            {
+                throw new ArgumentException($"Unknown line type: {s}");
+            }
+
+            return pair.Key;
+        }
+
         public static string FileTypeToString(FileTypes fileType)
         {
             if (!s_stringByFileTypes.TryGetValue(fileType, out string result))
@@ -219,6 +267,18 @@ namespace Bitbucket.Net.Common
             }
 
             return result;
+        }
+
+        public static FileTypes StringToFileType(string s)
+        {
+            var pair = s_stringByFileTypes.FirstOrDefault(kvp => kvp.Value.Equals(s, StringComparison.OrdinalIgnoreCase));
+            // ReSharper disable once SuspiciousTypeConversion.Global
+            if (EqualityComparer<KeyValuePair<FileTypes, string>>.Default.Equals(pair))
+            {
+                throw new ArgumentException($"Unknown file type: {s}");
+            }
+
+            return pair.Key;
         }
 
         public static string ChangeScopeToString(ChangeScopes changeScope)

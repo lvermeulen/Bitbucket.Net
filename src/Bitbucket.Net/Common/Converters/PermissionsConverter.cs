@@ -8,5 +8,10 @@ namespace Bitbucket.Net.Common.Converters
         {
             return BitbucketHelpers.PermissionToString(value);
         }
+
+        protected override Permissions ConvertFromString(string s)
+        {
+            return BitbucketHelpers.StringToPermission(s);
+        }
     }
 }
