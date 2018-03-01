@@ -15,7 +15,7 @@ Client for Bitbucket
 	* [X] Mail Server
 	* [X] Permissions
 	* [X] Pull Requests
-* [ ] Application Properties
+* [X] Application Properties
 * [ ] Dashboard
 * [ ] Groups
 * [ ] Hooks
