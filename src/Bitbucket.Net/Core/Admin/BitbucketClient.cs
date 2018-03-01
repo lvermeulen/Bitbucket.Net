@@ -103,7 +103,7 @@ namespace Bitbucket.Net.Core
             };
 
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
-                    await GetAdminUrl("/groups/more-none-members")
+                    await GetAdminUrl("/groups/more-non-members")
                         .SetQueryParams(qpv)
                         .GetJsonAsync<BitbucketResult<UserInfo>>()
                         .ConfigureAwait(false))
@@ -241,7 +241,7 @@ namespace Bitbucket.Net.Core
             };
 
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
-                    await GetAdminUrl("/users/more-none-members")
+                    await GetAdminUrl("/users/more-non-members")
                         .SetQueryParams(qpv)
                         .GetJsonAsync<BitbucketResult<DeletableGroupOrUser>>()
                         .ConfigureAwait(false))
@@ -274,21 +274,21 @@ namespace Bitbucket.Net.Core
             return await HandleResponseAsync<UserInfo>(response).ConfigureAwait(false);
         }
 
-        public async Task<Cluster> GetClusterAsync()
+        public async Task<Cluster> GetAdminClusterAsync()
         {
             return await GetAdminUrl("/cluster")
                 .GetJsonAsync<Cluster>()
                 .ConfigureAwait(false);
         }
 
-        public async Task<LicenseDetails> GetLicenseAsync()
+        public async Task<LicenseDetails> GetAdminLicenseAsync()
         {
             return await GetAdminUrl("/license")
                 .GetJsonAsync<LicenseDetails>()
                 .ConfigureAwait(false);
         }
 
-        public async Task<LicenseDetails> UpdateLicenseAsync(LicenseInfo licenseInfo)
+        public async Task<LicenseDetails> UpdateAdminLicenseAsync(LicenseInfo licenseInfo)
         {
             var response = await GetAdminUrl("/license")
                 .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
@@ -298,14 +298,14 @@ namespace Bitbucket.Net.Core
             return await HandleResponseAsync<LicenseDetails>(response).ConfigureAwait(false);
         }
 
-        public async Task<MailServerConfiguration> GetMailServerAsync()
+        public async Task<MailServerConfiguration> GetAdminMailServerAsync()
         {
             return await GetAdminUrl("/mail-server")
                 .GetJsonAsync<MailServerConfiguration>()
                 .ConfigureAwait(false);
         }
 
-        public async Task<MailServerConfiguration> UpdateMailServerAsync(MailServerConfiguration mailServerConfiguration)
+        public async Task<MailServerConfiguration> UpdateAdminMailServerAsync(MailServerConfiguration mailServerConfiguration)
         {
             var response = await GetAdminUrl("/mail-server")
                 .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
@@ -315,7 +315,7 @@ namespace Bitbucket.Net.Core
             return await HandleResponseAsync<MailServerConfiguration>(response).ConfigureAwait(false);
         }
 
-        public async Task<bool> DeleteMailServerAsync()
+        public async Task<bool> DeleteAdminMailServerAsync()
         {
             var response = await GetAdminUrl("/mail-server")
                 .DeleteAsync()
@@ -324,7 +324,7 @@ namespace Bitbucket.Net.Core
             return await HandleResponseAsync(response).ConfigureAwait(false);
         }
 
-        public async Task<string> GetMailServerSenderAddressAsync()
+        public async Task<string> GetAdminMailServerSenderAddressAsync()
         {
             var response = await GetAdminUrl("/mail-server/sender-address")
                 .GetAsync()
@@ -333,7 +333,7 @@ namespace Bitbucket.Net.Core
             return await HandleResponseAsync(response, s => s).ConfigureAwait(false);
         }
 
-        public async Task<string> UpdateMailServerSenderAddressAsync(string senderAddress)
+        public async Task<string> UpdateAdminMailServerSenderAddressAsync(string senderAddress)
         {
             var response = await GetAdminUrl("/mail-server/sender-address")
                 .PutJsonAsync(senderAddress)
@@ -342,7 +342,7 @@ namespace Bitbucket.Net.Core
             return await HandleResponseAsync(response, s => s).ConfigureAwait(false);
         }
 
-        public async Task<bool> DeleteMailServerSenderAddressAsync()
+        public async Task<bool> DeleteAdminMailServerSenderAddressAsync()
         {
             var response = await GetAdminUrl("/mail-server/sender-address")
                 .DeleteAsync()
@@ -481,6 +481,23 @@ namespace Bitbucket.Net.Core
                         .GetJsonAsync<BitbucketResult<User>>()
                         .ConfigureAwait(false))
                 .ConfigureAwait(false);
+        }
+
+        public async Task<MergeStrategies> GetAdminPullRequestsMergeStrategiesAsync(string scmId)
+        {
+            return await GetAdminUrl($"/pull-requests/{scmId}")
+                .GetJsonAsync<MergeStrategies>()
+                .ConfigureAwait(false);
+        }
+
+        public async Task<MergeStrategies> UpdateAdminPullRequestsMergeStrategiesAsync(string scmId, MergeStrategies mergeStrategies)
+        {
+            var response = await GetAdminUrl($"/pull-requests/{scmId}")
+                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
+                .PostJsonAsync(mergeStrategies)
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync<MergeStrategies>(response).ConfigureAwait(false);
         }
     }
 }

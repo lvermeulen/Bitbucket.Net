@@ -14,7 +14,7 @@ Client for Bitbucket
 	* [X] License
 	* [X] Mail Server
 	* [X] Permissions
-	* [ ] Pull Requests
+	* [X] Pull Requests
 * [ ] Application Properties
 * [ ] Dashboard
 * [ ] Groups
