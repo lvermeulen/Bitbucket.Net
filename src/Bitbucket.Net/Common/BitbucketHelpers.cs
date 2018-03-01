@@ -99,6 +99,13 @@ namespace Bitbucket.Net.Common
             [LogLevels.Error] = "ERROR"
         };
 
+        private static readonly Dictionary<ParticipantStatus, string> s_stringByParticipantStatus = new Dictionary<ParticipantStatus, string>
+        {
+            [ParticipantStatus.Approved] = "APPROVED",
+            [ParticipantStatus.NeedsWork] = "NEEDS_WORK",
+            [ParticipantStatus.Unapproved] = "UNAPPROVED"
+        };
+
         public static string BoolToString(bool value) => value
             ? "true"
             : "false";
@@ -139,6 +146,10 @@ namespace Bitbucket.Net.Common
             return result;
         }
 
+        public static string PullRequestStateToString(PullRequestStates? state) => state.HasValue 
+            ? PullRequestStateToString(state.Value) 
+            : null;
+
         public static PullRequestStates StringToPullRequestState(string s)
         {
             var pair = s_stringByPullRequestState.FirstOrDefault(kvp => kvp.Value.Equals(s, StringComparison.OrdinalIgnoreCase));
@@ -160,6 +171,10 @@ namespace Bitbucket.Net.Common
 
             return result;
         }
+
+        public static string PullRequestOrderToString(PullRequestOrders? order) => order.HasValue
+            ? PullRequestOrderToString(order.Value)
+            : null;
 
         private static string PullRequestFromTypeToString(PullRequestFromTypes fromType)
         {
@@ -311,6 +326,16 @@ namespace Bitbucket.Net.Common
             }
 
             return pair.Key;
+        }
+
+        public static string ParticipantStatusToString(ParticipantStatus participantStatus)
+        {
+            if (!s_stringByParticipantStatus.TryGetValue(participantStatus, out string result))
+            {
+                throw new ArgumentException($"Unknown participant status: {participantStatus}");
+            }
+
+            return result;
         }
     }
 }

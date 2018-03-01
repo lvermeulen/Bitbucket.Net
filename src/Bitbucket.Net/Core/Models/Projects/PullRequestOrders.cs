@@ -3,6 +3,8 @@
     public enum PullRequestOrders
     {
         Newest,
-        Oldest
+        Oldest,
+        ParticipantStatus,
+        ClosedDate
     }
 }
