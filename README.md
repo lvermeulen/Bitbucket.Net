@@ -18,7 +18,7 @@ Client for Bitbucket
 * [X] Application Properties
 * [X] Dashboard
 * [X] Groups
-* [ ] Hooks
+* [X] Hooks
 * [X] Inbox
 * [X] Logs
 * [X] Markup
