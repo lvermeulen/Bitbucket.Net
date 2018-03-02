@@ -25,7 +25,7 @@ namespace Bitbucket.Net.Core
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
                     await GetGroupsUrl()
                         .SetQueryParams(qpv)
-                        .GetJsonAsync<BitbucketResult<string>>()
+                        .GetJsonAsync<PagedResults<string>>()
                         .ConfigureAwait(false))
                 .ConfigureAwait(false);
         }

@@ -40,7 +40,7 @@ namespace Bitbucket.Net.Core
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
                     await GetUsersUrl()
                         .SetQueryParams(qpv)
-                        .GetJsonAsync<BitbucketResult<User>>()
+                        .GetJsonAsync<PagedResults<User>>()
                         .ConfigureAwait(false))
                 .ConfigureAwait(false);
         }

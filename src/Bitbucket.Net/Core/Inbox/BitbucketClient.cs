@@ -32,7 +32,7 @@ namespace Bitbucket.Net.Core
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
                 await GetInboxUrl("/pull-requests")
                     .SetQueryParams(qpv)
-                    .GetJsonAsync<BitbucketResult<PullRequest>>()
+                    .GetJsonAsync<PagedResults<PullRequest>>()
                     .ConfigureAwait(false))
                 .ConfigureAwait(false);
         }

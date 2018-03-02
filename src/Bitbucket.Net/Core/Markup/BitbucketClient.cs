@@ -9,7 +9,8 @@ namespace Bitbucket.Net.Core
 {
     public partial class BitbucketClient
     {
-        private IFlurlRequest GetMarkupUrl() => UrlBuilderExtensions.AppendPathSegment(GetBaseUrl(), "/markup");
+        private IFlurlRequest GetMarkupUrl() => GetBaseUrl()
+            .AppendPathSegment("/markup");
 
         private IFlurlRequest GetMarkupUrl(string path) => GetMarkupUrl()
             .AppendPathSegment(path);

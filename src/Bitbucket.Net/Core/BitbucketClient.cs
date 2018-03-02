@@ -67,7 +67,7 @@ namespace Bitbucket.Net.Core
             return await ReadResponseContentAsync(responseMessage).ConfigureAwait(false);
         }
 
-        private async Task<IEnumerable<T>> GetPagedResultsAsync<T>(int? maxPages, IDictionary<string, object> queryParamValues, Func<IDictionary<string, object>, Task<BitbucketResult<T>>> selector)
+        private async Task<IEnumerable<T>> GetPagedResultsAsync<T>(int? maxPages, IDictionary<string, object> queryParamValues, Func<IDictionary<string, object>, Task<PagedResults<T>>> selector)
         {
             var results = new List<T>();
             bool isLastPage = false;

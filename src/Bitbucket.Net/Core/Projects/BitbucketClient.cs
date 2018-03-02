@@ -42,7 +42,7 @@ namespace Bitbucket.Net.Core
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
                 await GetProjectsUrl()
                     .SetQueryParams(qpv)
-                    .GetJsonAsync<BitbucketResult<Project>>()
+                    .GetJsonAsync<PagedResults<Project>>()
                     .ConfigureAwait(false))
                 .ConfigureAwait(false);
         }
@@ -101,7 +101,7 @@ namespace Bitbucket.Net.Core
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
                 await GetProjectsUrl($"/{projectKey}/permissions/users")
                     .SetQueryParams(qpv)
-                    .GetJsonAsync<BitbucketResult<UserPermission>>()
+                    .GetJsonAsync<PagedResults<UserPermission>>()
                     .ConfigureAwait(false))
                 .ConfigureAwait(false);
         }
@@ -152,7 +152,7 @@ namespace Bitbucket.Net.Core
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
                     await GetProjectsUrl($"/{projectKey}/permissions/users/none")
                         .SetQueryParams(qpv)
-                        .GetJsonAsync<BitbucketResult<LicensedUser>>()
+                        .GetJsonAsync<PagedResults<LicensedUser>>()
                         .ConfigureAwait(false))
                 .ConfigureAwait(false);
         }
@@ -172,7 +172,7 @@ namespace Bitbucket.Net.Core
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
                 await GetProjectsUrl($"/{projectKey}/permissions/groups")
                     .SetQueryParams(qpv)
-                    .GetJsonAsync<BitbucketResult<GroupPermission>>()
+                    .GetJsonAsync<PagedResults<GroupPermission>>()
                     .ConfigureAwait(false))
                 .ConfigureAwait(false);
         }
@@ -223,7 +223,7 @@ namespace Bitbucket.Net.Core
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
                     await GetProjectsUrl($"/{projectKey}/permissions/groups/none")
                         .SetQueryParams(qpv)
-                        .GetJsonAsync<BitbucketResult<LicensedUser>>()
+                        .GetJsonAsync<PagedResults<LicensedUser>>()
                         .ConfigureAwait(false))
                 .ConfigureAwait(false);
         }
@@ -278,7 +278,7 @@ namespace Bitbucket.Net.Core
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
                 await GetProjectsUrl($"/{projectKey}")
                     .SetQueryParams(qpv)
-                    .GetJsonAsync<BitbucketResult<Repository>>()
+                    .GetJsonAsync<PagedResults<Repository>>()
                     .ConfigureAwait(false))
                 .ConfigureAwait(false);
         }
@@ -299,7 +299,7 @@ namespace Bitbucket.Net.Core
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
                     await GetProjectsReposUrl(projectKey, repositorySlug, "/permissions/groups")
                         .SetQueryParams(qpv)
-                        .GetJsonAsync<BitbucketResult<GroupPermission>>()
+                        .GetJsonAsync<PagedResults<GroupPermission>>()
                         .ConfigureAwait(false))
                 .ConfigureAwait(false);
         }
@@ -320,7 +320,7 @@ namespace Bitbucket.Net.Core
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
                     await GetProjectsReposUrl(projectKey, repositorySlug, "/permissions/users")
                         .SetQueryParams(qpv)
-                        .GetJsonAsync<BitbucketResult<UserPermission>>()
+                        .GetJsonAsync<PagedResults<UserPermission>>()
                         .ConfigureAwait(false))
                 .ConfigureAwait(false);
         }
@@ -347,7 +347,7 @@ namespace Bitbucket.Net.Core
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
                 await GetProjectsReposUrl(projectKey, repositorySlug, "/branches")
                     .SetQueryParams(qpv)
-                    .GetJsonAsync<BitbucketResult<Branch>>()
+                    .GetJsonAsync<PagedResults<Branch>>()
                     .ConfigureAwait(false))
                 .ConfigureAwait(false);
         }
@@ -395,7 +395,7 @@ namespace Bitbucket.Net.Core
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
                     await GetProjectsReposUrl(projectKey, repositorySlug, "/changes")
                         .SetQueryParams(qpv)
-                        .GetJsonAsync<BitbucketResult<Change>>()
+                        .GetJsonAsync<PagedResults<Change>>()
                         .ConfigureAwait(false))
                 .ConfigureAwait(false);
         }
@@ -428,7 +428,7 @@ namespace Bitbucket.Net.Core
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
                     await GetProjectsReposUrl(projectKey, repositorySlug, "/commits")
                         .SetQueryParams(qpv)
-                        .GetJsonAsync<BitbucketResult<Commit>>()
+                        .GetJsonAsync<PagedResults<Commit>>()
                         .ConfigureAwait(false))
                 .ConfigureAwait(false);
         }
@@ -464,7 +464,7 @@ namespace Bitbucket.Net.Core
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
                     await GetProjectsReposUrl(projectKey, repositorySlug, $"/commits/{commitId}/changes")
                         .SetQueryParams(qpv)
-                        .GetJsonAsync<BitbucketResult<Change>>()
+                        .GetJsonAsync<PagedResults<Change>>()
                         .ConfigureAwait(false))
                 .ConfigureAwait(false);
         }
@@ -487,7 +487,7 @@ namespace Bitbucket.Net.Core
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
                     await GetProjectsReposUrl(projectKey, repositorySlug, $"/commits/{commitId}/comments")
                         .SetQueryParams(qpv)
-                        .GetJsonAsync<BitbucketResult<Comment>>()
+                        .GetJsonAsync<PagedResults<Comment>>()
                         .ConfigureAwait(false))
                 .ConfigureAwait(false);
         }
@@ -604,7 +604,7 @@ namespace Bitbucket.Net.Core
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
                     await GetProjectsReposUrl(projectKey, repositorySlug, "/compare/changes")
                         .SetQueryParams(qpv)
-                        .GetJsonAsync<BitbucketResult<Change>>()
+                        .GetJsonAsync<PagedResults<Change>>()
                         .ConfigureAwait(false))
                 .ConfigureAwait(false);
         }
@@ -649,7 +649,7 @@ namespace Bitbucket.Net.Core
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
                 await GetProjectsReposUrl(projectKey, repositorySlug, "/compare/commits")
                         .SetQueryParams(qpv)
-                        .GetJsonAsync<BitbucketResult<Commit>>()
+                        .GetJsonAsync<PagedResults<Commit>>()
                         .ConfigureAwait(false))
                 .ConfigureAwait(false);
         }
@@ -690,7 +690,7 @@ namespace Bitbucket.Net.Core
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
                     await GetProjectsReposUrl(projectKey, repositorySlug, "/files")
                         .SetQueryParams(qpv)
-                        .GetJsonAsync<BitbucketResult<string>>()
+                        .GetJsonAsync<PagedResults<string>>()
                         .ConfigureAwait(false))
                 .ConfigureAwait(false);
         }
@@ -715,7 +715,7 @@ namespace Bitbucket.Net.Core
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
                     await GetProjectsReposUrl(projectKey, repositorySlug, "/participants")
                         .SetQueryParams(qpv)
-                        .GetJsonAsync<BitbucketResult<Identity>>()
+                        .GetJsonAsync<PagedResults<Identity>>()
                         .ConfigureAwait(false))
                 .ConfigureAwait(false);
         }
@@ -746,7 +746,7 @@ namespace Bitbucket.Net.Core
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
                 await GetProjectsReposUrl(projectKey, repositorySlug, "/pull-requests")
                     .SetQueryParams(qpv)
-                    .GetJsonAsync<BitbucketResult<PullRequest>>()
+                    .GetJsonAsync<PagedResults<PullRequest>>()
                     .ConfigureAwait(false))
                 .ConfigureAwait(false);
         }
@@ -806,7 +806,7 @@ namespace Bitbucket.Net.Core
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
                     await GetProjectsReposUrl(projectKey, repositorySlug, $"/pull-requests/{pullRequestId}/activities")
                         .SetQueryParams(qpv)
-                        .GetJsonAsync<BitbucketResult<PullRequestActivity>>()
+                        .GetJsonAsync<PagedResults<PullRequestActivity>>()
                         .ConfigureAwait(false))
                 .ConfigureAwait(false);
         }
@@ -909,7 +909,7 @@ namespace Bitbucket.Net.Core
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
                     await GetProjectsReposUrl(projectKey, repositorySlug, $"/pull-requests/{pullRequestId}/changes")
                         .SetQueryParams(qpv)
-                        .GetJsonAsync<BitbucketResult<Change>>()
+                        .GetJsonAsync<PagedResults<Change>>()
                         .ConfigureAwait(false))
                 .ConfigureAwait(false);
         }

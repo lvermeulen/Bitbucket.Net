@@ -7,7 +7,8 @@ namespace Bitbucket.Net.Core
 {
     public partial class BitbucketClient
     {
-        private IFlurlRequest GetApplicationPropertiesUrl() => UrlBuilderExtensions.AppendPathSegment(GetBaseUrl(), "/application-properties");
+        private IFlurlRequest GetApplicationPropertiesUrl() => GetBaseUrl()
+            .AppendPathSegment("/application-properties");
 
         public async Task<IDictionary<string, object>> GetApplicationPropertiesAsync()
         {

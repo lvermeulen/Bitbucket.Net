@@ -31,7 +31,7 @@ namespace Bitbucket.Net.Core
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
                 await GetProfileUrl("/recent/repos")
                     .SetQueryParams(qpv)
-                    .GetJsonAsync<BitbucketResult<Repository>>()
+                    .GetJsonAsync<PagedResults<Repository>>()
                     .ConfigureAwait(false))
                 .ConfigureAwait(false);
         }

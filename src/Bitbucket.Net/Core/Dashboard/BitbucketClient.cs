@@ -39,7 +39,7 @@ namespace Bitbucket.Net.Core
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
                     await GetDashboardUrl("/pull-requests")
                         .SetQueryParams(qpv)
-                        .GetJsonAsync<BitbucketResult<PullRequest>>()
+                        .GetJsonAsync<PagedResults<PullRequest>>()
                         .ConfigureAwait(false))
                 .ConfigureAwait(false);
         }
@@ -59,7 +59,7 @@ namespace Bitbucket.Net.Core
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
                     await GetDashboardUrl("/pull-request-suggestions")
                         .SetQueryParams(qpv)
-                        .GetJsonAsync<BitbucketResult<PullRequestSuggestion>>()
+                        .GetJsonAsync<PagedResults<PullRequestSuggestion>>()
                         .ConfigureAwait(false))
                 .ConfigureAwait(false);
         }

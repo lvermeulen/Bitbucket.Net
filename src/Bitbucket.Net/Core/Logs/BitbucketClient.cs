@@ -9,7 +9,8 @@ namespace Bitbucket.Net.Core
 {
     public partial class BitbucketClient
     {
-        private IFlurlRequest GetLogsUrl() => UrlBuilderExtensions.AppendPathSegment(GetBaseUrl(), "/logs");
+        private IFlurlRequest GetLogsUrl() => GetBaseUrl()
+            .AppendPathSegment("/logs");
 
         private IFlurlRequest GetLogsUrl(string path) => GetLogsUrl()
             .AppendPathSegment(path);

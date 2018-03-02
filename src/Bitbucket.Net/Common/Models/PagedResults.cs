@@ -2,7 +2,7 @@
 
 namespace Bitbucket.Net.Common.Models
 {
-    public class BitbucketResult<T>
+    public class PagedResults<T>
     {
         public int Size { get; set; }
         public int Limit { get; set; }

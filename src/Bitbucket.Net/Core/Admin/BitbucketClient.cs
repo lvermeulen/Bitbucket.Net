@@ -33,7 +33,7 @@ namespace Bitbucket.Net.Core
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
                     await GetAdminUrl("/groups")
                         .SetQueryParams(qpv)
-                        .GetJsonAsync<BitbucketResult<DeletableGroupOrUser>>()
+                        .GetJsonAsync<PagedResults<DeletableGroupOrUser>>()
                         .ConfigureAwait(false))
                 .ConfigureAwait(false);
         }
@@ -84,7 +84,7 @@ namespace Bitbucket.Net.Core
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
                     await GetAdminUrl("/groups/more-members")
                         .SetQueryParams(qpv)
-                        .GetJsonAsync<BitbucketResult<UserInfo>>()
+                        .GetJsonAsync<PagedResults<UserInfo>>()
                         .ConfigureAwait(false))
                 .ConfigureAwait(false);
         }
@@ -105,7 +105,7 @@ namespace Bitbucket.Net.Core
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
                     await GetAdminUrl("/groups/more-non-members")
                         .SetQueryParams(qpv)
-                        .GetJsonAsync<BitbucketResult<UserInfo>>()
+                        .GetJsonAsync<PagedResults<UserInfo>>()
                         .ConfigureAwait(false))
                 .ConfigureAwait(false);
         }
@@ -125,7 +125,7 @@ namespace Bitbucket.Net.Core
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
                     await GetAdminUrl("/users")
                         .SetQueryParams(qpv)
-                        .GetJsonAsync<BitbucketResult<UserInfo>>()
+                        .GetJsonAsync<PagedResults<UserInfo>>()
                         .ConfigureAwait(false))
                 .ConfigureAwait(false);
         }
@@ -222,7 +222,7 @@ namespace Bitbucket.Net.Core
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
                     await GetAdminUrl("/users/more-members")
                         .SetQueryParams(qpv)
-                        .GetJsonAsync<BitbucketResult<DeletableGroupOrUser>>()
+                        .GetJsonAsync<PagedResults<DeletableGroupOrUser>>()
                         .ConfigureAwait(false))
                 .ConfigureAwait(false);
         }
@@ -243,7 +243,7 @@ namespace Bitbucket.Net.Core
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
                     await GetAdminUrl("/users/more-non-members")
                         .SetQueryParams(qpv)
-                        .GetJsonAsync<BitbucketResult<DeletableGroupOrUser>>()
+                        .GetJsonAsync<PagedResults<DeletableGroupOrUser>>()
                         .ConfigureAwait(false))
                 .ConfigureAwait(false);
         }
@@ -366,7 +366,7 @@ namespace Bitbucket.Net.Core
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
                     await GetAdminUrl("/permissions/groups")
                         .SetQueryParams(qpv)
-                        .GetJsonAsync<BitbucketResult<GroupPermission>>()
+                        .GetJsonAsync<PagedResults<GroupPermission>>()
                         .ConfigureAwait(false))
                 .ConfigureAwait(false);
         }
@@ -412,7 +412,7 @@ namespace Bitbucket.Net.Core
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
                     await GetAdminUrl("/permissions/groups/none")
                         .SetQueryParams(qpv)
-                        .GetJsonAsync<BitbucketResult<DeletableGroupOrUser>>()
+                        .GetJsonAsync<PagedResults<DeletableGroupOrUser>>()
                         .ConfigureAwait(false))
                 .ConfigureAwait(false);
         }
@@ -432,7 +432,7 @@ namespace Bitbucket.Net.Core
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
                     await GetAdminUrl("/permissions/users")
                         .SetQueryParams(qpv)
-                        .GetJsonAsync<BitbucketResult<UserPermission>>()
+                        .GetJsonAsync<PagedResults<UserPermission>>()
                         .ConfigureAwait(false))
                 .ConfigureAwait(false);
         }
@@ -478,7 +478,7 @@ namespace Bitbucket.Net.Core
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
                     await GetAdminUrl("/permissions/users/none")
                         .SetQueryParams(qpv)
-                        .GetJsonAsync<BitbucketResult<User>>()
+                        .GetJsonAsync<PagedResults<User>>()
                         .ConfigureAwait(false))
                 .ConfigureAwait(false);
         }
