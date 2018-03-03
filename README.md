@@ -40,10 +40,10 @@ Client for Bitbucket
 		* [ ] Permissions
 		* [ ] Pull Requests
 		* [ ] Raw
-		* [ ] Settings
+		* [S] Settings
 		* [ ] Tags
 		* [ ] Webhooks
-	* [ ] Settings
+	* [X] Settings
 * [X] Repos
 * [X] Tasks
 * [X] Users

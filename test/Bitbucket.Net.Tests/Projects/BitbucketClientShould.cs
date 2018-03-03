@@ -25,9 +25,9 @@ namespace Bitbucket.Net.Core.Tests
 
         [Theory]
         [InlineData("Tools", 1)]
-        public async Task GetRepositoriesAsync(string projectKey, int maxPages)
+        public async Task GetProjectRepositoriesAsync(string projectKey, int maxPages)
         {
-            var results = await _client.GetRepositoriesAsync(projectKey, maxPages: maxPages).ConfigureAwait(false);
+            var results = await _client.GetProjectRepositoriesAsync(projectKey, maxPages: maxPages).ConfigureAwait(false);
             Assert.True(results.Any());
         }
 
@@ -142,6 +142,45 @@ namespace Bitbucket.Net.Core.Tests
             Assert.NotNull(pullRequest);
 
             await _client.DeletePullRequestAsync(projectKey, repositorySlug, pullRequest.Id, new VersionInfo { Version = -1 }).ConfigureAwait(false);
+        }
+
+        [Theory]
+        [InlineData("Tools", "Test")]
+        public async Task GetProjectRepositoryPullRequestSettingsAsync(string projectKey, string repositorySlug)
+        {
+            var result = await _client.GetProjectRepositoryPullRequestSettingsAsync(projectKey, repositorySlug);
+            Assert.NotNull(result);
+        }
+
+        [Theory]
+        [InlineData("Tools", "Test")]
+        public async Task GetProjectRepositoryHooksSettingsAsync(string projectKey, string repositorySlug)
+        {
+            var results = await _client.GetProjectRepositoryHooksSettingsAsync(projectKey, repositorySlug);
+            Assert.NotEmpty(results);
+        }
+
+        [Theory]
+        [InlineData("Tools", "Test", "com.atlassian.bitbucket.server.bitbucket-bundled-hooks:all-approvers-merge-check")]
+        public async Task GetProjectRepositoryHookSettingsAsync(string projectKey, string repositorySlug, string hookKey)
+        {
+            var result = await _client.GetProjectRepositoryHookSettingsAsync(projectKey, repositorySlug, hookKey);
+            Assert.NotNull(result);
+        }
+
+        [Theory]
+        [InlineData("Tools", "Test", "com.ngs.stash.externalhooks.external-hooks:external-post-receive-hook")]
+        public async Task GetProjectRepositoryHookAllSettingsAsync(string projectKey, string repositorySlug, string hookKey)
+        {
+            var result = await _client.GetProjectRepositoryHookAllSettingsAsync(projectKey, repositorySlug, hookKey);
+        }
+
+        [Theory]
+        [InlineData("Tools")]
+        public async Task GetProjectPullRequestsMergeStrategiesAsync(string projectKey)
+        {
+            var result = await _client.GetProjectPullRequestsMergeStrategiesAsync(projectKey, "git");
+            Assert.NotNull(result);
         }
     }
 }

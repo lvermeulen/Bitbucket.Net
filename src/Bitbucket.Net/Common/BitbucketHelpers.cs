@@ -106,6 +106,19 @@ namespace Bitbucket.Net.Common
             [ParticipantStatus.Unapproved] = "UNAPPROVED"
         };
 
+        private static readonly Dictionary<HookTypes, string> s_stringByHookTypes = new Dictionary<HookTypes, string>
+        {
+            [HookTypes.PreReceive] = "PRE_RECEIVE",
+            [HookTypes.PostReceive] = "POST_RECEIVE",
+            [HookTypes.PrePullRequestMerge] = "PRE_PULL_REQUEST_MERGE"
+        };
+
+        private static readonly Dictionary<ScopeTypes, string> s_stringByScopeTypes = new Dictionary<ScopeTypes, string>
+        {
+            [ScopeTypes.Project] = "PROJECT",
+            [ScopeTypes.Repository] = "REPOSITORY"
+        };
+
         public static string BoolToString(bool value) => value
             ? "true"
             : "false";
@@ -336,6 +349,50 @@ namespace Bitbucket.Net.Common
             }
 
             return result;
+        }
+
+        public static string HookTypeToString(HookTypes hookType)
+        {
+            if (!s_stringByHookTypes.TryGetValue(hookType, out string result))
+            {
+                throw new ArgumentException($"Unknown hook type: {hookType}");
+            }
+
+            return result;
+        }
+
+        public static HookTypes StringToHookType(string s)
+        {
+            var pair = s_stringByHookTypes.FirstOrDefault(kvp => kvp.Value.Equals(s, StringComparison.OrdinalIgnoreCase));
+            // ReSharper disable once SuspiciousTypeConversion.Global
+            if (EqualityComparer<KeyValuePair<HookTypes, string>>.Default.Equals(pair))
+            {
+                throw new ArgumentException($"Unknown hook type: {s}");
+            }
+
+            return pair.Key;
+        }
+
+        public static string ScopeTypeToString(ScopeTypes scopeType)
+        {
+            if (!s_stringByScopeTypes.TryGetValue(scopeType, out string result))
+            {
+                throw new ArgumentException($"Unknown scope type: {scopeType}");
+            }
+
+            return result;
+        }
+
+        public static ScopeTypes StringToScopeType(string s)
+        {
+            var pair = s_stringByScopeTypes.FirstOrDefault(kvp => kvp.Value.Equals(s, StringComparison.OrdinalIgnoreCase));
+            // ReSharper disable once SuspiciousTypeConversion.Global
+            if (EqualityComparer<KeyValuePair<ScopeTypes, string>>.Default.Equals(pair))
+            {
+                throw new ArgumentException($"Unknown scope type: {s}");
+            }
+
+            return pair.Key;
         }
     }
 }

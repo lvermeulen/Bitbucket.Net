@@ -19,6 +19,9 @@ namespace Bitbucket.Net.Core
         private IFlurlRequest GetProjectsUrl(string path) => GetProjectsUrl()
             .AppendPathSegment(path);
 
+        private IFlurlRequest GetProjectUrl(string projectKey) => GetProjectsUrl()
+            .AppendPathSegment($"/{projectKey}");
+
         private IFlurlRequest GetProjectsReposUrl(string projectKey, string repositorySlug) => GetProjectsUrl($"/{projectKey}/repos/{repositorySlug}");
 
         private IFlurlRequest GetProjectsReposUrl(string projectKey, string repositorySlug, string path) => GetProjectsReposUrl(projectKey, repositorySlug)
@@ -264,7 +267,7 @@ namespace Bitbucket.Net.Core
             return await SetProjectDefaultPermissionAsync(projectKey, permission, false);
         }
 
-        public async Task<IEnumerable<Repository>> GetRepositoriesAsync(string projectKey,
+        public async Task<IEnumerable<Repository>> GetProjectRepositoriesAsync(string projectKey,
             int? maxPages = null,
             int? limit = null,
             int? start = null)
@@ -912,6 +915,118 @@ namespace Bitbucket.Net.Core
                         .GetJsonAsync<PagedResults<Change>>()
                         .ConfigureAwait(false))
                 .ConfigureAwait(false);
+        }
+
+        public async Task<PullRequestSettings> GetProjectRepositoryPullRequestSettingsAsync(string projectKey, string repositorySlug)
+        {
+            return await GetProjectsReposUrl(projectKey, repositorySlug, "/settings/pull-requests")
+                .GetJsonAsync<PullRequestSettings>()
+                .ConfigureAwait(false);
+        }
+
+        public async Task<PullRequestSettings> UpdateProjectRepositoryPullRequestSettingsAsync(string projectKey, string repositorySlug,
+            PullRequestSettings pullRequestSettings)
+        {
+            var response = await GetProjectsReposUrl(projectKey, repositorySlug, "/settings/pull-requests")
+                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
+                .PostJsonAsync(pullRequestSettings)
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync<PullRequestSettings>(response).ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<Hook>> GetProjectRepositoryHooksSettingsAsync(string projectKey, string repositorySlug, 
+            HookTypes? hookType = null,
+            int? maxPages = null,
+            int? limit = null,
+            int? start = null)
+        {
+            var queryParamValues = new Dictionary<string, object>
+            {
+                ["limit"] = limit,
+                ["start"] = start,
+                ["type"] = hookType
+            };
+
+            return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
+                    await GetProjectsReposUrl(projectKey, repositorySlug, "/settings/hooks")
+                        .SetQueryParams(qpv)
+                        .GetJsonAsync<PagedResults<Hook>>()
+                        .ConfigureAwait(false))
+                .ConfigureAwait(false);
+        }
+
+        public async Task<Hook> GetProjectRepositoryHookSettingsAsync(string projectKey, string repositorySlug, string hookKey)
+        {
+            return await GetProjectsReposUrl(projectKey, repositorySlug, $"/settings/hooks/{hookKey}")
+                .GetJsonAsync<Hook>()
+                .ConfigureAwait(false);
+        }
+
+        public async Task<bool> DeleteProjectRepositoryHookSettingsAsync(string projectKey, string repositorySlug, string hookKey)
+        {
+            var response = await GetProjectsReposUrl(projectKey, repositorySlug, $"/settings/hooks/{hookKey}")
+                .DeleteAsync()
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync(response).ConfigureAwait(false);
+        }
+
+        public async Task<Hook> EnableProjectRepositoryHookAsync(string projectKey, string repositorySlug, string hookKey, object hookSettings = null)
+        {
+            var response = await GetProjectsReposUrl(projectKey, repositorySlug, $"/settings/hooks/{hookKey}/enabled")
+                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
+                .PutJsonAsync(hookSettings)
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync<Hook>(response).ConfigureAwait(false);
+        }
+
+        public async Task<Hook> DisableProjectRepositoryHookAsync(string projectKey, string repositorySlug, string hookKey)
+        {
+            var response = await GetProjectsReposUrl(projectKey, repositorySlug, $"/settings/hooks/{hookKey}/enabled")
+                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
+                .DeleteAsync()
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync<Hook>(response).ConfigureAwait(false);
+        }
+
+        public async Task<Dictionary<string, object>> GetProjectRepositoryHookAllSettingsAsync(string projectKey, string repositorySlug, string hookKey)
+        {
+            return await GetProjectsReposUrl(projectKey, repositorySlug, $"/settings/hooks/{hookKey}/settings")
+                .GetJsonAsync<Dictionary<string, object>>()
+                .ConfigureAwait(false);
+        }
+
+        public async Task<Dictionary<string, object>> UpdateProjectRepositoryHookAllSettingsAsync(string projectKey, string repositorySlug, string hookKey,
+            Dictionary<string, object> allSettings)
+        {
+            var response = await GetProjectsReposUrl(projectKey, repositorySlug, $"/settings/hooks/{hookKey}/settings")
+                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
+                .PutJsonAsync(allSettings)
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync<Dictionary<string, object>>(response).ConfigureAwait(false);
+        }
+
+        public async Task<PullRequestSettings> GetProjectPullRequestsMergeStrategiesAsync(string projectKey, string scmId)
+        {
+            return await GetProjectUrl(projectKey)
+                .AppendPathSegment($"/settings/pull-requests/{scmId}")
+                .GetJsonAsync<PullRequestSettings>()
+                .ConfigureAwait(false);
+        }
+
+        public async Task<MergeStrategies> UpdateProjectPullRequestsMergeStrategiesAsync(string projectKey, string scmId, MergeStrategies mergeStrategies)
+        {
+            var response = await GetProjectUrl(projectKey)
+                .AppendPathSegment($"/settings/pull-requests/{scmId}")
+                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
+                .PostJsonAsync(mergeStrategies)
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync<MergeStrategies>(response).ConfigureAwait(false);
         }
     }
 }

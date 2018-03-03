@@ -8,12 +8,12 @@ namespace Bitbucket.Net.Core
         private IFlurlRequest GetHooksUrl() => GetBaseUrl()
             .AppendPathSegment("/hooks");
 
-        public async Task<string> GetProjectHooksAvatarAsync(string hookKey, string version = null)
+        public async Task<byte[]> GetProjectHooksAvatarAsync(string hookKey, string version = null)
         {
             return await GetHooksUrl()
                 .AppendPathSegment($"/{hookKey}/avatar")
                 .SetQueryParam("version", version)
-                .GetStringAsync()
+                .GetBytesAsync()
                 .ConfigureAwait(false);
         }
     }
