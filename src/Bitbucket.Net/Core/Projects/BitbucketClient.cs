@@ -1262,5 +1262,55 @@ namespace Bitbucket.Net.Core
 
             return await HandleResponseAsync<MergeStrategies>(response).ConfigureAwait(false);
         }
+
+        public async Task<IEnumerable<Tag>> GetProjectRepositoryTagsAsync(string projectKey, string repositorySlug,
+            string filterText,
+            BranchOrderBy orderBy,
+            int? maxPages = null,
+            int? limit = null,
+            int? start = null)
+        {
+            var queryParamValues = new Dictionary<string, object>
+            {
+                ["limit"] = limit,
+                ["start"] = start,
+                ["filterText"] = filterText,
+                ["orderBy"] = BitbucketHelpers.BranchOrderByToString(orderBy)
+            };
+
+            return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
+                    await GetProjectsReposUrl(projectKey, repositorySlug, "/tags")
+                        .SetQueryParams(qpv)
+                        .GetJsonAsync<PagedResults<Tag>>()
+                        .ConfigureAwait(false))
+                .ConfigureAwait(false);
+        }
+
+        public async Task<Tag> CreateProjectRepositoryTagAsync(string projectKey, string repositorySlug,
+            string name,
+            string startPoint,
+            string message)
+        {
+            var data = new DynamicDictionary
+            {
+                { name, "name" },
+                { startPoint, "startPoint" },
+                { message, "message" }
+            };
+
+            var response = await GetProjectsReposUrl(projectKey, repositorySlug, "/tags")
+                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
+                .PostJsonAsync(data.ToDictionary())
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync<Tag>(response).ConfigureAwait(false);
+        }
+
+        public async Task<Tag> GetProjectRepositoryTagAsync(string projectKey, string repositorySlug, string tagName)
+        {
+            return await GetProjectsReposUrl(projectKey, repositorySlug, $"/tags/{tagName}")
+                .GetJsonAsync<Tag>()
+                .ConfigureAwait(false);
+        }
     }
 }

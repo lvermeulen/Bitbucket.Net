@@ -191,5 +191,21 @@ namespace Bitbucket.Net.Core.Tests
             var result = await _client.GetProjectPullRequestsMergeStrategiesAsync(projectKey, "git");
             Assert.NotNull(result);
         }
+
+        [Theory]
+        [InlineData("Tools", "Test")]
+        public async Task GetProjectRepositoryTagsAsync(string projectKey, string repositorySlug)
+        {
+            var results = await _client.GetProjectRepositoryTagsAsync(projectKey, repositorySlug, "v1", BranchOrderBy.Alphabetical).ConfigureAwait(false);
+            Assert.NotEmpty(results);
+        }
+
+        [Theory]
+        [InlineData("Tools", "Test")]
+        public async Task GetProjectRepositoryTagAsync(string projectKey, string repositorySlug)
+        {
+            var result = await _client.GetProjectRepositoryTagAsync(projectKey, repositorySlug, "v1").ConfigureAwait(false);
+            Assert.NotNull(result);
+        }
     }
 }

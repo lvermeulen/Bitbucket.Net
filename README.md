@@ -38,10 +38,10 @@ Client for Bitbucket
 		* [ ] Last Modified
 		* [X] Participants
 		* [X] Permissions
-		* [ ] Pull Requests
+		* [X] Pull Requests
 		* [ ] Raw
 		* [X] Settings
-		* [ ] Tags
+		* [X] Tags
 		* [ ] Webhooks
 	* [X] Settings
 * [X] Repos
