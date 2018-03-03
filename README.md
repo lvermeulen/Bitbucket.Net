@@ -37,7 +37,7 @@ Client for Bitbucket
 		* [X] Files
 		* [ ] Last Modified
 		* [X] Participants
-		* [ ] Permissions
+		* [X] Permissions
 		* [ ] Pull Requests
 		* [ ] Raw
 		* [X] Settings

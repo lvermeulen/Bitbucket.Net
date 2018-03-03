@@ -426,7 +426,7 @@ namespace Bitbucket.Net.Core
                 .ConfigureAwait(false);
         }
 
-        public async Task<IEnumerable<GroupPermission>> GetRepositoryGroupPermissionsAsync(string projectKey, string repositorySlug,
+        public async Task<IEnumerable<GroupPermission>> GetProjectRepositoryGroupPermissionsAsync(string projectKey, string repositorySlug,
             string filter = null,
             int? maxPages = null,
             int? limit = null,
@@ -447,7 +447,54 @@ namespace Bitbucket.Net.Core
                 .ConfigureAwait(false);
         }
 
-        public async Task<IEnumerable<UserPermission>> GetRepositoryUserPermissionsAsync(string projectKey, string repositorySlug,
+        public async Task<bool> UpdateProjectRepositoryGroupPermissionsAsync(string projectKey, string repositorySlug, Permissions permission, string name)
+        {
+            var queryParamValues = new Dictionary<string, object>
+            {
+                ["permission"] = permission,
+                ["name"] = name
+            };
+
+            var response = await GetProjectsReposUrl(projectKey, repositorySlug, "/permissions/groups")
+                .SetQueryParams(queryParamValues)
+                .PutJsonAsync(new StringContent(""))
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync(response).ConfigureAwait(false);
+        }
+
+        public async Task<bool> DeleteProjectRepositoryGroupPermissionsAsync(string projectKey, string repositorySlug, string name)
+        {
+            var response = await GetProjectsReposUrl(projectKey, repositorySlug, "/permissions/groups")
+                .SetQueryParam("name", name)
+                .DeleteAsync()
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync(response).ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<DeletableGroupOrUser>> GetProjectRepositoryGroupPermissionsNoneAsync(string projectKey, string repositorySlug, 
+            string filter = null,
+            int? maxPages = null,
+            int? limit = null,
+            int? start = null)
+        {
+            var queryParamValues = new Dictionary<string, object>
+            {
+                ["limit"] = limit,
+                ["start"] = start,
+                ["filter"] = filter
+            };
+
+            return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
+                    await GetProjectsReposUrl(projectKey, repositorySlug, "/permissions/groups/none")
+                        .SetQueryParams(qpv)
+                        .GetJsonAsync<PagedResults<DeletableGroupOrUser>>()
+                        .ConfigureAwait(false))
+                .ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<UserPermission>> GetProjectRepositoryUserPermissionsAsync(string projectKey, string repositorySlug,
             string filter = null,
             int? maxPages = null,
             int? limit = null,
@@ -464,6 +511,53 @@ namespace Bitbucket.Net.Core
                     await GetProjectsReposUrl(projectKey, repositorySlug, "/permissions/users")
                         .SetQueryParams(qpv)
                         .GetJsonAsync<PagedResults<UserPermission>>()
+                        .ConfigureAwait(false))
+                .ConfigureAwait(false);
+        }
+
+        public async Task<bool> UpdateProjectRepositoryUserPermissionsAsync(string projectKey, string repositorySlug, Permissions permission, string name)
+        {
+            var queryParamValues = new Dictionary<string, object>
+            {
+                ["permission"] = permission,
+                ["name"] = name
+            };
+
+            var response = await GetProjectsReposUrl(projectKey, repositorySlug, "/permissions/users")
+                .SetQueryParams(queryParamValues)
+                .PutJsonAsync(new StringContent(""))
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync(response).ConfigureAwait(false);
+        }
+
+        public async Task<bool> DeleteProjectRepositoryUserPermissionsAsync(string projectKey, string repositorySlug, string name)
+        {
+            var response = await GetProjectsReposUrl(projectKey, repositorySlug, "/permissions/users")
+                .SetQueryParam("name", name)
+                .DeleteAsync()
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync(response).ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<User>> GetProjectRepositoryUserPermissionsNoneAsync(string projectKey, string repositorySlug, 
+            string filter = null,
+            int? maxPages = null,
+            int? limit = null,
+            int? start = null)
+        {
+            var queryParamValues = new Dictionary<string, object>
+            {
+                ["limit"] = limit,
+                ["start"] = start,
+                ["filter"] = filter
+            };
+
+            return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
+                    await GetProjectsReposUrl(projectKey, repositorySlug, "/permissions/users/none")
+                        .SetQueryParams(qpv)
+                        .GetJsonAsync<PagedResults<User>>()
                         .ConfigureAwait(false))
                 .ConfigureAwait(false);
         }

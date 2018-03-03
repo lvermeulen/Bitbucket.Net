@@ -41,17 +41,17 @@ namespace Bitbucket.Net.Core.Tests
 
         [Theory]
         [InlineData("Tools", "Test")]
-        public async Task GetRepositoryGroupPermissionsAsync(string projectKey, string repositorySlug)
+        public async Task GetProjectRepositoryGroupPermissionsAsync(string projectKey, string repositorySlug)
         {
-            var results = await _client.GetRepositoryGroupPermissionsAsync(projectKey, repositorySlug).ConfigureAwait(false);
+            var results = await _client.GetProjectRepositoryGroupPermissionsAsync(projectKey, repositorySlug).ConfigureAwait(false);
             Assert.True(results.Any());
         }
 
         [Theory]
         [InlineData("Tools", "Test")]
-        public async Task GetRepositoryUserPermissionsAsync(string projectKey, string repositorySlug)
+        public async Task GetProjectRepositoryUserPermissionsAsync(string projectKey, string repositorySlug)
         {
-            var results = await _client.GetRepositoryUserPermissionsAsync(projectKey, repositorySlug).ConfigureAwait(false);
+            var results = await _client.GetProjectRepositoryUserPermissionsAsync(projectKey, repositorySlug).ConfigureAwait(false);
             Assert.False(results.Any());
         }
 
