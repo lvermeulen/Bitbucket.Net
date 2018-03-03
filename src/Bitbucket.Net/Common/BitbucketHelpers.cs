@@ -119,6 +119,14 @@ namespace Bitbucket.Net.Common
             [ScopeTypes.Repository] = "REPOSITORY"
         };
 
+        private static readonly Dictionary<ArchiveFormats, string> s_stringByArchiveFormats = new Dictionary<ArchiveFormats, string>
+        {
+            [ArchiveFormats.Zip] = "zip",
+            [ArchiveFormats.Tar] = "tar",
+            [ArchiveFormats.TarGz] = "tar.gz",
+            [ArchiveFormats.Tgz] = "tgz"
+        };
+
         public static string BoolToString(bool value) => value
             ? "true"
             : "false";
@@ -393,6 +401,16 @@ namespace Bitbucket.Net.Common
             }
 
             return pair.Key;
+        }
+
+        public static string ArchiveFormatToString(ArchiveFormats archiveFormat)
+        {
+            if (!s_stringByArchiveFormats.TryGetValue(archiveFormat, out string result))
+            {
+                throw new ArgumentException($"Unknown archive format: {archiveFormat}");
+            }
+
+            return result;
         }
     }
 }

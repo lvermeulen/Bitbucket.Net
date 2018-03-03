@@ -27,7 +27,7 @@ Client for Bitbucket
 	* [X] Projects
 	* [X] Permissions
 	* [ ] Repos
-		* [ ] Repos
+		* [X] Repos
 		* [X] Branches
 		* [ ] Browse
 		* [X] Changes
@@ -40,7 +40,7 @@ Client for Bitbucket
 		* [ ] Permissions
 		* [ ] Pull Requests
 		* [ ] Raw
-		* [S] Settings
+		* [X] Settings
 		* [ ] Tags
 		* [ ] Webhooks
 	* [X] Settings

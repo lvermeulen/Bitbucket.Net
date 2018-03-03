@@ -151,16 +151,18 @@ namespace Bitbucket.Net.Core
             return await HandleResponseAsync(response).ConfigureAwait(false);
         }
 
-        public async Task<UserInfo> UpdateAdminUserAsync(string name = null, string displayName = null, string email = null)
+        public async Task<UserInfo> UpdateAdminUserAsync(string name = null, string displayName = null, string emailAddress = null)
         {
-            var data = new
+            var data = new DynamicDictionary
             {
-                //TODO: UpdateAdminUserAsync
+                { name, "name" },
+                { displayName, "displayName" },
+                { emailAddress, "email" }
             };
 
             var response = await GetAdminUrl("/users")
                 .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
-                .PutJsonAsync(data)
+                .PutJsonAsync(data.ToDictionary())
                 .ConfigureAwait(false);
 
             return await HandleResponseAsync<UserInfo>(response).ConfigureAwait(false);

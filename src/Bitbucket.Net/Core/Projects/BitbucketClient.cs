@@ -286,6 +286,146 @@ namespace Bitbucket.Net.Core
                 .ConfigureAwait(false);
         }
 
+        public async Task<Repository> CreateProjectRepositoryAsync(string projectKey, string repositoryName, string scmId = "git")
+        {
+            var data = new
+            {
+                name = repositoryName,
+                scmId
+            };
+
+            var response = await GetProjectUrl($"/{projectKey}/repos")
+                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
+                .PostJsonAsync(data)
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync<Repository>(response).ConfigureAwait(false);
+        }
+
+        public async Task<Repository> GetProjectRepositoryAsync(string projectKey, string repositorySlug)
+        {
+            return await GetProjectsReposUrl(projectKey, repositorySlug)
+                .GetJsonAsync<Repository>()
+                .ConfigureAwait(false);
+        }
+
+        public async Task<RepositoryFork> CreateProjectRepositoryForkAsync(string projectKey, string repositorySlug, string targetProjectKey = null, string targetSlug = null, string targetName = null)
+        {
+            var data = new
+            {
+                slug = targetSlug ?? repositorySlug,
+                name = targetName,
+                project = new ProjectRef { Key = targetProjectKey }
+            };
+
+            var response = await GetProjectsReposUrl(projectKey, repositorySlug)
+                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
+                .PostJsonAsync(data)
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync<RepositoryFork>(response).ConfigureAwait(false);
+        }
+
+        public async Task<bool> ScheduleProjectRepositoryForDeletionAsync(string projectKey, string repositorySlug)
+        {
+            var response = await GetProjectsReposUrl(projectKey, repositorySlug)
+                .DeleteAsync()
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync(response).ConfigureAwait(false);
+        }
+
+        public async Task<Repository> UpdateProjectRepositoryAsync(string projectKey, string repositorySlug,
+            string targetName = null,
+            bool? isForkable = null,
+            string targetProjectKey = null,
+            bool? isPublic = null)
+        {
+            var data = new DynamicDictionary
+            {
+                { targetName, "name" },
+                { isForkable, "forkable" },
+                { targetProjectKey, "project", new ProjectRef { Key = targetProjectKey } },
+                { isPublic, "public" }
+            };
+
+            var response = await GetProjectsReposUrl(projectKey, repositorySlug)
+                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
+                .PutJsonAsync(data.ToDictionary())
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync<Repository>(response).ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<RepositoryFork>> GetProjectRepositoryForksAsync(string projectKey, string repositorySlug,
+            int? maxPages = null,
+            int? limit = null,
+            int? start = null)
+        {
+            var queryParamValues = new Dictionary<string, object>
+            {
+                ["limit"] = limit,
+                ["start"] = start
+            };
+
+            return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
+                    await GetProjectsReposUrl(projectKey, repositorySlug, "/forks")
+                        .SetQueryParams(qpv)
+                        .GetJsonAsync<PagedResults<RepositoryFork>>()
+                        .ConfigureAwait(false))
+                .ConfigureAwait(false);
+        }
+
+        public async Task<Repository> RecreateProjectRepositoryAsync(string projectKey, string repositorySlug)
+        {
+            var response = await GetProjectsReposUrl(projectKey, repositorySlug, "/recreate")
+                .PostJsonAsync(new StringContent(""))
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync<Repository>(response).ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<RepositoryFork>> GetRelatedProjectRepositoriesAsync(string projectKey, string repositorySlug,
+            int? maxPages = null,
+            int? limit = null,
+            int? start = null)
+        {
+            var queryParamValues = new Dictionary<string, object>
+            {
+                ["limit"] = limit,
+                ["start"] = start
+            };
+
+            return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
+                    await GetProjectsReposUrl(projectKey, repositorySlug, "/related")
+                        .SetQueryParams(qpv)
+                        .GetJsonAsync<PagedResults<RepositoryFork>>()
+                        .ConfigureAwait(false))
+                .ConfigureAwait(false);
+        }
+
+        public async Task<byte[]> GetProjectRepositoryArchiveAsync(string projectKey, string repositorySlug, 
+            string at,
+            string fileName,
+            ArchiveFormats archiveFormat,
+            string path,
+            string prefix)
+        {
+            var queryParamValues = new Dictionary<string, object>
+            {
+                ["at"] = at,
+                ["fileName"] = fileName,
+                ["format"] = BitbucketHelpers.ArchiveFormatToString(archiveFormat),
+                ["path"] = path,
+                ["prefix"] = prefix
+            };
+
+            return await GetProjectsReposUrl(projectKey, repositorySlug, "/archive")
+                .SetQueryParams(queryParamValues)
+                .GetBytesAsync()
+                .ConfigureAwait(false);
+        }
+
         public async Task<IEnumerable<GroupPermission>> GetRepositoryGroupPermissionsAsync(string projectKey, string repositorySlug,
             string filter = null,
             int? maxPages = null,

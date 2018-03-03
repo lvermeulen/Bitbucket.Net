@@ -33,6 +33,14 @@ namespace Bitbucket.Net.Core.Tests
 
         [Theory]
         [InlineData("Tools", "Test")]
+        public async Task GetProjectRepositoryAsync(string projectKey, string repositorySlug)
+        {
+            var result = await _client.GetProjectRepositoryAsync(projectKey, repositorySlug).ConfigureAwait(false);
+            Assert.NotNull(result);
+        }
+
+        [Theory]
+        [InlineData("Tools", "Test")]
         public async Task GetRepositoryGroupPermissionsAsync(string projectKey, string repositorySlug)
         {
             var results = await _client.GetRepositoryGroupPermissionsAsync(projectKey, repositorySlug).ConfigureAwait(false);
@@ -172,6 +180,7 @@ namespace Bitbucket.Net.Core.Tests
         [InlineData("Tools", "Test", "com.ngs.stash.externalhooks.external-hooks:external-post-receive-hook")]
         public async Task GetProjectRepositoryHookAllSettingsAsync(string projectKey, string repositorySlug, string hookKey)
         {
+            // ReSharper disable once UnusedVariable
             var result = await _client.GetProjectRepositoryHookAllSettingsAsync(projectKey, repositorySlug, hookKey);
         }
 
