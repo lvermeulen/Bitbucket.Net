@@ -127,6 +127,13 @@ namespace Bitbucket.Net.Common
             [ArchiveFormats.Tgz] = "tgz"
         };
 
+        private static readonly Dictionary<WebHookOutcomes, string> s_stringByWebHookOutcomes = new Dictionary<WebHookOutcomes, string>
+        {
+            [WebHookOutcomes.Success] = "SUCCESS",
+            [WebHookOutcomes.Failure] = "FAILURE",
+            [WebHookOutcomes.Error] = "ERROR"
+        };
+
         public static string BoolToString(bool value) => value
             ? "true"
             : "false";
@@ -411,6 +418,32 @@ namespace Bitbucket.Net.Common
             }
 
             return result;
+        }
+
+        public static string WebHookOutcomeToString(WebHookOutcomes webHookOutcome)
+        {
+            if (!s_stringByWebHookOutcomes.TryGetValue(webHookOutcome, out string result))
+            {
+                throw new ArgumentException($"Unknown web hook outcome: {webHookOutcome}");
+            }
+
+            return result;
+        }
+
+        public static string WebHookOutcomeToString(WebHookOutcomes? webHookOutcome) => webHookOutcome.HasValue
+            ? WebHookOutcomeToString(webHookOutcome.Value)
+            : null;
+
+        public static WebHookOutcomes StringToWebHookOutcome(string s)
+        {
+            var pair = s_stringByWebHookOutcomes.FirstOrDefault(kvp => kvp.Value.Equals(s, StringComparison.OrdinalIgnoreCase));
+            // ReSharper disable once SuspiciousTypeConversion.Global
+            if (EqualityComparer<KeyValuePair<WebHookOutcomes, string>>.Default.Equals(pair))
+            {
+                throw new ArgumentException($"Unknown web hook outcome: {s}");
+            }
+
+            return pair.Key;
         }
     }
 }

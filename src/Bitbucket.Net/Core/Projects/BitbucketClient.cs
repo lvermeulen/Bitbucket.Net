@@ -1312,5 +1312,121 @@ namespace Bitbucket.Net.Core
                 .GetJsonAsync<Tag>()
                 .ConfigureAwait(false);
         }
+
+        public async Task<IEnumerable<WebHook>> GetProjectRepositoryWebHooksAsync(string projectKey, string repositorySlug,
+            string @event = null,
+            bool statistics = false,
+            int? maxPages = null,
+            int? limit = null,
+            int? start = null)
+        {
+            var queryParamValues = new Dictionary<string, object>
+            {
+                ["limit"] = limit,
+                ["start"] = start,
+                ["event"] = @event,
+                ["statistics"] = BitbucketHelpers.BoolToString(statistics)
+            };
+
+            return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
+                    await GetProjectsReposUrl(projectKey, repositorySlug, "/webhooks")
+                        .SetQueryParams(qpv)
+                        .GetJsonAsync<PagedResults<WebHook>>()
+                        .ConfigureAwait(false))
+                .ConfigureAwait(false);
+        }
+
+        public async Task<WebHook> CreateProjectRepositoryWebHookAsync(string projectKey, string repositorySlug, WebHook webHook)
+        {
+            var response = await GetProjectsReposUrl(projectKey, repositorySlug, "/webhooks")
+                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
+                .PostJsonAsync(webHook)
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync<WebHook>(response).ConfigureAwait(false);
+        }
+
+        public async Task<WebHookTestRequestResponse> TestProjectRepositoryWebHookAsync(string projectKey, string repositorySlug, string url)
+        {
+            var response = await GetProjectsReposUrl(projectKey, repositorySlug, "/webhooks/test")
+                .SetQueryParam("url", url)
+                .PostJsonAsync(new StringContent(""))
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync<WebHookTestRequestResponse>(response).ConfigureAwait(false);
+        }
+
+        public async Task<WebHook> GetProjectRepositoryWebHookAsync(string projectKey, string repositorySlug,
+            string webHookId,
+            bool statistics = false)
+        {
+            var queryParamValues = new Dictionary<string, object>
+            {
+                ["statistics"] = BitbucketHelpers.BoolToString(statistics)
+            };
+
+            return await GetProjectsReposUrl(projectKey, repositorySlug, $"/webhooks/{webHookId}")
+                .SetQueryParams(queryParamValues)
+                .GetJsonAsync<WebHook>()
+                .ConfigureAwait(false);
+        }
+
+        public async Task<WebHook> UpdateProjectRepositoryWebHookAsync(string projectKey, string repositorySlug,
+            string webHookId, WebHook webHook)
+        {
+            var response = await GetProjectsReposUrl(projectKey, repositorySlug, $"/webhooks/{webHookId}")
+                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
+                .PutJsonAsync(webHook)
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync<WebHook>(response).ConfigureAwait(false);
+        }
+
+        public async Task<bool> DeleteProjectRepositoryWebHookAsync(string projectKey, string repositorySlug,
+            string webHookId)
+        {
+            var response = await GetProjectsReposUrl(projectKey, repositorySlug, $"/webhooks/{webHookId}")
+                .DeleteAsync()
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync(response).ConfigureAwait(false);
+        }
+
+        //public async Task<WebHookInvocation> GetProjectRepositoryWebHookLatestAsync(string projectKey, string repositorySlug,
+        public async Task<string> GetProjectRepositoryWebHookLatestAsync(string projectKey, string repositorySlug,
+            string webHookId,
+            string @event = null,
+            WebHookOutcomes? outcome = null)
+        {
+            var queryParamValues = new Dictionary<string, object>
+            {
+                ["event"] = @event,
+                ["outcome"] = BitbucketHelpers.WebHookOutcomeToString(outcome)
+            };
+
+            return await GetProjectsReposUrl(projectKey, repositorySlug, $"/webhooks/{webHookId}/latest")
+                .SetQueryParams(queryParamValues)
+                //.GetJsonAsync<WebHookInvocation>()
+                .GetStringAsync()
+                .ConfigureAwait(false);
+        }
+
+        public async Task<WebHookStatistics> GetProjectRepositoryWebHookStatisticsAsync(string projectKey, string repositorySlug,
+            string webHookId,
+            string @event = null)
+        {
+            return await GetProjectsReposUrl(projectKey, repositorySlug, $"/webhooks/{webHookId}/statistics")
+                .SetQueryParam("event", @event)
+                .GetJsonAsync<WebHookStatistics>()
+                .ConfigureAwait(false);
+        }
+
+        public async Task<Dictionary<string, WebHookStatisticsCounts>> GetProjectRepositoryWebHookStatisticsSummaryAsync(string projectKey, string repositorySlug,
+            string webHookId)
+        {
+            return await GetProjectsReposUrl(projectKey, repositorySlug, $"/webhooks/{webHookId}/statistics/summary")
+                .GetJsonAsync<Dictionary<string, WebHookStatisticsCounts>>()
+                .ConfigureAwait(false);
+        }
     }
 }

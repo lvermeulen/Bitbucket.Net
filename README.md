@@ -42,7 +42,7 @@ Client for Bitbucket
 		* [ ] Raw
 		* [X] Settings
 		* [X] Tags
-		* [ ] Webhooks
+		* [X] Webhooks
 	* [X] Settings
 * [X] Repos
 * [X] Tasks

@@ -207,5 +207,45 @@ namespace Bitbucket.Net.Core.Tests
             var result = await _client.GetProjectRepositoryTagAsync(projectKey, repositorySlug, "v1").ConfigureAwait(false);
             Assert.NotNull(result);
         }
+
+        [Theory]
+        [InlineData("Tools", "Test")]
+        public async Task GetProjectRepositoryWebHooksAsync(string projectKey, string repositorySlug)
+        {
+            var results = await _client.GetProjectRepositoryWebHooksAsync(projectKey, repositorySlug).ConfigureAwait(false);
+            Assert.NotNull(results);
+        }
+
+        [Theory]
+        [InlineData("Tools", "Test", "1")]
+        public async Task GetProjectRepositoryWebHookAsync(string projectKey, string repositorySlug, string webHookId)
+        {
+            var result = await _client.GetProjectRepositoryWebHookAsync(projectKey, repositorySlug, webHookId).ConfigureAwait(false);
+            Assert.NotNull(result);
+        }
+
+        [Theory]
+        [InlineData("Tools", "Test", "1")]
+        public async Task GetProjectRepositoryWebHookLatestAsync(string projectKey, string repositorySlug, string webHookId)
+        {
+            // ReSharper disable once UnusedVariable
+            var result = await _client.GetProjectRepositoryWebHookLatestAsync(projectKey, repositorySlug, webHookId, "pr:reviewer:unapproved").ConfigureAwait(false);
+        }
+
+        [Theory]
+        [InlineData("Tools", "Test", "1")]
+        public async Task GetProjectRepositoryWebHookStatisticsAsync(string projectKey, string repositorySlug, string webHookId)
+        {
+            var result = await _client.GetProjectRepositoryWebHookStatisticsAsync(projectKey, repositorySlug, webHookId).ConfigureAwait(false);
+            Assert.NotNull(result);
+        }
+
+        [Theory]
+        [InlineData("Tools", "Test", "1")]
+        public async Task GetProjectRepositoryWebHookStatisticsSummaryAsync(string projectKey, string repositorySlug, string webHookId)
+        {
+            var result = await _client.GetProjectRepositoryWebHookStatisticsSummaryAsync(projectKey, repositorySlug, webHookId).ConfigureAwait(false);
+            Assert.NotNull(result);
+        }
     }
 }
