@@ -35,7 +35,7 @@ Client for Bitbucket
 		* [X] Compare
 		* [X] Diff
 		* [X] Files
-		* [ ] Last Modified
+		* [X] Last Modified
 		* [X] Participants
 		* [X] Permissions
 		* [X] Pull Requests

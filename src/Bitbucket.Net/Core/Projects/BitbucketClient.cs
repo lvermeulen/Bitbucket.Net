@@ -932,6 +932,14 @@ namespace Bitbucket.Net.Core
                 .ConfigureAwait(false);
         }
 
+        public async Task<LastModified> GetProjectRepositoryLastModifiedAsync(string projectKey, string repositorySlug, string at)
+        {
+            return await GetProjectsReposUrl(projectKey, repositorySlug, "/last-modified")
+                .SetQueryParam("at", at)
+                .GetJsonAsync<LastModified>()
+                .ConfigureAwait(false);
+        }
+
         public async Task<IEnumerable<Identity>> GetRepositoryParticipantsAsync(string projectKey, string repositorySlug, 
             PullRequestDirections direction = PullRequestDirections.Incoming,
             string filter = null,

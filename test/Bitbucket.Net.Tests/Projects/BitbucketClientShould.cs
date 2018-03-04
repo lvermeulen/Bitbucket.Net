@@ -90,6 +90,14 @@ namespace Bitbucket.Net.Core.Tests
         }
 
         [Theory]
+        [InlineData("Tools", "Test")]
+        public async Task GetProjectRepositoryLastModifiedAsync(string projectKey, string repositorySlug)
+        {
+            var result = await _client.GetProjectRepositoryLastModifiedAsync(projectKey, repositorySlug, "4bbc14ed0090bba975323023af235e465c527312");
+            Assert.NotNull(result);
+        }
+
+        [Theory]
         [InlineData("Tools", "Test", PullRequestStates.All)]
         [InlineData("Tools", "Test", PullRequestStates.Merged)]
         public async Task GetPullRequestsAsync(string projectKey, string repositorySlug, PullRequestStates state)
