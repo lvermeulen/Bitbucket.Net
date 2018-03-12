@@ -1246,6 +1246,27 @@ namespace Bitbucket.Net.Core
                 .ConfigureAwait(false);
         }
 
+        public async Task<Stream> RetrieveRawContentAsync(string projectKey, string repositorySlug, string path,
+            string at = null,
+            bool markup = false,
+            bool hardWrap = true,
+            bool htmlEscape = true)
+        {
+            var queryParamValues = new Dictionary<string, object>
+            {
+                ["at"] = at,
+                ["markup"] = BitbucketHelpers.BoolToString(markup),
+                ["hardWrap"] = BitbucketHelpers.BoolToString(hardWrap),
+                ["htmlEscape"] = BitbucketHelpers.BoolToString(htmlEscape)
+            };
+
+            return await GetProjectsReposUrl(projectKey, repositorySlug)
+                .AppendPathSegment($"/raw/{path}")
+                .SetQueryParams(queryParamValues)
+                .GetStreamAsync()
+                .ConfigureAwait(false);
+        }
+
         public async Task<PullRequestSettings> GetProjectRepositoryPullRequestSettingsAsync(string projectKey, string repositorySlug)
         {
             return await GetProjectsReposUrl(projectKey, repositorySlug, "/settings/pull-requests")

@@ -23,10 +23,10 @@ Client for Bitbucket
 * [X] Logs
 * [X] Markup
 * [X] Profile
-* [ ] Projects
+* [X] Projects
 	* [X] Projects
 	* [X] Permissions
-	* [ ] Repos
+	* [X] Repos
 		* [X] Repos
 		* [X] Branches
 		* [X] Browse
@@ -38,8 +38,8 @@ Client for Bitbucket
 		* [X] Last Modified
 		* [X] Participants
 		* [X] Permissions
-		* [X] Pull Requests
-		* [ ] Raw
+		* [ ] Pull Requests
+		* [X] Raw
 		* [X] Settings
 		* [X] Tags
 		* [X] Webhooks
