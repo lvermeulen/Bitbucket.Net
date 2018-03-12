@@ -29,7 +29,7 @@ Client for Bitbucket
 	* [ ] Repos
 		* [X] Repos
 		* [X] Branches
-		* [ ] Browse
+		* [X] Browse
 		* [X] Changes
 		* [X] Commits
 		* [X] Compare

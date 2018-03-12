@@ -83,6 +83,22 @@ namespace Bitbucket.Net.Core.Tests
 
         [Theory]
         [InlineData("Tools", "Test")]
+        public async Task BrowseProjectRepositoryAsync(string projectKey, string repositorySlug)
+        {
+            var result = await _client.BrowseProjectRepositoryAsync(projectKey, repositorySlug, null).ConfigureAwait(false);
+            Assert.NotNull(result);
+        }
+
+        [Theory]
+        [InlineData("Tools", "Test", "hello.txt")]
+        public async Task BrowseProjectRepositoryPathAsync(string projectKey, string repositorySlug, string path)
+        {
+            var result = await _client.BrowseProjectRepositoryPathAsync(projectKey, repositorySlug, path, null).ConfigureAwait(false);
+            Assert.NotNull(result);
+        }
+
+        [Theory]
+        [InlineData("Tools", "Test")]
         public async Task GetRepositoryFilesAsync(string projectKey, string repositorySlug)
         {
             var results = await _client.GetRepositoryFilesAsync(projectKey, repositorySlug);

@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Bitbucket.Net.Common;
@@ -8,6 +10,7 @@ using Bitbucket.Net.Core.Models.Projects;
 using Bitbucket.Net.Core.Models.Users;
 using Flurl.Http;
 using Newtonsoft.Json;
+using NullValueHandling = Flurl.NullValueHandling;
 
 namespace Bitbucket.Net.Core
 {
@@ -614,6 +617,90 @@ namespace Bitbucket.Net.Core
                 .ConfigureAwait(false);
 
             return await HandleResponseAsync(response).ConfigureAwait(false);
+        }
+
+        public async Task<BrowseItem> BrowseProjectRepositoryAsync(string projectKey, string repositorySlug, string at, bool type = false,
+            bool blame = false,
+            bool noContent = false)
+        {
+            var queryParamValues = new Dictionary<string, object>
+            {
+                ["at"] = at,
+                ["type"] = BitbucketHelpers.BoolToString(type),
+            };
+            if (blame)
+            {
+                queryParamValues.Add("blame", null);
+            }
+            if (blame && noContent)
+            {
+                queryParamValues.Add("noContent", null);
+            }
+
+            return await GetProjectsReposUrl(projectKey, repositorySlug, "/browse")
+                .SetQueryParams(queryParamValues, NullValueHandling.NameOnly)
+                .GetJsonAsync<BrowseItem>()
+                .ConfigureAwait(false);
+        }
+
+        public async Task<BrowsePathItem> BrowseProjectRepositoryPathAsync(string projectKey, string repositorySlug, string path, string at, bool type = false,
+            bool blame = false,
+            bool noContent = false)
+        {
+            var queryParamValues = new Dictionary<string, object>
+            {
+                ["at"] = at,
+                ["type"] = BitbucketHelpers.BoolToString(type),
+            };
+            if (blame)
+            {
+                queryParamValues.Add("blame", null);
+            }
+            if (blame && noContent)
+            {
+                queryParamValues.Add("noContent", null);
+            }
+
+            return await GetProjectsReposUrl(projectKey, repositorySlug, $"/browse/{path}")
+                .SetQueryParams(queryParamValues, NullValueHandling.NameOnly)
+                .GetJsonAsync<BrowsePathItem>()
+                .ConfigureAwait(false);
+        }
+
+        public async Task<Commit> UpdateProjectRepositoryPathAsync(string projectKey, string repositorySlug, string path,
+            string fileName,
+            string branch,
+            string message = null,
+            string sourceCommitId = null,
+            string sourceBranch = null)
+        {
+            if (!File.Exists(fileName))
+            {
+                throw new ArgumentException($"File doesn't exist: {fileName}");
+            }
+
+            long fileSize = new FileInfo(path).Length;
+            var buffer = new byte[fileSize];
+            using (var stm = new FileStream(fileName, FileMode.OpenOrCreate, FileAccess.Read))
+            {
+                await stm.ReadAsync(buffer, 0, (int)fileSize);
+                var memoryStream = new MemoryStream(buffer);
+
+                var data = new DynamicMultipartFormDataContent
+                {
+                    { new StreamContent(memoryStream), "content" },
+                    { new StringContent(branch), "branch" },
+                    { message, new StringContent(message), "message" },
+                    { sourceCommitId, new StringContent(sourceCommitId), "sourceCommitId" },
+                    { sourceBranch, new StringContent(sourceBranch), "sourceBranch" }
+                };
+
+                var response = await GetProjectsReposUrl(projectKey, repositorySlug, $"/browse/{path}")
+                    .PutAsync(data.ToMultipartFormDataContent())
+                    .ConfigureAwait(false);
+
+                return await HandleResponseAsync<Commit>(response).ConfigureAwait(false);
+            }
         }
 
         public async Task<IEnumerable<Change>> GetChangesAsync(string projectKey, string repositorySlug, string until, string since = null,

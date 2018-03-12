@@ -75,13 +75,13 @@ namespace Bitbucket.Net.Core
 
             while (!isLastPage && (maxPages == null || numPages < maxPages))
             {
-                var bbresult = await selector(queryParamValues).ConfigureAwait(false);
-                results.AddRange(bbresult.Values);
+                var selectorResults = await selector(queryParamValues).ConfigureAwait(false);
+                results.AddRange(selectorResults.Values);
 
-                isLastPage = bbresult.IsLastPage;
+                isLastPage = selectorResults.IsLastPage;
                 if (!isLastPage)
                 {
-                    queryParamValues["start"] = bbresult.NextPageStart;
+                    queryParamValues["start"] = selectorResults.NextPageStart;
                 }
 
                 numPages++;
