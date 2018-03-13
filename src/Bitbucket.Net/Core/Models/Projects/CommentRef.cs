@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Bitbucket.Net.Common.Converters;
+using Bitbucket.Net.Core.Models.Tasks;
 using Bitbucket.Net.Core.Models.Users;
 using Newtonsoft.Json;
 
@@ -18,7 +19,7 @@ namespace Bitbucket.Net.Core.Models.Projects
         [JsonConverter(typeof(UnixDateTimeOffsetConverter))]
         public DateTimeOffset? UpdatedDate { get; set; }
         public List<CommentRef> Comments { get; set; }
-        public List<object> Tasks { get; set; }
+        public List<BitbucketTask> Tasks { get; set; }
         public Permittedoperations PermittedOperations { get; set; }
     }
 }

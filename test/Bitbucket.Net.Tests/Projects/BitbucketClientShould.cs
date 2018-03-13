@@ -177,6 +177,22 @@ namespace Bitbucket.Net.Core.Tests
         }
 
         [Theory]
+        [InlineData("Tools", "Test", 1)]
+        public async Task GetPullRequestCommentsAsync(string projectKey, string repositorySlug, long pullRequestId)
+        {
+            var results = await _client.GetPullRequestCommentsAsync(projectKey, repositorySlug, pullRequestId, "/").ConfigureAwait(false);
+            Assert.NotEmpty(results);
+        }
+
+        [Theory]
+        [InlineData("Tools", "Test", 1, 1)]
+        public async Task GetPullRequestCommentAsync(string projectKey, string repositorySlug, long pullRequestId, long commentId)
+        {
+            var result = await _client.GetPullRequestCommentAsync(projectKey, repositorySlug, pullRequestId, commentId).ConfigureAwait(false);
+            Assert.NotNull(result);
+        }
+
+        [Theory]
         [InlineData("Tools", "Test")]
         public async Task GetProjectRepositoryPullRequestSettingsAsync(string projectKey, string repositorySlug)
         {

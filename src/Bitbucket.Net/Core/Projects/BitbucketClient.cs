@@ -1246,6 +1246,43 @@ namespace Bitbucket.Net.Core
                 .ConfigureAwait(false);
         }
 
+        public async Task<IEnumerable<CommentRef>> GetPullRequestCommentsAsync(string projectKey, string repositorySlug, long pullRequestId,
+            string path,
+            AnchorStates anchorState = AnchorStates.Active,
+            DiffTypes diffType = DiffTypes.Effective,
+            string fromHash = null,
+            string toHash = null,
+            int? maxPages = null,
+            int? limit = null,
+            int? start = null)
+        {
+            var queryParamValues = new Dictionary<string, object>
+            {
+                ["limit"] = limit,
+                ["start"] = start,
+                ["path"] = path,
+                ["anchorState"] = BitbucketHelpers.AnchorStateToString(anchorState),
+                ["diffType"] = BitbucketHelpers.DiffTypeToString(diffType),
+                ["fromHash"] = fromHash,
+                ["toHash"] = toHash
+            };
+
+            return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
+                    await GetProjectsReposUrl(projectKey, repositorySlug, $"/pull-requests/{pullRequestId}/comments")
+                        .SetQueryParams(qpv)
+                        .GetJsonAsync<PagedResults<CommentRef>>()
+                        .ConfigureAwait(false))
+                .ConfigureAwait(false);
+        }
+
+        public async Task<CommentRef> GetPullRequestCommentAsync(string projectKey, string repositorySlug, long pullRequestId, long commentId)
+        {
+            return await GetProjectsReposUrl(projectKey, repositorySlug)
+                .AppendPathSegment($"/pull-requests/{pullRequestId}/comments/{commentId}")
+                .GetJsonAsync<CommentRef>()
+                .ConfigureAwait(false);
+        }
+
         public async Task<Stream> RetrieveRawContentAsync(string projectKey, string repositorySlug, string path,
             string at = null,
             bool markup = false,

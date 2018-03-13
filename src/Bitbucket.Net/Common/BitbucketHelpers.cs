@@ -134,6 +134,20 @@ namespace Bitbucket.Net.Common
             [WebHookOutcomes.Error] = "ERROR"
         };
 
+        private static readonly Dictionary<AnchorStates, string> s_stringByAnchorStates = new Dictionary<AnchorStates, string>
+        {
+            [AnchorStates.Active] = "ACTIVE",
+            [AnchorStates.Orphaned] = "ORPHANED",
+            [AnchorStates.All] = "ALL"
+        };
+
+        private static readonly Dictionary<DiffTypes, string> s_stringByDiffTypes = new Dictionary<DiffTypes, string>
+        {
+            [DiffTypes.Effective] = "EFFECTIVE",
+            [DiffTypes.Range] = "RANGE",
+            [DiffTypes.Commit] = "COMMIT"
+        };
+
         public static string BoolToString(bool value) => value
             ? "true"
             : "false";
@@ -444,6 +458,26 @@ namespace Bitbucket.Net.Common
             }
 
             return pair.Key;
+        }
+
+        public static string AnchorStateToString(AnchorStates anchorState)
+        {
+            if (!s_stringByAnchorStates.TryGetValue(anchorState, out string result))
+            {
+                throw new ArgumentException($"Unknown anchor state: {anchorState}");
+            }
+
+            return result;
+        }
+
+        public static string DiffTypeToString(DiffTypes diffType)
+        {
+            if (!s_stringByDiffTypes.TryGetValue(diffType, out string result))
+            {
+                throw new ArgumentException($"Unknown diff type: {diffType}");
+            }
+
+            return result;
         }
     }
 }
