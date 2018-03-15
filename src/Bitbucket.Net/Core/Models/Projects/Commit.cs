@@ -17,5 +17,7 @@ namespace Bitbucket.Net.Core.Models.Projects
         public DateTimeOffset CommitterTimestamp { get; set; }
         public string Message { get; set; }
         public List<CommitParent> Parents { get; set; }
+        public int AuthorCount { get; set; }
+        public int TotalCount { get; set; }
     }
 }

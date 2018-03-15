@@ -7,6 +7,7 @@ using Bitbucket.Net.Common;
 using Bitbucket.Net.Common.Models;
 using Bitbucket.Net.Core.Models.Admin;
 using Bitbucket.Net.Core.Models.Projects;
+using Bitbucket.Net.Core.Models.Tasks;
 using Bitbucket.Net.Core.Models.Users;
 using Flurl.Http;
 using Newtonsoft.Json;
@@ -1281,6 +1282,239 @@ namespace Bitbucket.Net.Core
                 .AppendPathSegment($"/pull-requests/{pullRequestId}/comments/{commentId}")
                 .GetJsonAsync<CommentRef>()
                 .ConfigureAwait(false);
+        }
+
+        public async Task<CommentRef> UpdatePullRequestCommentAsync(string projectKey, string repositorySlug, long pullRequestId, long commentId,
+            int version, string text)
+        {
+            var data = new
+            {
+                version,
+                text
+            };
+
+            var response = await GetProjectsReposUrl(projectKey, repositorySlug)
+                .AppendPathSegment($"/pull-requests/{pullRequestId}/comments/{commentId}")
+                .SetQueryParam("version", version)
+                .PutJsonAsync(data)
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync<CommentRef>(response).ConfigureAwait(false);
+        }
+
+        public async Task<bool> DeletePullRequestCommentAsync(string projectKey, string repositorySlug, long pullRequestId, long commentId,
+            int version = -1)
+        {
+            var response = await GetProjectsReposUrl(projectKey, repositorySlug)
+                .AppendPathSegment($"/pull-requests/{pullRequestId}/comments/{commentId}")
+                .SetQueryParam("version", version)
+                .DeleteAsync()
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync(response).ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<Commit>> GetPullRequestCommitsAsync(string projectKey, string repositorySlug, long pullRequestId,
+            bool withCounts = false,
+            int? maxPages = null,
+            int? limit = null,
+            int? start = null)
+        {
+            var queryParamValues = new Dictionary<string, object>
+            {
+                ["limit"] = limit,
+                ["start"] = start,
+                ["withCounts"] = BitbucketHelpers.BoolToString(withCounts)
+            };
+
+            return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
+                    await GetProjectsReposUrl(projectKey, repositorySlug, $"/pull-requests/{pullRequestId}/commits")
+                        .SetQueryParams(qpv)
+                        .GetJsonAsync<PagedResults<Commit>>()
+                        .ConfigureAwait(false))
+                .ConfigureAwait(false);
+        }
+
+        public async Task<Differences> GetPullRequestDiffAsync(string projectKey, string repositorySlug, long pullRequestId,
+            int contextLines = -1,
+            DiffTypes diffType = DiffTypes.Effective,
+            string sinceId = null,
+            string srcPath = null,
+            string untilId = null,
+            string whitespace = "ignore-all",
+            bool withComments = true)
+        {
+            var queryParamValues = new Dictionary<string, object>
+            {
+                ["contextLines"] = contextLines,
+                ["diffType"] = BitbucketHelpers.DiffTypeToString(diffType),
+                ["sinceId"] = sinceId,
+                ["srcPath"] = srcPath,
+                ["untilId"] = untilId,
+                ["whitespace"] = whitespace,
+                ["withComments"] = BitbucketHelpers.BoolToString(withComments)
+            };
+
+            return await GetProjectsReposUrl(projectKey, repositorySlug)
+                .AppendPathSegment($"/pull-requests/{pullRequestId}/diff")
+                .SetQueryParams(queryParamValues)
+                .GetJsonAsync<Differences>()
+                .ConfigureAwait(false);
+        }
+
+        public async Task<Differences> GetPullRequestDiffPathAsync(string projectKey, string repositorySlug, long pullRequestId,
+            string path,
+            int contextLines = -1,
+            DiffTypes diffType = DiffTypes.Effective,
+            string sinceId = null,
+            string srcPath = null,
+            string untilId = null,
+            string whitespace = "ignore-all",
+            bool withComments = true)
+        {
+            var queryParamValues = new Dictionary<string, object>
+            {
+                ["contextLines"] = contextLines,
+                ["diffType"] = BitbucketHelpers.DiffTypeToString(diffType),
+                ["sinceId"] = sinceId,
+                ["srcPath"] = srcPath,
+                ["untilId"] = untilId,
+                ["whitespace"] = whitespace,
+                ["withComments"] = BitbucketHelpers.BoolToString(withComments)
+            };
+
+            return await GetProjectsReposUrl(projectKey, repositorySlug)
+                .AppendPathSegment($"/pull-requests/{pullRequestId}/diff/{path}")
+                .SetQueryParams(queryParamValues)
+                .GetJsonAsync<Differences>()
+                .ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<Participant>> GetPullRequestParticipantsAsync(string projectKey, string repositorySlug, long pullRequestId,
+            int? maxPages = null,
+            int? limit = null,
+            int? start = null)
+        {
+            var queryParamValues = new Dictionary<string, object>
+            {
+                ["limit"] = limit,
+                ["start"] = start
+            };
+
+            return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
+                    await GetProjectsReposUrl(projectKey, repositorySlug)
+                        .AppendPathSegment($"/pull-requests/{pullRequestId}/participants")
+                        .SetQueryParams(qpv)
+                        .GetJsonAsync<PagedResults<Participant>>()
+                        .ConfigureAwait(false))
+                .ConfigureAwait(false);
+        }
+
+        public async Task<Participant> AssignUserRoleToPullRequestAsync(string projectKey, string repositorySlug, long pullRequestId,
+            Named named,
+            Roles role)
+        {
+            var data = new
+            {
+                user = named,
+                role = BitbucketHelpers.RoleToString(role)
+            };
+
+            var response = await GetProjectsReposUrl(projectKey, repositorySlug)
+                .AppendPathSegment($"/pull-requests/{pullRequestId}/participants")
+                .PostJsonAsync(data)
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync<Participant>(response).ConfigureAwait(false);
+        }
+
+        public async Task<bool> DeletePullRequestParticipantAsync(string projectKey, string repositorySlug, long pullRequestId, string userName)
+        {
+            var response = await GetProjectsReposUrl(projectKey, repositorySlug)
+                .AppendPathSegment($"/pull-requests/{pullRequestId}/participants")
+                .SetQueryParam("username", userName)
+                .DeleteAsync()
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync(response).ConfigureAwait(false);
+        }
+
+        public async Task<Participant> UpdatePullRequestParticipantStatus(string projectKey, string repositorySlug, long pullRequestId,
+            string userSlug,
+            Named named,
+            bool approved,
+            ParticipantStatus participantStatus)
+        {
+            var data = new
+            {
+                user = named,
+                approved = BitbucketHelpers.BoolToString(approved),
+                status = BitbucketHelpers.ParticipantStatusToString(participantStatus)
+            };
+
+            var response = await GetProjectsReposUrl(projectKey, repositorySlug)
+                .AppendPathSegment($"/pull-requests/{pullRequestId}/participants/{userSlug}")
+                .PutJsonAsync(data)
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync<Participant>(response).ConfigureAwait(false);
+        }
+
+        public async Task<bool> UnassignUserFromPullRequestAsync(string projectKey, string repositorySlug, long pullRequestId, string userSlug)
+        {
+            var response = await GetProjectsReposUrl(projectKey, repositorySlug)
+                .AppendPathSegment($"/pull-requests/{pullRequestId}/participants/{userSlug}")
+                .DeleteAsync()
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync(response).ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<BitbucketTask>> GetPullRequestTasksAsync(string projectKey, string repositorySlug, long pullRequestId,
+            int? maxPages = null,
+            int? limit = null,
+            int? start = null)
+        {
+            var queryParamValues = new Dictionary<string, object>
+            {
+                ["limit"] = limit,
+                ["start"] = start
+            };
+
+            return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
+                    await GetProjectsReposUrl(projectKey, repositorySlug, $"/pull-requests/{pullRequestId}/tasks")
+                        .SetQueryParams(qpv)
+                        .GetJsonAsync<PagedResults<BitbucketTask>>()
+                        .ConfigureAwait(false))
+                .ConfigureAwait(false);
+        }
+
+        public async Task<BitbucketTaskCount> GetPullRequestTaskCountAsync(string projectKey, string repositorySlug, long pullRequestId)
+        {
+            return await GetProjectsReposUrl(projectKey, repositorySlug)
+                .AppendPathSegment($"/pull-requests/{pullRequestId}/tasks/count")
+                .GetJsonAsync<BitbucketTaskCount>()
+                .ConfigureAwait(false);
+        }
+
+        public async Task<bool> WatchPullRequestAsync(string projectKey, string repositorySlug, long pullRequestId)
+        {
+            var response = await GetProjectsReposUrl(projectKey, repositorySlug)
+                .AppendPathSegment($"/pull-requests/{pullRequestId}/watch")
+                .PostAsync(new StringContent(""))
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync(response).ConfigureAwait(false);
+        }
+
+        public async Task<bool> UnwatchPullRequestAsync(string projectKey, string repositorySlug, long pullRequestId)
+        {
+            var response = await GetProjectsReposUrl(projectKey, repositorySlug)
+                .AppendPathSegment($"/pull-requests/{pullRequestId}/watch")
+                .DeleteAsync()
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync(response).ConfigureAwait(false);
         }
 
         public async Task<Stream> RetrieveRawContentAsync(string projectKey, string repositorySlug, string path,

@@ -380,6 +380,18 @@ namespace Bitbucket.Net.Common
             return result;
         }
 
+        public static ParticipantStatus StringToParticipantStatus(string s)
+        {
+            var pair = s_stringByParticipantStatus.FirstOrDefault(kvp => kvp.Value.Equals(s, StringComparison.OrdinalIgnoreCase));
+            // ReSharper disable once SuspiciousTypeConversion.Global
+            if (EqualityComparer<KeyValuePair<ParticipantStatus, string>>.Default.Equals(pair))
+            {
+                throw new ArgumentException($"Unknown participant status: {s}");
+            }
+
+            return pair.Key;
+        }
+
         public static string HookTypeToString(HookTypes hookType)
         {
             if (!s_stringByHookTypes.TryGetValue(hookType, out string result))

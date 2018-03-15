@@ -193,6 +193,54 @@ namespace Bitbucket.Net.Core.Tests
         }
 
         [Theory]
+        [InlineData("Tools", "Test", 1)]
+        public async Task GetPullRequestCommitsAsync(string projectKey, string repositorySlug, long pullRequestId)
+        {
+            var results = await _client.GetPullRequestCommitsAsync(projectKey, repositorySlug, pullRequestId).ConfigureAwait(false);
+            Assert.NotEmpty(results);
+        }
+
+        [Theory]
+        [InlineData("Tools", "Test", 1)]
+        public async Task GetPullRequestDiffAsync(string projectKey, string repositorySlug, long pullRequestId)
+        {
+            var result = await _client.GetPullRequestDiffAsync(projectKey, repositorySlug, pullRequestId).ConfigureAwait(false);
+            Assert.NotNull(result);
+        }
+
+        [Theory]
+        [InlineData("Tools", "Test", 1)]
+        public async Task GetPullRequestDiffPathAsync(string projectKey, string repositorySlug, long pullRequestId)
+        {
+            var result = await _client.GetPullRequestDiffPathAsync(projectKey, repositorySlug, pullRequestId, "hello.txt").ConfigureAwait(false);
+            Assert.NotNull(result);
+        }
+
+        [Theory]
+        [InlineData("Tools", "Test", 1)]
+        public async Task GetPullRequestParticipantsAsync(string projectKey, string repositorySlug, long pullRequestId)
+        {
+            var results = await _client.GetPullRequestParticipantsAsync(projectKey, repositorySlug, pullRequestId).ConfigureAwait(false);
+            Assert.NotEmpty(results);
+        }
+
+        [Theory]
+        [InlineData("Tools", "Test", 1)]
+        public async Task GetPullRequestTasksAsync(string projectKey, string repositorySlug, long pullRequestId)
+        {
+            var results = await _client.GetPullRequestTasksAsync(projectKey, repositorySlug, pullRequestId).ConfigureAwait(false);
+            Assert.NotEmpty(results);
+        }
+
+        [Theory]
+        [InlineData("Tools", "Test", 1)]
+        public async Task GetPullRequestTaskCountAsync(string projectKey, string repositorySlug, long pullRequestId)
+        {
+            var result = await _client.GetPullRequestTaskCountAsync(projectKey, repositorySlug, pullRequestId).ConfigureAwait(false);
+            Assert.NotNull(result);
+        }
+
+        [Theory]
         [InlineData("Tools", "Test")]
         public async Task GetProjectRepositoryPullRequestSettingsAsync(string projectKey, string repositorySlug)
         {
