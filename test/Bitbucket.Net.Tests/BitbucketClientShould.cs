@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using Microsoft.Extensions.Configuration;
 
-namespace Bitbucket.Net.Core.Tests
+namespace Bitbucket.Net.Tests
 {
     public partial class BitbucketClientShould
     {

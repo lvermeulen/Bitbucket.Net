@@ -5,7 +5,7 @@ using Bitbucket.Net.Common;
 using Flurl.Http;
 using Newtonsoft.Json;
 
-namespace Bitbucket.Net.Core
+namespace Bitbucket.Net
 {
     public partial class BitbucketClient
     {

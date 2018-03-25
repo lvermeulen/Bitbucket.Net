@@ -2,10 +2,10 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Bitbucket.Net.Common.Models;
-using Bitbucket.Net.Core.Models.Users;
+using Bitbucket.Net.Models.Users;
 using Flurl.Http;
 
-namespace Bitbucket.Net.Core
+namespace Bitbucket.Net
 {
     public partial class BitbucketClient
     {

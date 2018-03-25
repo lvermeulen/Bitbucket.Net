@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Flurl.Http;
 
-namespace Bitbucket.Net.Core
+namespace Bitbucket.Net
 {
     public partial class BitbucketClient
     {

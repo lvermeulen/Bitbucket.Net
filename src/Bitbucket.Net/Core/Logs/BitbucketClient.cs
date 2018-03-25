@@ -1,11 +1,11 @@
 ﻿using System.Net.Http;
 using System.Threading.Tasks;
 using Bitbucket.Net.Common;
-using Bitbucket.Net.Core.Models.Logs;
+using Bitbucket.Net.Models.Logs;
 using Flurl.Http;
 using Newtonsoft.Json;
 
-namespace Bitbucket.Net.Core
+namespace Bitbucket.Net
 {
     public partial class BitbucketClient
     {

@@ -5,15 +5,15 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Bitbucket.Net.Common;
 using Bitbucket.Net.Common.Models;
-using Bitbucket.Net.Core.Models.Admin;
-using Bitbucket.Net.Core.Models.Projects;
-using Bitbucket.Net.Core.Models.Tasks;
-using Bitbucket.Net.Core.Models.Users;
+using Bitbucket.Net.Models.Admin;
+using Bitbucket.Net.Models.Projects;
+using Bitbucket.Net.Models.Tasks;
+using Bitbucket.Net.Models.Users;
 using Flurl.Http;
 using Newtonsoft.Json;
 using NullValueHandling = Flurl.NullValueHandling;
 
-namespace Bitbucket.Net.Core
+namespace Bitbucket.Net
 {
     public partial class BitbucketClient
     {

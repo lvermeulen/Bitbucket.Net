@@ -1,7 +1,7 @@
 ﻿using Bitbucket.Net.Common;
 using Xunit;
 
-namespace Bitbucket.Net.Core.Tests.Common
+namespace Bitbucket.Net.Tests.Common
 {
     public class DynamicDictionaryShould
     {
