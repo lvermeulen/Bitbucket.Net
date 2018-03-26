@@ -10,6 +10,9 @@ Client for Bitbucket
 * [X] Audit
 	* [X] Project Events
 	* [X] Repository Events
+* [ ] Branches
+* [ ] Builds
+* [ ] Comment Likes
 * [X] Core
 	* [X] Admin
 		* [X] Groups
@@ -51,3 +54,10 @@ Client for Bitbucket
 	* [X] Repos
 	* [X] Tasks
 	* [X] Users
+* [ ] Default Reviewers
+* [ ] Git
+* [ ] JIRA
+* [ ] Personal Access Tokens
+* [ ] Ref Restriction
+* [ ] Repository Ref Synchronization
+* [ ] SSH
