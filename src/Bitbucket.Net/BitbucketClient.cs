@@ -27,8 +27,8 @@ namespace Bitbucket.Net
             _password = password;
         }
 
-        private IFlurlRequest GetBaseUrl() => new Url(_url)
-            .AppendPathSegment("/rest/api/1.0")
+        private IFlurlRequest GetBaseUrl(string root = "api") => new Url(_url)
+            .AppendPathSegment($"/rest/{root}/1.0")
             .WithBasicAuth(_userName, _password);
 
         private async Task<TResult> ReadResponseContentAsync<TResult>(HttpResponseMessage responseMessage, Func<string, TResult> contentHandler = null)

@@ -7,45 +7,47 @@
 Client for Bitbucket
 
 ## Features
-* [X] Admin
-	* [X] Groups
-	* [X] Users
-	* [X] Cluster
-	* [X] License
-	* [X] Mail Server
-	* [X] Permissions
-	* [X] Pull Requests
-* [X] Application Properties
-* [X] Dashboard
-* [X] Groups
-* [X] Hooks
-* [X] Inbox
-* [X] Logs
-* [X] Markup
-* [X] Profile
-* [X] Projects
-	* [X] Projects
-	* [X] Permissions
-	* [X] Repos
-		* [X] Repos
-		* [X] Branches
-		* [X] Browse
-		* [X] Changes
-		* [X] Commits
-		* [X] Compare
-		* [X] Diff
-		* [X] Files
-		* [X] Last Modified
-		* [X] Participants
+* [X] Audit
+	* [X] Project Events
+	* [X] Repository Events
+* [X] Core
+	* [X] Admin
+		* [X] Groups
+		* [X] Users
+		* [X] Cluster
+		* [X] License
+		* [X] Mail Server
 		* [X] Permissions
 		* [X] Pull Requests
-		* [X] Raw
+	* [X] Application Properties
+	* [X] Dashboard
+	* [X] Groups
+	* [X] Hooks
+	* [X] Inbox
+	* [X] Logs
+	* [X] Markup
+	* [X] Profile
+	* [X] Projects
+		* [X] Projects
+		* [X] Permissions
+		* [X] Repos
+			* [X] Repos
+			* [X] Branches
+			* [X] Browse
+			* [X] Changes
+			* [X] Commits
+			* [X] Compare
+			* [X] Diff
+			* [X] Files
+			* [X] Last Modified
+			* [X] Participants
+			* [X] Permissions
+			* [X] Pull Requests
+			* [X] Raw
+			* [X] Settings
+			* [X] Tags
+			* [X] Webhooks
 		* [X] Settings
-		* [X] Tags
-		* [X] Webhooks
-	* [X] Settings
-* [X] Repos
-* [X] Tasks
-* [X] Users
-
-
+	* [X] Repos
+	* [X] Tasks
+	* [X] Users
