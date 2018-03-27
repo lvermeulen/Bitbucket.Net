@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Bitbucket.Net.Common.Converters;
-using Bitbucket.Net.Models.Projects;
+using Bitbucket.Net.Models.Core.Projects;
 using Newtonsoft.Json;
 
-namespace Bitbucket.Net.Models.Tasks
+namespace Bitbucket.Net.Models.Core.Tasks
 {
     public class TaskAnchor : TaskRef
     {

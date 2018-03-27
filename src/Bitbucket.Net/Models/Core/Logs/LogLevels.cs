@@ -1,4 +1,4 @@
-﻿namespace Bitbucket.Net.Models.Logs
+﻿namespace Bitbucket.Net.Models.Core.Logs
 {
     public enum LogLevels
     {

@@ -1,4 +1,4 @@
-﻿using Bitbucket.Net.Models.Admin;
+﻿using Bitbucket.Net.Models.Core.Admin;
 
 namespace Bitbucket.Net.Common.Converters
 {

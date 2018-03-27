@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Bitbucket.Net.Models.Admin;
-using Bitbucket.Net.Models.Logs;
-using Bitbucket.Net.Models.Projects;
+using Bitbucket.Net.Models.Core.Admin;
+using Bitbucket.Net.Models.Core.Logs;
+using Bitbucket.Net.Models.Core.Projects;
 
 namespace Bitbucket.Net.Common
 {

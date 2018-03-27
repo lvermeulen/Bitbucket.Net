@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Bitbucket.Net.Models.Admin
+namespace Bitbucket.Net.Models.Core.Admin
 {
     public class GroupUsers
     {

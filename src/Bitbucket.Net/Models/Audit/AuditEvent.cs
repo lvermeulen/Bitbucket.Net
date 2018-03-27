@@ -1,4 +1,4 @@
-﻿using Bitbucket.Net.Models.Users;
+﻿using Bitbucket.Net.Models.Core.Users;
 
 namespace Bitbucket.Net.Models.Audit
 {

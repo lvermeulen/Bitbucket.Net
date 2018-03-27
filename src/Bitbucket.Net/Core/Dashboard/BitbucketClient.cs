@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Bitbucket.Net.Common;
 using Bitbucket.Net.Common.Models;
-using Bitbucket.Net.Models.Projects;
+using Bitbucket.Net.Models.Core.Projects;
 using Flurl.Http;
 
 namespace Bitbucket.Net

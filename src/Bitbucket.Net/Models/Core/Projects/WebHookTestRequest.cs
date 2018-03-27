@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Bitbucket.Net.Models.Projects
+namespace Bitbucket.Net.Models.Core.Projects
 {
     public class WebHookTestRequest : WebHookRequest
     {

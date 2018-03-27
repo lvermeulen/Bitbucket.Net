@@ -1,4 +1,4 @@
-﻿namespace Bitbucket.Net.Models.Users
+﻿namespace Bitbucket.Net.Models.Core.Users
 {
     public class User : Identity
     {

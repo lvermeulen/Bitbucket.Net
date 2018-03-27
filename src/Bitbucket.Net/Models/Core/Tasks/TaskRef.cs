@@ -1,10 +1,10 @@
 ﻿using System;
 using Bitbucket.Net.Common.Converters;
-using Bitbucket.Net.Models.Projects;
-using Bitbucket.Net.Models.Users;
+using Bitbucket.Net.Models.Core.Projects;
+using Bitbucket.Net.Models.Core.Users;
 using Newtonsoft.Json;
 
-namespace Bitbucket.Net.Models.Tasks
+namespace Bitbucket.Net.Models.Core.Tasks
 {
     public abstract class TaskRef
     {

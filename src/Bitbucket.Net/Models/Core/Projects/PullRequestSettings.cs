@@ -1,7 +1,7 @@
-﻿using Bitbucket.Net.Models.Admin;
+﻿using Bitbucket.Net.Models.Core.Admin;
 using Newtonsoft.Json;
 
-namespace Bitbucket.Net.Models.Projects
+namespace Bitbucket.Net.Models.Core.Projects
 {
     public class PullRequestSettings
     {

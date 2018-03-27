@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Bitbucket.Net.Models.Projects
+namespace Bitbucket.Net.Models.Core.Projects
 {
     public class BranchMetaData
     {

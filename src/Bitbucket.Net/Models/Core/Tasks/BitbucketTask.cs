@@ -1,4 +1,4 @@
-﻿namespace Bitbucket.Net.Models.Tasks
+﻿namespace Bitbucket.Net.Models.Core.Tasks
 {
     public class BitbucketTask : TaskRef
     {

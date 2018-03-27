@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Bitbucket.Net.Models.Tasks;
+using Bitbucket.Net.Models.Core.Tasks;
 using Flurl.Http;
 
 namespace Bitbucket.Net

@@ -1,8 +1,7 @@
 ﻿namespace Bitbucket.Net.Models.Core.Projects
 {
-    public class CommitParent
+    public class WithId
     {
         public string Id { get; set; }
-        public string DisplayId { get; set; }
     }
 }

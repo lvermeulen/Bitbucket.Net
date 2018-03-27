@@ -1,6 +1,6 @@
 ﻿using Bitbucket.Net.Common.Models;
 
-namespace Bitbucket.Net.Models.Projects
+namespace Bitbucket.Net.Models.Core.Projects
 {
     public class BrowseItem
     {

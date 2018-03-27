@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Bitbucket.Net.Models.Admin;
+using Bitbucket.Net.Models.Core.Admin;
 using Xunit;
 
 namespace Bitbucket.Net.Tests

@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Bitbucket.Net.Models.Logs;
+using Bitbucket.Net.Models.Core.Logs;
 using Xunit;
 
 namespace Bitbucket.Net.Tests

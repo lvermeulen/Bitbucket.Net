@@ -1,8 +1,8 @@
 ﻿using Bitbucket.Net.Common.Converters;
-using Bitbucket.Net.Models.Users;
+using Bitbucket.Net.Models.Core.Users;
 using Newtonsoft.Json;
 
-namespace Bitbucket.Net.Models.Admin
+namespace Bitbucket.Net.Models.Core.Admin
 {
     public class GroupPermission
     {

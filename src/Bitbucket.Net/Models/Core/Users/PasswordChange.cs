@@ -1,6 +1,6 @@
-﻿using Bitbucket.Net.Models.Admin;
+﻿using Bitbucket.Net.Models.Core.Admin;
 
-namespace Bitbucket.Net.Models.Users
+namespace Bitbucket.Net.Models.Core.Users
 {
     public class PasswordChange : PasswordBasic
     {

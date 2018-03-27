@@ -2,7 +2,7 @@
 using Bitbucket.Net.Common.Converters;
 using Newtonsoft.Json;
 
-namespace Bitbucket.Net.Models.Admin
+namespace Bitbucket.Net.Models.Core.Admin
 {
     public class LicenseDetails : LicenseInfo
     {

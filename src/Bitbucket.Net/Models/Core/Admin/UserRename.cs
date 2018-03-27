@@ -1,4 +1,4 @@
-﻿namespace Bitbucket.Net.Models.Admin
+﻿namespace Bitbucket.Net.Models.Core.Admin
 {
     public class UserRename
     {

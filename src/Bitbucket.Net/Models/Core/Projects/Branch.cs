@@ -1,13 +1,11 @@
 ﻿using Newtonsoft.Json;
 
-namespace Bitbucket.Net.Models.Projects
+namespace Bitbucket.Net.Models.Core.Projects
 {
-    public class Branch : BranchRef
+    public class Branch : BranchBase
     {
         private BranchMetaData _branchMetadata;
 
-        public string DisplayId { get; set; }
-        public string Type { get; set; }
         public string LatestCommit { get; set; }
         public string LatestChangeset { get; set; }
         public bool IsDefault { get; set; }

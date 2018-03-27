@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Bitbucket.Net.Models.Admin;
-using Bitbucket.Net.Models.Projects;
+using Bitbucket.Net.Models.Core.Admin;
+using Bitbucket.Net.Models.Core.Projects;
 using Xunit;
 
 namespace Bitbucket.Net.Tests
