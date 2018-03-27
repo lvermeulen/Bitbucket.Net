@@ -10,9 +10,19 @@ Client for Bitbucket
 * [X] Audit
 	* [X] Project Events
 	* [X] Repository Events
-* [ ] Branches
+* [X] Branches
+	* [X] Create Branch
+	* [X] Delete Branch
+	* [X] Branch Info
+	* [X] Branch Model
 * [ ] Builds
+	* [ ] Commits Build
+	* [ ] Commit Builds
+	* [ ] Commit Build Status
+	* [ ] Associate Build Status
 * [ ] Comment Likes
+	* [ ] Commit Comment Likes
+	* [ ] Pull Request Comment Likes
 * [X] Core
 	* [X] Admin
 		* [X] Groups
@@ -55,9 +65,16 @@ Client for Bitbucket
 	* [X] Tasks
 	* [X] Users
 * [ ] Default Reviewers
+	* [ ] Project Default Reviewers
+	* [ ] Repository Default Reviewers
 * [ ] Git
 * [ ] JIRA
+	* [ ] Create JIRA Issue
+	* [ ] Get Commits For JIRA Issues
+	* [ ] Get JIRA Issues For Commits
 * [ ] Personal Access Tokens
-* [ ] Ref Restriction
+* [ ] Ref Restrictions
+	* [ ] Project Restrictions
+	* [ ] Repository Restrictions
 * [ ] Repository Ref Synchronization
 * [ ] SSH
