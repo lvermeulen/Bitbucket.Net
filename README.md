@@ -16,13 +16,13 @@ Client for Bitbucket
 	* [X] Branch Info
 	* [X] Branch Model
 * [X] Builds
-	* [X] Commits Build
-	* [X] Commit Builds
+	* [X] Commits Build Stats
+	* [X] Commit Build Stats
 	* [X] Commit Build Status
 	* [X] Associate Build Status
-* [ ] Comment Likes
-	* [ ] Commit Comment Likes
-	* [ ] Pull Request Comment Likes
+* [X] Comment Likes
+	* [X] Repository Comment Likes
+	* [X] Pull Request Comment Likes
 * [X] Core
 	* [X] Admin
 		* [X] Groups
