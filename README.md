@@ -15,11 +15,11 @@ Client for Bitbucket
 	* [X] Delete Branch
 	* [X] Branch Info
 	* [X] Branch Model
-* [ ] Builds
-	* [ ] Commits Build
-	* [ ] Commit Builds
-	* [ ] Commit Build Status
-	* [ ] Associate Build Status
+* [X] Builds
+	* [X] Commits Build
+	* [X] Commit Builds
+	* [X] Commit Build Status
+	* [X] Associate Build Status
 * [ ] Comment Likes
 	* [ ] Commit Comment Likes
 	* [ ] Pull Request Comment Likes
