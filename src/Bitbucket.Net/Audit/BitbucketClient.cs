@@ -8,7 +8,7 @@ namespace Bitbucket.Net
 {
     public partial class BitbucketClient
     {
-        private IFlurlRequest GetAuditUrl() => GetBaseUrl("audit");
+        private IFlurlRequest GetAuditUrl() => GetBaseUrl("/audit");
 
         private IFlurlRequest GetAuditUrl(string path) => GetAuditUrl()
             .AppendPathSegment(path);

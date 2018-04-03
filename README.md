@@ -64,9 +64,9 @@ Client for Bitbucket
 	* [X] Repos
 	* [X] Tasks
 	* [X] Users
-* [ ] Default Reviewers
-	* [ ] Project Default Reviewers
-	* [ ] Repository Default Reviewers
+* [X] Default Reviewers
+	* [X] Project Default Reviewers
+	* [X] Repository Default Reviewers
 * [ ] Git
 * [ ] JIRA
 	* [ ] Create JIRA Issue

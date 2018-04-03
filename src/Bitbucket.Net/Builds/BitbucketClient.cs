@@ -9,7 +9,7 @@ namespace Bitbucket.Net
 {
     public partial class BitbucketClient
     {
-        private IFlurlRequest GetBuildsUrl() => GetBaseUrl("build-status");
+        private IFlurlRequest GetBuildsUrl() => GetBaseUrl("/build-status");
 
         private IFlurlRequest GetBuildsUrl(string path) => GetBuildsUrl()
             .AppendPathSegment(path);

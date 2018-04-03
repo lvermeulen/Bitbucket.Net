@@ -9,7 +9,7 @@ namespace Bitbucket.Net
 {
     public partial class BitbucketClient
     {
-        private IFlurlRequest GetCommentLikesUrl() => GetBaseUrl("comment-likes");
+        private IFlurlRequest GetCommentLikesUrl() => GetBaseUrl("/comment-likes");
 
         private IFlurlRequest GetCommentLikesUrl(string path) => GetCommentLikesUrl()
             .AppendPathSegment(path);

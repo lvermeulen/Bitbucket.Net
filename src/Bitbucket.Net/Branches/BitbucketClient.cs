@@ -12,7 +12,7 @@ namespace Bitbucket.Net
 {
     public partial class BitbucketClient
     {
-        private IFlurlRequest GetBranchUrl() => GetBaseUrl("branch-utils");
+        private IFlurlRequest GetBranchUrl() => GetBaseUrl("/branch-utils");
 
         private IFlurlRequest GetBranchUrl(string path) => GetBranchUrl()
             .AppendPathSegment(path);
