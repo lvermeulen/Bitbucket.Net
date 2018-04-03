@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Bitbucket.Net.Common.Models;
 using Bitbucket.Net.Models.Builds;
@@ -35,11 +34,19 @@ namespace Bitbucket.Net
                 .ConfigureAwait(false);
         }
 
-        public async Task<JiraIssue> CreateJiraIssueAsync(string pullRequestCommentId, string applicationId)
+        public async Task<JiraIssue> CreateJiraIssueAsync(string pullRequestCommentId, string applicationId, string title, string type)
         {
+            var data = new
+            {
+                id = "https://docs.atlassian.com/jira/REST/schema/string#",
+                title,
+                type
+            };
+
             var response = await GetJiraUrl($"/comments/{pullRequestCommentId}/issues")
+                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .SetQueryParam("applicationId", applicationId)
-                .PostAsync(new StringContent(""))
+                .PostJsonAsync(data)
                 .ConfigureAwait(false);
 
             return await HandleResponseAsync<JiraIssue>(response).ConfigureAwait(false);
