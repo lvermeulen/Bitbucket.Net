@@ -67,7 +67,7 @@ Client for Bitbucket
 * [X] Default Reviewers
 	* [X] Project Default Reviewers
 	* [X] Repository Default Reviewers
-* [ ] Git
+* [X] Git
 * [ ] JIRA
 	* [ ] Create JIRA Issue
 	* [ ] Get Commits For JIRA Issues

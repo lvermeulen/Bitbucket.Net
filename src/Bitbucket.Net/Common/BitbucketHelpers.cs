@@ -4,6 +4,7 @@ using System.Linq;
 using Bitbucket.Net.Models.Core.Admin;
 using Bitbucket.Net.Models.Core.Logs;
 using Bitbucket.Net.Models.Core.Projects;
+using Bitbucket.Net.Models.Git;
 
 namespace Bitbucket.Net.Common
 {
@@ -146,6 +147,12 @@ namespace Bitbucket.Net.Common
             [DiffTypes.Effective] = "EFFECTIVE",
             [DiffTypes.Range] = "RANGE",
             [DiffTypes.Commit] = "COMMIT"
+        };
+
+        private static readonly Dictionary<TagTypes, string> s_stringByTagTypes = new Dictionary<TagTypes, string>
+        {
+            [TagTypes.LightWeight] = "LIGHTWEIGHT",
+            [TagTypes.Annotated] = "ANNOTATED"
         };
 
         public static string BoolToString(bool value) => value
@@ -487,6 +494,16 @@ namespace Bitbucket.Net.Common
             if (!s_stringByDiffTypes.TryGetValue(diffType, out string result))
             {
                 throw new ArgumentException($"Unknown diff type: {diffType}");
+            }
+
+            return result;
+        }
+
+        public static string TagTypeToString(TagTypes tagType)
+        {
+            if (!s_stringByTagTypes.TryGetValue(tagType, out string result))
+            {
+                throw new ArgumentException($"Unknown tag type: {tagType}");
             }
 
             return result;
