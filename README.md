@@ -68,10 +68,10 @@ Client for Bitbucket
 	* [X] Project Default Reviewers
 	* [X] Repository Default Reviewers
 * [X] Git
-* [ ] JIRA
-	* [ ] Create JIRA Issue
-	* [ ] Get Commits For JIRA Issues
-	* [ ] Get JIRA Issues For Commits
+* [X] JIRA
+	* [X] Create JIRA Issue
+	* [X] Get Commits For JIRA Issue
+	* [X] Get JIRA Issues For Commits
 * [ ] Personal Access Tokens
 * [ ] Ref Restrictions
 	* [ ] Project Restrictions

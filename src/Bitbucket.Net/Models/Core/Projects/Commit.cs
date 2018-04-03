@@ -5,10 +5,8 @@ using Newtonsoft.Json;
 
 namespace Bitbucket.Net.Models.Core.Projects
 {
-    public class Commit
+    public class Commit : CommitParent
     {
-        public string Id { get; set; }
-        public string DisplayId { get; set; }
         public Author Author { get; set; }
         [JsonConverter(typeof(UnixDateTimeOffsetConverter))]
         public DateTimeOffset AuthorTimestamp { get; set; }
