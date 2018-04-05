@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Bitbucket.Net.Common.Converters
 {
@@ -18,6 +21,15 @@ namespace Bitbucket.Net.Common.Converters
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
+            if (reader.TokenType == JsonToken.StartArray)
+            {
+                var items = new List<TEnum>();
+                var array = JArray.Load(reader);
+                items.AddRange(array.Select(x => ConvertFromString(x.ToString())));
+
+                return items;
+            }
+
             string s = (string)reader.Value;
             return ConvertFromString(s);
         }
