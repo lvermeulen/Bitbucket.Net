@@ -6,6 +6,7 @@ using Bitbucket.Net.Models.Core.Logs;
 using Bitbucket.Net.Models.Core.Projects;
 using Bitbucket.Net.Models.Git;
 using Bitbucket.Net.Models.RefRestrictions;
+using Bitbucket.Net.Models.RefSync;
 
 namespace Bitbucket.Net.Common
 {
@@ -170,6 +171,12 @@ namespace Bitbucket.Net.Common
             [RefMatcherTypes.Pattern] = "PATTERN",
             [RefMatcherTypes.ModelCategory] = "MODEL_CATEGORY",
             [RefMatcherTypes.ModelBranch] = "MODEL_BRANCH"
+        };
+
+        private static readonly Dictionary<SynchronizeActions, string> s_stringBySynchronizeActions = new Dictionary<SynchronizeActions, string>
+        {
+            [SynchronizeActions.Merge] = "MERGE",
+            [SynchronizeActions.Discard] = "DISCARD"
         };
 
         public static string BoolToString(bool value) => value
@@ -543,7 +550,7 @@ namespace Bitbucket.Net.Common
                 : null;
         }
 
-        public static string RefMatcherTypeToString(RefMatcherTypes refMatcherType)
+        private static string RefMatcherTypeToString(RefMatcherTypes refMatcherType)
         {
             if (!s_stringByRefMatcherTypes.TryGetValue(refMatcherType, out string result))
             {
@@ -570,6 +577,28 @@ namespace Bitbucket.Net.Common
             return refMatcherType.HasValue
                 ? RefMatcherTypeToString(refMatcherType.Value)
                 : null;
+        }
+
+        public static string SynchronizeActionToString(SynchronizeActions synchronizeAction)
+        {
+            if (!s_stringBySynchronizeActions.TryGetValue(synchronizeAction, out string result))
+            {
+                throw new ArgumentException($"Unknown synchronize action: {synchronizeAction}");
+            }
+
+            return result;
+        }
+
+        public static SynchronizeActions StringToSynchronizeAction(string s)
+        {
+            var pair = s_stringBySynchronizeActions.FirstOrDefault(kvp => kvp.Value.Equals(s, StringComparison.OrdinalIgnoreCase));
+            // ReSharper disable once SuspiciousTypeConversion.Global
+            if (EqualityComparer<KeyValuePair<SynchronizeActions, string>>.Default.Equals(pair))
+            {
+                throw new ArgumentException($"Unknown synchronize action: {s}");
+            }
+
+            return pair.Key;
         }
     }
 }
