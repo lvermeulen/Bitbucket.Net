@@ -5,6 +5,7 @@ using Bitbucket.Net.Models.Core.Admin;
 using Bitbucket.Net.Models.Core.Logs;
 using Bitbucket.Net.Models.Core.Projects;
 using Bitbucket.Net.Models.Git;
+using Bitbucket.Net.Models.RefRestrictions;
 
 namespace Bitbucket.Net.Common
 {
@@ -153,6 +154,22 @@ namespace Bitbucket.Net.Common
         {
             [TagTypes.LightWeight] = "LIGHTWEIGHT",
             [TagTypes.Annotated] = "ANNOTATED"
+        };
+
+        private static readonly Dictionary<RefRestrictionTypes, string> s_stringByRefRestrictionTypes = new Dictionary<RefRestrictionTypes, string>
+        {
+            [RefRestrictionTypes.AllChanges] = "read-only",
+            [RefRestrictionTypes.RewritingHistory] = "fast-forward-only",
+            [RefRestrictionTypes.Deletion] = "no-deletes",
+            [RefRestrictionTypes.ChangesWithoutPullRequest] = "pull-request-only"
+        };
+
+        private static readonly Dictionary<RefMatcherTypes, string> s_stringByRefMatcherTypes = new Dictionary<RefMatcherTypes, string>
+        {
+            [RefMatcherTypes.Branch] = "BRANCH",
+            [RefMatcherTypes.Pattern] = "PATTERN",
+            [RefMatcherTypes.ModelCategory] = "MODEL_CATEGORY",
+            [RefMatcherTypes.ModelBranch] = "MODEL_BRANCH"
         };
 
         public static string BoolToString(bool value) => value
@@ -507,6 +524,52 @@ namespace Bitbucket.Net.Common
             }
 
             return result;
+        }
+
+        public static string RefRestrictionTypeToString(RefRestrictionTypes refRestrictionType)
+        {
+            if (!s_stringByRefRestrictionTypes.TryGetValue(refRestrictionType, out string result))
+            {
+                throw new ArgumentException($"Unknown ref restriction type: {refRestrictionType}");
+            }
+
+            return result;
+        }
+
+        public static string RefRestrictionTypeToString(RefRestrictionTypes? refRestrictionType)
+        {
+            return refRestrictionType.HasValue
+                ? RefRestrictionTypeToString(refRestrictionType.Value)
+                : null;
+        }
+
+        public static string RefMatcherTypeToString(RefMatcherTypes refMatcherType)
+        {
+            if (!s_stringByRefMatcherTypes.TryGetValue(refMatcherType, out string result))
+            {
+                throw new ArgumentException($"Unknown ref matcher type: {refMatcherType}");
+            }
+
+            return result;
+        }
+
+        public static RefRestrictionTypes StringToRefRestrictionType(string s)
+        {
+            var pair = s_stringByRefRestrictionTypes.FirstOrDefault(kvp => kvp.Value.Equals(s, StringComparison.OrdinalIgnoreCase));
+            // ReSharper disable once SuspiciousTypeConversion.Global
+            if (EqualityComparer<KeyValuePair<RefRestrictionTypes, string>>.Default.Equals(pair))
+            {
+                throw new ArgumentException($"Unknown ref restriction type: {s}");
+            }
+
+            return pair.Key;
+        }
+
+        public static string RefMatcherTypeToString(RefMatcherTypes? refMatcherType)
+        {
+            return refMatcherType.HasValue
+                ? RefMatcherTypeToString(refMatcherType.Value)
+                : null;
         }
     }
 }

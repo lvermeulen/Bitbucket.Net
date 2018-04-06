@@ -73,8 +73,8 @@ Client for Bitbucket
 	* [X] Get Commits For JIRA Issue
 	* [X] Get JIRA Issues For Commits
 * [X] Personal Access Tokens
-* [ ] Ref Restrictions
-	* [ ] Project Restrictions
-	* [ ] Repository Restrictions
+* [X] Ref Restrictions
+	* [X] Project Restrictions
+	* [X] Repository Restrictions
 * [ ] Repository Ref Synchronization
 * [ ] SSH
