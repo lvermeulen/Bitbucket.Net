@@ -77,4 +77,4 @@ Client for Bitbucket
 	* [X] Project Restrictions
 	* [X] Repository Restrictions
 * [X] Repository Ref Synchronization
-* [ ] SSH
+* [X] SSH
