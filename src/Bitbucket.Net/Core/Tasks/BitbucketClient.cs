@@ -15,7 +15,6 @@ namespace Bitbucket.Net
         public async Task<BitbucketTask> CreateTaskAsync(TaskInfo taskInfo)
         {
             var response = await GetTasksUrl()
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .PostJsonAsync(taskInfo)
                 .ConfigureAwait(false);
 
@@ -25,7 +24,6 @@ namespace Bitbucket.Net
         public async Task<BitbucketTask> GetTaskAsync(long taskId)
         {
             return await GetTasksUrl($"/{taskId}")
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .GetJsonAsync<BitbucketTask>()
                 .ConfigureAwait(false);
         }
@@ -39,7 +37,6 @@ namespace Bitbucket.Net
             };
 
             var response = await GetTasksUrl($"/{taskId}")
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .PutJsonAsync(obj)
                 .ConfigureAwait(false);
 

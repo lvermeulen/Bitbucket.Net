@@ -43,7 +43,6 @@ namespace Bitbucket.Net
         {
             var response = await GetRefRestrictionsUrl($"/projects/{projectKey}/restrictions")
                 .WithHeader("Accept", "application/vnd.atl.bitbucket.bulk+json")
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .PostJsonAsync(refRestrictions)
                 .ConfigureAwait(false);
 
@@ -53,7 +52,6 @@ namespace Bitbucket.Net
         public async Task<RefRestriction> CreateProjectRefRestrictionAsync(string projectKey, RefRestrictionCreate refRestriction)
         {
             var response = await GetRefRestrictionsUrl($"/projects/{projectKey}/restrictions")
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .PostJsonAsync(refRestriction)
                 .ConfigureAwait(false);
 
@@ -105,7 +103,6 @@ namespace Bitbucket.Net
         {
             var response = await GetRefRestrictionsUrl($"/projects/{projectKey}/repos/{repositorySlug}/restrictions")
                 .WithHeader("Accept", "application/vnd.atl.bitbucket.bulk+json")
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .PostJsonAsync(refRestrictions)
                 .ConfigureAwait(false);
 
@@ -115,7 +112,6 @@ namespace Bitbucket.Net
         public async Task<RefRestriction> CreateRepositoryRefRestrictionAsync(string projectKey, string repositorySlug, RefRestrictionCreate refRestriction)
         {
             var response = await GetRefRestrictionsUrl($"/projects/{projectKey}/repos/{repositorySlug}/restrictions")
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .PostJsonAsync(refRestriction)
                 .ConfigureAwait(false);
 

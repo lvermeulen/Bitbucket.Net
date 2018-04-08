@@ -29,7 +29,6 @@ namespace Bitbucket.Net
             };
 
             var response = await GetRefSyncUrl($"/projects/{projectKey}/repos/{repositorySlug}")
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .PostJsonAsync(data)
                 .ConfigureAwait(false);
 
@@ -39,7 +38,6 @@ namespace Bitbucket.Net
         public async Task<FullRef> SynchronizeRepositoryAsync(string projectKey, string repositorySlug, Synchronize synchronize)
         {
             var response = await GetRefSyncUrl($"/projects/{projectKey}/repos/{repositorySlug}")
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .PostJsonAsync(synchronize)
                 .ConfigureAwait(false);
 

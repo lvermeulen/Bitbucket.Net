@@ -52,7 +52,6 @@ namespace Bitbucket.Net
             };
 
             var response = await GetBranchUrl($"/projects/{projectKey}/repos/{repositorySlug}/branches")
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .PostJsonAsync(data)
                 .ConfigureAwait(false);
 
@@ -69,7 +68,6 @@ namespace Bitbucket.Net
             };
 
             var response = await GetBranchUrl($"/projects/{projectKey}/repos/{repositorySlug}/branches")
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .SendAsync(HttpMethod.Delete, new StringContent(JsonConvert.SerializeObject(data)))
                 .ConfigureAwait(false);
 

@@ -23,7 +23,6 @@ namespace Bitbucket.Net
         public async Task<DefaultReviewerPullRequestCondition> CreateDefaultReviewerConditionAsync(string projectKey, DefaultReviewerPullRequestCondition condition)
         {
             var response = await GetDefaultReviewersUrl($"/projects/{projectKey}/conditions")
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .PostJsonAsync(condition)
                 .ConfigureAwait(false);
 
@@ -33,7 +32,6 @@ namespace Bitbucket.Net
         public async Task<DefaultReviewerPullRequestCondition> UpdateDefaultReviewerConditionAsync(string projectKey, string defaultReviewerPullRequestConditionId, DefaultReviewerPullRequestCondition condition)
         {
             var response = await GetDefaultReviewersUrl($"/projects/{projectKey}/conditions/{defaultReviewerPullRequestConditionId}")
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .PutJsonAsync(condition)
                 .ConfigureAwait(false);
 
@@ -59,7 +57,6 @@ namespace Bitbucket.Net
         public async Task<DefaultReviewerPullRequestCondition> CreateDefaultReviewerConditionAsync(string projectKey, string repositorySlug, DefaultReviewerPullRequestCondition condition)
         {
             var response = await GetDefaultReviewersUrl($"/projects/{projectKey}/repos/{repositorySlug}/conditions")
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .PostJsonAsync(condition)
                 .ConfigureAwait(false);
 
@@ -69,7 +66,6 @@ namespace Bitbucket.Net
         public async Task<DefaultReviewerPullRequestCondition> UpdateDefaultReviewerConditionAsync(string projectKey, string repositorySlug, string defaultReviewerPullRequestConditionId, DefaultReviewerPullRequestCondition condition)
         {
             var response = await GetDefaultReviewersUrl($"/projects/{projectKey}/repos/{repositorySlug}/conditions/{defaultReviewerPullRequestConditionId}")
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .PutJsonAsync(condition)
                 .ConfigureAwait(false);
 

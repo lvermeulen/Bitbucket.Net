@@ -57,7 +57,6 @@ namespace Bitbucket.Net
         public async Task<Project> CreateProjectAsync(ProjectDefinition projectDefinition)
         {
             var response = await GetProjectsUrl()
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .PostJsonAsync(projectDefinition)
                 .ConfigureAwait(false);
 
@@ -76,7 +75,6 @@ namespace Bitbucket.Net
         public async Task<Project> UpdateProjectAsync(string projectKey, ProjectDefinition projectDefinition)
         {
             var response = await GetProjectsUrl($"/{projectKey}")
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .PutJsonAsync(projectDefinition)
                 .ConfigureAwait(false);
 
@@ -86,7 +84,6 @@ namespace Bitbucket.Net
         public async Task<Project> GetProjectAsync(string projectKey)
         {
             var response = await GetProjectsUrl($"/{projectKey}")
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .GetJsonAsync()
                 .ConfigureAwait(false);
 
@@ -299,7 +296,6 @@ namespace Bitbucket.Net
             };
 
             var response = await GetProjectUrl($"/{projectKey}/repos")
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .PostJsonAsync(data)
                 .ConfigureAwait(false);
 
@@ -323,7 +319,6 @@ namespace Bitbucket.Net
             };
 
             var response = await GetProjectsReposUrl(projectKey, repositorySlug)
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .PostJsonAsync(data)
                 .ConfigureAwait(false);
 
@@ -354,7 +349,6 @@ namespace Bitbucket.Net
             };
 
             var response = await GetProjectsReposUrl(projectKey, repositorySlug)
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .PutJsonAsync(data.ToDictionary())
                 .ConfigureAwait(false);
 
@@ -596,7 +590,6 @@ namespace Bitbucket.Net
         public async Task<Branch> CreateBranchAsync(string projectKey, string repositorySlug, BranchInfo branchInfo)
         {
             var response = await GetProjectsReposUrl(projectKey, repositorySlug, "/branches")
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .PostJsonAsync(branchInfo)
                 .ConfigureAwait(false);
 
@@ -613,7 +606,6 @@ namespace Bitbucket.Net
         public async Task<bool> SetDefaultBranchAsync(string projectKey, string repositorySlug, BranchRef branchRef)
         {
             var response = await GetProjectsReposUrl(projectKey, repositorySlug, "/branches")
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .PutJsonAsync(branchRef)
                 .ConfigureAwait(false);
 
@@ -826,7 +818,6 @@ namespace Bitbucket.Net
             };
 
             var response = await GetProjectsReposUrl(projectKey, repositorySlug, $"/commits/{commitId}/comments")
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .SetQueryParams(queryParamValues)
                 .PostJsonAsync(commentInfo)
                 .ConfigureAwait(false);
@@ -845,7 +836,6 @@ namespace Bitbucket.Net
             CommentText commentText)
         {
             var response = await GetProjectsReposUrl(projectKey, repositorySlug, $"/commits/{commitId}/comments/{commentId}")
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .PutJsonAsync(commentText)
                 .ConfigureAwait(false);
 
@@ -861,7 +851,6 @@ namespace Bitbucket.Net
             };
 
             var response = await GetProjectsReposUrl(projectKey, repositorySlug, $"/commits/{commitId}/comments/{commentId}")
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .SetQueryParams(queryParamValues)
                 .DeleteAsync()
                 .ConfigureAwait(false);
@@ -1087,7 +1076,6 @@ namespace Bitbucket.Net
         public async Task<PullRequest> CreatePullRequestAsync(string projectKey, string repositorySlug, PullRequestInfo pullRequestInfo)
         {
             var response = await GetProjectsReposUrl(projectKey, repositorySlug, "/pull-requests")
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .PostJsonAsync(pullRequestInfo)
                 .ConfigureAwait(false);
 
@@ -1104,7 +1092,6 @@ namespace Bitbucket.Net
         public async Task<PullRequest> UpdatePullRequestAsync(string projectKey, string repositorySlug, long pullRequestId, PullRequestUpdate pullRequestUpdate)
         {
             var response = await GetProjectsReposUrl(projectKey, repositorySlug, $"/pull-requests/{pullRequestId}")
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .PutJsonAsync(pullRequestUpdate)
                 .ConfigureAwait(false);
 
@@ -1114,7 +1101,6 @@ namespace Bitbucket.Net
         public async Task<bool> DeletePullRequestAsync(string projectKey, string repositorySlug, long pullRequestId, VersionInfo versionInfo)
         {
             var response = await GetProjectsReposUrl(projectKey, repositorySlug, $"/pull-requests/{pullRequestId}")
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .SendJsonAsync(HttpMethod.Delete, versionInfo)
                 .ConfigureAwait(false);
 
@@ -1549,7 +1535,6 @@ namespace Bitbucket.Net
             PullRequestSettings pullRequestSettings)
         {
             var response = await GetProjectsReposUrl(projectKey, repositorySlug, "/settings/pull-requests")
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .PostJsonAsync(pullRequestSettings)
                 .ConfigureAwait(false);
 
@@ -1596,7 +1581,6 @@ namespace Bitbucket.Net
         public async Task<Hook> EnableProjectRepositoryHookAsync(string projectKey, string repositorySlug, string hookKey, object hookSettings = null)
         {
             var response = await GetProjectsReposUrl(projectKey, repositorySlug, $"/settings/hooks/{hookKey}/enabled")
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .PutJsonAsync(hookSettings)
                 .ConfigureAwait(false);
 
@@ -1606,7 +1590,6 @@ namespace Bitbucket.Net
         public async Task<Hook> DisableProjectRepositoryHookAsync(string projectKey, string repositorySlug, string hookKey)
         {
             var response = await GetProjectsReposUrl(projectKey, repositorySlug, $"/settings/hooks/{hookKey}/enabled")
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .DeleteAsync()
                 .ConfigureAwait(false);
 
@@ -1624,7 +1607,6 @@ namespace Bitbucket.Net
             Dictionary<string, object> allSettings)
         {
             var response = await GetProjectsReposUrl(projectKey, repositorySlug, $"/settings/hooks/{hookKey}/settings")
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .PutJsonAsync(allSettings)
                 .ConfigureAwait(false);
 
@@ -1643,7 +1625,6 @@ namespace Bitbucket.Net
         {
             var response = await GetProjectUrl(projectKey)
                 .AppendPathSegment($"/settings/pull-requests/{scmId}")
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .PostJsonAsync(mergeStrategies)
                 .ConfigureAwait(false);
 
@@ -1686,7 +1667,6 @@ namespace Bitbucket.Net
             };
 
             var response = await GetProjectsReposUrl(projectKey, repositorySlug, "/tags")
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .PostJsonAsync(data.ToDictionary())
                 .ConfigureAwait(false);
 
@@ -1726,7 +1706,6 @@ namespace Bitbucket.Net
         public async Task<WebHook> CreateProjectRepositoryWebHookAsync(string projectKey, string repositorySlug, WebHook webHook)
         {
             var response = await GetProjectsReposUrl(projectKey, repositorySlug, "/webhooks")
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .PostJsonAsync(webHook)
                 .ConfigureAwait(false);
 
@@ -1762,7 +1741,6 @@ namespace Bitbucket.Net
             string webHookId, WebHook webHook)
         {
             var response = await GetProjectsReposUrl(projectKey, repositorySlug, $"/webhooks/{webHookId}")
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .PutJsonAsync(webHook)
                 .ConfigureAwait(false);
 

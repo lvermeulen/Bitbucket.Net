@@ -61,7 +61,6 @@ namespace Bitbucket.Net
         public async Task<bool> AddAdminGroupUsersAsync(GroupUsers groupUsers)
         {
             var response = await GetAdminUrl("/groups/add-users")
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .PostJsonAsync(groupUsers)
                 .ConfigureAwait(false);
 
@@ -161,7 +160,6 @@ namespace Bitbucket.Net
             };
 
             var response = await GetAdminUrl("/users")
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .PutJsonAsync(data.ToDictionary())
                 .ConfigureAwait(false);
 
@@ -181,7 +179,6 @@ namespace Bitbucket.Net
         public async Task<bool> AddAdminUserGroupsAsync(UserGroups userGroups)
         {
             var response = await GetAdminUrl("/users/add-groups")
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .PostJsonAsync(userGroups)
                 .ConfigureAwait(false);
 
@@ -201,7 +198,6 @@ namespace Bitbucket.Net
         public async Task<bool> UpdateAdminUserCredentialsAsync(PasswordChange passwordChange)
         {
             var response = await GetAdminUrl("/users/credentials")
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .PutJsonAsync(passwordChange)
                 .ConfigureAwait(false);
 
@@ -259,7 +255,6 @@ namespace Bitbucket.Net
             };
 
             var response = await GetAdminUrl("/users/remove-group")
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .PostJsonAsync(data)
                 .ConfigureAwait(false);
 
@@ -269,7 +264,6 @@ namespace Bitbucket.Net
         public async Task<UserInfo> RenameAdminUserAsync(UserRename userRename)
         {
             var response = await GetAdminUrl("users/rename")
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .PostJsonAsync(userRename)
                 .ConfigureAwait(false);
 
@@ -293,7 +287,6 @@ namespace Bitbucket.Net
         public async Task<LicenseDetails> UpdateAdminLicenseAsync(LicenseInfo licenseInfo)
         {
             var response = await GetAdminUrl("/license")
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .PostJsonAsync(licenseInfo)
                 .ConfigureAwait(false);
 
@@ -310,7 +303,6 @@ namespace Bitbucket.Net
         public async Task<MailServerConfiguration> UpdateAdminMailServerAsync(MailServerConfiguration mailServerConfiguration)
         {
             var response = await GetAdminUrl("/mail-server")
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .PutJsonAsync(mailServerConfiguration)
                 .ConfigureAwait(false);
 
@@ -495,7 +487,6 @@ namespace Bitbucket.Net
         public async Task<MergeStrategies> UpdateAdminPullRequestsMergeStrategiesAsync(string scmId, MergeStrategies mergeStrategies)
         {
             var response = await GetAdminUrl($"/pull-requests/{scmId}")
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .PostJsonAsync(mergeStrategies)
                 .ConfigureAwait(false);
 

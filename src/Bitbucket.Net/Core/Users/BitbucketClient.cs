@@ -54,7 +54,6 @@ namespace Bitbucket.Net
             };
 
             var response = await GetUsersUrl()
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .PutJsonAsync(obj)
                 .ConfigureAwait(false);
 
@@ -64,7 +63,6 @@ namespace Bitbucket.Net
         public async Task<bool> UpdateUserCredentialsAsync(PasswordChange passwordChange)
         {
             var response = await GetUsersUrl("/credentials")
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .PutJsonAsync(passwordChange)
                 .ConfigureAwait(false);
 
@@ -74,7 +72,6 @@ namespace Bitbucket.Net
         public async Task<User> GetUserAsync(string userSlug)
         {
             return await GetUsersUrl($"/{userSlug}")
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .GetJsonAsync<User>()
                 .ConfigureAwait(false);
         }
@@ -91,7 +88,6 @@ namespace Bitbucket.Net
         public async Task<IDictionary<string, object>> GetUserSettingsAsync(string userSlug)
         {
             var response = await GetUsersUrl($"/{userSlug}/settings")
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .GetJsonAsync<Dictionary<string, dynamic>>()
                 .ConfigureAwait(false);
 
@@ -101,7 +97,6 @@ namespace Bitbucket.Net
         public async Task<bool> UpdateUserSettingsAsync(string userSlug, IDictionary<string, object> userSettings)
         {
             var response = await GetUsersUrl($"/{userSlug}/settings")
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .PostJsonAsync(userSettings)
                 .ConfigureAwait(false);
 

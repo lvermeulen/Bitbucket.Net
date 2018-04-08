@@ -35,7 +35,6 @@ namespace Bitbucket.Net
         public async Task<FullAccessToken> CreateAccessTokenAsync(string userSlug, AccessTokenCreate accessToken)
         {
             var response = await GetPatUrl($"/users/{userSlug}")
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .PutJsonAsync(accessToken)
                 .ConfigureAwait(false);
 
@@ -52,7 +51,6 @@ namespace Bitbucket.Net
         public async Task<AccessToken> ChangeUserAccessTokenAsync(string userSlug, string tokenId, AccessTokenCreate accessToken)
         {
             var response = await GetPatUrl($"/users/{userSlug}/{tokenId}")
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .PostJsonAsync(accessToken)
                 .ConfigureAwait(false);
 

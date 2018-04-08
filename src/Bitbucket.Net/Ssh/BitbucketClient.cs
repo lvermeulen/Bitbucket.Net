@@ -26,7 +26,6 @@ namespace Bitbucket.Net
         public async Task<bool> DeleteProjectsReposKeysAsync(int keyId, params string[] projectsOrRepos)
         {
             var response =  await GetKeysUrl($"/ssh/{keyId}")
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .SendAsync(HttpMethod.Delete, new StringContent(JsonConvert.SerializeObject(projectsOrRepos)))
                 .ConfigureAwait(false);
 
@@ -84,7 +83,6 @@ namespace Bitbucket.Net
             };
 
             var response = await GetKeysUrl($"/projects/{projectKey}/ssh")
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .PostJsonAsync(data)
                 .ConfigureAwait(false);
 
@@ -169,7 +167,6 @@ namespace Bitbucket.Net
             };
 
             var response = await GetKeysUrl($"/projects/{projectKey}/repos/{repositorySlug}/ssh")
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .PostJsonAsync(data)
                 .ConfigureAwait(false);
 
@@ -225,7 +222,6 @@ namespace Bitbucket.Net
         {
             var response = await GetSshUrl("/keys")
                 .SetQueryParam("user", userSlug)
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .PostJsonAsync(new { text = keyText })
                 .ConfigureAwait(false);
 

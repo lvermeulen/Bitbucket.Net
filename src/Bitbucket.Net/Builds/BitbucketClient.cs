@@ -25,7 +25,6 @@ namespace Bitbucket.Net
         public async Task<Dictionary<string, BuildStats>> GetBuildStatsForCommitsAsync(params string[] commitIds)
         {
             var response = await GetBuildsUrl("/commits/stats")
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .PostJsonAsync(commitIds)
                 .ConfigureAwait(false);
 
@@ -53,7 +52,6 @@ namespace Bitbucket.Net
         public async Task<bool> AssociateBuildStatusWithCommitAsync(string commitId, BuildStatus buildStatus)
         {
             var response = await GetBuildsUrl($"/commits/{commitId}")
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .PostJsonAsync(buildStatus)
                 .ConfigureAwait(false);
 

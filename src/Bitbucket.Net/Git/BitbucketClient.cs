@@ -24,7 +24,6 @@ namespace Bitbucket.Net
         {
             var data = new { version };
             var response = await GetGitUrl($"/projects/{projectKey}/repos/{repositorySlug}/pull-requests/{pullRequestId}/rebase")
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .PostJsonAsync(data)
                 .ConfigureAwait(false);
 
@@ -41,7 +40,6 @@ namespace Bitbucket.Net
             };
 
             var response = await GetGitUrl($"/projects/{projectKey}/repos/{repositorySlug}/tags")
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .PostJsonAsync(data)
                 .ConfigureAwait(false);
 
@@ -51,7 +49,6 @@ namespace Bitbucket.Net
         public async Task<bool> DeleteTagAsync(string projectKey, string repositorySlug, string tagName)
         {
             var response = await GetGitUrl($"/projects/{projectKey}/repos/{repositorySlug}/tags/{tagName}")
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .DeleteAsync()
                 .ConfigureAwait(false);
 

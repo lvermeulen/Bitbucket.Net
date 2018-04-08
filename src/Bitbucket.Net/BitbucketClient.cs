@@ -29,6 +29,7 @@ namespace Bitbucket.Net
 
         private IFlurlRequest GetBaseUrl(string root = "/api", string version = "1.0") => new Url(_url)
             .AppendPathSegment($"/rest{root}/{version}")
+            .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
             .WithBasicAuth(_userName, _password);
 
         private async Task<TResult> ReadResponseContentAsync<TResult>(HttpResponseMessage responseMessage, Func<string, TResult> contentHandler = null)

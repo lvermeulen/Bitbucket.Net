@@ -44,7 +44,6 @@ namespace Bitbucket.Net
             };
 
             var response = await GetJiraUrl($"/comments/{pullRequestCommentId}/issues")
-                .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
                 .SetQueryParam("applicationId", applicationId)
                 .PostJsonAsync(data)
                 .ConfigureAwait(false);
