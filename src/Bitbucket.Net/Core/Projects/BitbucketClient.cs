@@ -280,7 +280,7 @@ namespace Bitbucket.Net
             };
 
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
-                await GetProjectsUrl($"/{projectKey}")
+                await GetProjectsUrl($"/{projectKey}/repos")
                     .SetQueryParams(qpv)
                     .GetJsonAsync<PagedResults<Repository>>()
                     .ConfigureAwait(false))

@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Xunit;
 
 namespace Bitbucket.Net.Tests
@@ -10,7 +9,7 @@ namespace Bitbucket.Net.Tests
         public async Task GetRecentReposAsync()
         {
             var results = await _client.GetRecentReposAsync().ConfigureAwait(false);
-            Assert.Empty(results);
+            Assert.NotEmpty(results);
         }
     }
 }
