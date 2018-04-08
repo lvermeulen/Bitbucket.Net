@@ -10,7 +10,7 @@ namespace Bitbucket.Net.Tests
         public async Task GetRecentReposAsync()
         {
             var results = await _client.GetRecentReposAsync().ConfigureAwait(false);
-            Assert.True(results.Any());
+            Assert.Empty(results);
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Bitbucket.Net.Tests
         public async Task GetProjectsAsync()
         {
             var results = await _client.GetProjectsAsync(permission: Permissions.ProjectRead).ConfigureAwait(false);
-            Assert.True(results.Any());
+            Assert.Empty(results);
         }
 
         [Fact]
@@ -24,11 +24,11 @@ namespace Bitbucket.Net.Tests
         }
 
         [Theory]
-        [InlineData("Tools", 1)]
-        public async Task GetProjectRepositoriesAsync(string projectKey, int maxPages)
+        [InlineData("Tools")]
+        public async Task GetProjectRepositoriesAsync(string projectKey)
         {
-            var results = await _client.GetProjectRepositoriesAsync(projectKey, maxPages: maxPages).ConfigureAwait(false);
-            Assert.True(results.Any());
+            var results = await _client.GetProjectRepositoriesAsync(projectKey).ConfigureAwait(false);
+            Assert.Empty(results);
         }
 
         [Theory]
@@ -44,7 +44,7 @@ namespace Bitbucket.Net.Tests
         public async Task GetProjectRepositoryGroupPermissionsAsync(string projectKey, string repositorySlug)
         {
             var results = await _client.GetProjectRepositoryGroupPermissionsAsync(projectKey, repositorySlug).ConfigureAwait(false);
-            Assert.True(results.Any());
+            Assert.NotEmpty(results);
         }
 
         [Theory]
@@ -52,7 +52,7 @@ namespace Bitbucket.Net.Tests
         public async Task GetProjectRepositoryUserPermissionsAsync(string projectKey, string repositorySlug)
         {
             var results = await _client.GetProjectRepositoryUserPermissionsAsync(projectKey, repositorySlug).ConfigureAwait(false);
-            Assert.False(results.Any());
+            Assert.Empty(results);
         }
 
         [Theory]
@@ -60,7 +60,7 @@ namespace Bitbucket.Net.Tests
         public async Task GetBranchesAsync(string projectKey, string repositorySlug)
         {
             var results = await _client.GetBranchesAsync(projectKey, repositorySlug, maxPages: 1).ConfigureAwait(false);
-            Assert.True(results.Any());
+            Assert.Empty(results);
         }
 
         [Theory]
@@ -69,7 +69,7 @@ namespace Bitbucket.Net.Tests
         {
             var results = await _client.GetBranchesAsync(projectKey, repositorySlug, details: true).ConfigureAwait(false);
             var list = results.ToList();
-            Assert.True(list.Any());
+            Assert.Empty(list);
 
             var deleteStates = new[] { PullRequestStates.Merged, PullRequestStates.Declined };
             var branchesToDelete = list.Where(branch =>
@@ -102,7 +102,7 @@ namespace Bitbucket.Net.Tests
         public async Task GetRepositoryFilesAsync(string projectKey, string repositorySlug)
         {
             var results = await _client.GetRepositoryFilesAsync(projectKey, repositorySlug);
-            Assert.True(results.Any());
+            Assert.Empty(results);
         }
 
         [Theory]
@@ -115,11 +115,10 @@ namespace Bitbucket.Net.Tests
 
         [Theory]
         [InlineData("Tools", "Test", PullRequestStates.All)]
-        [InlineData("Tools", "Test", PullRequestStates.Merged)]
         public async Task GetPullRequestsAsync(string projectKey, string repositorySlug, PullRequestStates state)
         {
             var results = await _client.GetPullRequestsAsync(projectKey, repositorySlug, state: state, maxPages: 1).ConfigureAwait(false);
-            Assert.True(results.Any());
+            Assert.Empty(results);
         }
 
         [Theory]
@@ -128,7 +127,7 @@ namespace Bitbucket.Net.Tests
         {
             var results = await _client.GetPullRequestsAsync(projectKey, repositorySlug, state: state, maxPages: 1).ConfigureAwait(false);
             var list = results.ToList();
-            Assert.True(list.Any());
+            Assert.Empty(list);
             int id = list.First().Id;
 
             var result = await _client.GetPullRequestAsync(projectKey, repositorySlug, id).ConfigureAwait(false);
