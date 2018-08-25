@@ -41,7 +41,7 @@ namespace Bitbucket.Net.Tests
                 Url = "http://some.successful.build"
             };
 
-            var result = await _client.AssociateBuildStatusWithCommitAsync(commitId, buildStatus).ConfigureAwait(false);
+            bool result = await _client.AssociateBuildStatusWithCommitAsync(commitId, buildStatus).ConfigureAwait(false);
             Assert.True(result);
         }
     }

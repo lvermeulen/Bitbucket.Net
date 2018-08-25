@@ -274,6 +274,13 @@ namespace Bitbucket.Net.Common
             return result;
         }
 
+        public static string LineTypeToString(LineTypes? lineType)
+        {
+            return lineType.HasValue
+                ? LineTypeToString(lineType.Value)
+                : null;
+        }
+
         public static LineTypes StringToLineType(string s)
         {
             var pair = s_stringByLineTypes.FirstOrDefault(kvp => kvp.Value.Equals(s, StringComparison.OrdinalIgnoreCase));
@@ -304,6 +311,13 @@ namespace Bitbucket.Net.Common
             }
 
             return result;
+        }
+
+        public static string FileTypeToString(FileTypes? fileType)
+        {
+            return fileType.HasValue
+                ? FileTypeToString(fileType.Value)
+                : null;
         }
 
         public static FileTypes StringToFileType(string s)
@@ -571,6 +585,13 @@ namespace Bitbucket.Net.Common
             }
 
             return result;
+        }
+
+        public static string DiffTypeToString(DiffTypes? diffType)
+        {
+            return diffType.HasValue
+                ? DiffTypeToString(diffType.Value)
+                : null;
         }
 
         #endregion

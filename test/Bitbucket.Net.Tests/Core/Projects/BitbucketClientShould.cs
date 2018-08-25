@@ -316,7 +316,7 @@ namespace Bitbucket.Net.Tests
         public async Task GetProjectRepositoryWebHookLatestAsync(string projectKey, string repositorySlug, string webHookId)
         {
             // ReSharper disable once UnusedVariable
-            var result = await _client.GetProjectRepositoryWebHookLatestAsync(projectKey, repositorySlug, webHookId, "pr:reviewer:unapproved").ConfigureAwait(false);
+            string result = await _client.GetProjectRepositoryWebHookLatestAsync(projectKey, repositorySlug, webHookId, "pr:reviewer:unapproved").ConfigureAwait(false);
         }
 
         [Theory]
