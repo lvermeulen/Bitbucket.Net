@@ -377,7 +377,7 @@ namespace Bitbucket.Net
         public async Task<Repository> RecreateProjectRepositoryAsync(string projectKey, string repositorySlug)
         {
             var response = await GetProjectsReposUrl(projectKey, repositorySlug, "/recreate")
-                .PostJsonAsync(new StringContent(""))
+                .PostAsync(new StringContent(""))
                 .ConfigureAwait(false);
 
             return await HandleResponseAsync<Repository>(response).ConfigureAwait(false);
@@ -1139,7 +1139,7 @@ namespace Bitbucket.Net
 
             var response = await GetProjectsReposUrl(projectKey, repositorySlug, $"/pull-requests/{pullRequestId}/decline")
                 .SetQueryParams(queryParamValues)
-                .DeleteAsync()
+                .PostAsync(new StringContent(""))
                 .ConfigureAwait(false);
 
             return await HandleResponseAsync(response).ConfigureAwait(false);
@@ -1167,7 +1167,7 @@ namespace Bitbucket.Net
 
             var response = await GetProjectsReposUrl(projectKey, repositorySlug, $"/pull-requests/{pullRequestId}/merge")
                 .SetQueryParams(queryParamValues)
-                .PostJsonAsync(new StringContent(""))
+                .PostAsync(new StringContent(""))
                 .ConfigureAwait(false);
 
             return await HandleResponseAsync<PullRequest>(response).ConfigureAwait(false);
@@ -1182,7 +1182,7 @@ namespace Bitbucket.Net
 
             var response = await GetProjectsReposUrl(projectKey, repositorySlug, $"/pull-requests/{pullRequestId}/reopen")
                 .SetQueryParams(queryParamValues)
-                .PostJsonAsync(new StringContent(""))
+                .PostAsync(new StringContent(""))
                 .ConfigureAwait(false);
 
             return await HandleResponseAsync<PullRequest>(response).ConfigureAwait(false);
@@ -1191,7 +1191,7 @@ namespace Bitbucket.Net
         public async Task<Reviewer> ApprovePullRequestAsync(string projectKey, string repositorySlug, long pullRequestId)
         {
             var response = await GetProjectsReposUrl(projectKey, repositorySlug, $"/pull-requests/{pullRequestId}/approve")
-                .PostJsonAsync(new StringContent(""))
+                .PostAsync(new StringContent(""))
                 .ConfigureAwait(false);
 
             return await HandleResponseAsync<Reviewer>(response).ConfigureAwait(false);
@@ -1750,7 +1750,7 @@ namespace Bitbucket.Net
         {
             var response = await GetProjectsReposUrl(projectKey, repositorySlug, "/webhooks/test")
                 .SetQueryParam("url", url)
-                .PostJsonAsync(new StringContent(""))
+                .PostAsync(new StringContent(""))
                 .ConfigureAwait(false);
 
             return await HandleResponseAsync<WebHookTestRequestResponse>(response).ConfigureAwait(false);
