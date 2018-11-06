@@ -30,7 +30,7 @@ namespace Bitbucket.Net
             var response = await GetMarkupUrl("/preview")
                 .WithHeader("X-Atlassian-Token", "no-check")
                 .SetQueryParams(queryParamValues)
-                .PostAsync(new StringContent(text))
+                .PostJsonAsync(new StringContent(text))
                 .ConfigureAwait(false);
 
             return await HandleResponseAsync<string>(response, s =>

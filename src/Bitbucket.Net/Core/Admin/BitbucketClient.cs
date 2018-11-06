@@ -42,7 +42,7 @@ namespace Bitbucket.Net
         {
             var response = await GetAdminUrl("/groups")
                 .SetQueryParam("name", name)
-                .PostAsync(new StringContent(""))
+                .PostJsonAsync(new StringContent(""))
                 .ConfigureAwait(false);
 
             return await HandleResponseAsync<DeletableGroupOrUser>(response).ConfigureAwait(false);
@@ -144,7 +144,7 @@ namespace Bitbucket.Net
 
             var response = await GetAdminUrl("/users")
                 .SetQueryParams(queryParamValues)
-                .PostAsync(new StringContent(""))
+                .PostJsonAsync(new StringContent(""))
                 .ConfigureAwait(false);
 
             return await HandleResponseAsync(response).ConfigureAwait(false);
