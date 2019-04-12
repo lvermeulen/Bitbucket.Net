@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>net452;netstandard1.4</TargetFrameworks>
@@ -13,7 +13,6 @@
     <RepositoryType>git</RepositoryType>
     <PackageTags>bitbucket</PackageTags>
     <PackageIconUrl>https://i.imgur.com/OsDAzyV.png</PackageIconUrl>
-    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
