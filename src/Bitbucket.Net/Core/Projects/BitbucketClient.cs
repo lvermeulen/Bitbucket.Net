@@ -315,7 +315,7 @@ namespace Bitbucket.Net
             {
                 slug = targetSlug ?? repositorySlug,
                 name = targetName,
-                project = new ProjectRef { Key = targetProjectKey }
+                project = targetProjectKey == null ? null : new ProjectRef { Key = targetProjectKey }
             };
 
             var response = await GetProjectsReposUrl(projectKey, repositorySlug)
@@ -344,7 +344,7 @@ namespace Bitbucket.Net
             {
                 { targetName, "name" },
                 { isForkable, "forkable" },
-                { targetProjectKey, "project", new ProjectRef { Key = targetProjectKey } },
+                { targetProjectKey, "project", targetProjectKey == null ? null : new ProjectRef { Key = targetProjectKey } },
                 { isPublic, "public" }
             };
 
@@ -683,9 +683,9 @@ namespace Bitbucket.Net
                 {
                     { new StreamContent(memoryStream), "content" },
                     { new StringContent(branch), "branch" },
-                    { message, new StringContent(message), "message" },
-                    { sourceCommitId, new StringContent(sourceCommitId), "sourceCommitId" },
-                    { sourceBranch, new StringContent(sourceBranch), "sourceBranch" }
+                    { message, message == null ? null : new StringContent(message), "message" },
+                    { sourceCommitId, sourceCommitId == null ? null : new StringContent(sourceCommitId), "sourceCommitId" },
+                    { sourceBranch, sourceBranch == null ? null : new StringContent(sourceBranch), "sourceBranch" }
                 };
 
                 var response = await GetProjectsReposUrl(projectKey, repositorySlug, $"/browse/{path}")
@@ -1248,7 +1248,7 @@ namespace Bitbucket.Net
             var data = new
             {
                 text,
-                parent = new { id = parentId },
+                parent = parentId == null ? null : new { id = parentId },
                 diffType = BitbucketHelpers.DiffTypeToString(diffType),
                 fromHash,
                 path,

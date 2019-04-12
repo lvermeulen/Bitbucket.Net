@@ -9,12 +9,24 @@ using Flurl.Http;
 using Flurl.Http.Configuration;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using NullValueHandling = Newtonsoft.Json.NullValueHandling;
 
 namespace Bitbucket.Net
 {
     public partial class BitbucketClient
     {
-        private static readonly ISerializer s_serializer = new NewtonsoftJsonSerializer(new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() });
+        private static readonly ISerializer s_serializer;
+
+        static BitbucketClient()
+        {
+            var settings = new JsonSerializerSettings
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                NullValueHandling = NullValueHandling.Ignore
+            };
+            JsonConvert.DefaultSettings = () => settings;
+            s_serializer = new NewtonsoftJsonSerializer(settings);
+        }
 
         private readonly Url _url;
         private readonly string _userName;

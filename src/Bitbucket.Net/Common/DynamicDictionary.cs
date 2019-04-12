@@ -9,7 +9,7 @@ namespace Bitbucket.Net.Common
 
         public void Add<T>(T t, string key, object value = null)
         {
-            if (!EqualityComparer<T>.Default.Equals(t, default(T)))
+            if (!EqualityComparer<T>.Default.Equals(t, default))
             {
                 _dictionary.Add(key, value ?? t);
             }
