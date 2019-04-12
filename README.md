@@ -4,7 +4,7 @@
  [![license](https://img.shields.io/github/license/lvermeulen/Bitbucket.Net.svg?maxAge=2592000)](https://github.com/lvermeulen/Bitbucket.Net/blob/master/LICENSE) [![NuGet](https://img.shields.io/nuget/v/Bitbucket.Net.svg?maxAge=2592000)](https://www.nuget.org/packages/Bitbucket.Net/) 
  ![](https://img.shields.io/badge/.net-4.5.2-yellowgreen.svg) ![](https://img.shields.io/badge/netstandard-1.4-yellowgreen.svg)
 
-Client for Bitbucket
+Client for Bitbucket Server
 
 ## Features
 * [X] Audit
