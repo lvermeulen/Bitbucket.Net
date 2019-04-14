@@ -11,7 +11,6 @@ using Bitbucket.Net.Models.Core.Tasks;
 using Bitbucket.Net.Models.Core.Users;
 using Flurl.Http;
 using Newtonsoft.Json;
-using NullValueHandling = Flurl.NullValueHandling;
 
 namespace Bitbucket.Net
 {
@@ -631,7 +630,7 @@ namespace Bitbucket.Net
             }
 
             return await GetProjectsReposUrl(projectKey, repositorySlug, "/browse")
-                .SetQueryParams(queryParamValues, NullValueHandling.NameOnly)
+                .SetQueryParams(queryParamValues, Flurl.NullValueHandling.NameOnly)
                 .GetJsonAsync<BrowseItem>()
                 .ConfigureAwait(false);
         }
@@ -655,7 +654,7 @@ namespace Bitbucket.Net
             }
 
             return await GetProjectsReposUrl(projectKey, repositorySlug, $"/browse/{path}")
-                .SetQueryParams(queryParamValues, NullValueHandling.NameOnly)
+                .SetQueryParams(queryParamValues, Flurl.NullValueHandling.NameOnly)
                 .GetJsonAsync<BrowsePathItem>()
                 .ConfigureAwait(false);
         }

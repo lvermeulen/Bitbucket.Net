@@ -9,7 +9,6 @@ using Flurl.Http;
 using Flurl.Http.Configuration;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using NullValueHandling = Newtonsoft.Json.NullValueHandling;
 
 namespace Bitbucket.Net
 {
@@ -22,7 +21,7 @@ namespace Bitbucket.Net
             var settings = new JsonSerializerSettings
             {
                 ContractResolver = new CamelCasePropertyNamesContractResolver(),
-                NullValueHandling = NullValueHandling.Ignore
+                NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore
             };
             JsonConvert.DefaultSettings = () => settings;
             s_serializer = new NewtonsoftJsonSerializer(settings);
