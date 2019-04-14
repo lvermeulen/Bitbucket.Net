@@ -152,15 +152,15 @@ namespace Bitbucket.Net
 
         public async Task<UserInfo> UpdateAdminUserAsync(string name = null, string displayName = null, string emailAddress = null)
         {
-            var data = new DynamicDictionary
+            var data = new
             {
-                { name, "name" },
-                { displayName, "displayName" },
-                { emailAddress, "email" }
+                name,
+                displayName,
+                email = emailAddress
             };
 
             var response = await GetAdminUrl("/users")
-                .PutJsonAsync(data.ToDictionary())
+                .PutJsonAsync(data)
                 .ConfigureAwait(false);
 
             return await HandleResponseAsync<UserInfo>(response).ConfigureAwait(false);

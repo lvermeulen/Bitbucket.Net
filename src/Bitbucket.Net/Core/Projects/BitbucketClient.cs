@@ -340,16 +340,16 @@ namespace Bitbucket.Net
             string targetProjectKey = null,
             bool? isPublic = null)
         {
-            var data = new DynamicDictionary
+            var data = new
             {
-                { targetName, "name" },
-                { isForkable, "forkable" },
-                { targetProjectKey, "project", targetProjectKey == null ? null : new ProjectRef { Key = targetProjectKey } },
-                { isPublic, "public" }
+                name = targetName,
+                forkable = isForkable,
+                project = targetProjectKey == null ? null : new ProjectRef { Key = targetProjectKey },
+                @public = isPublic
             };
 
             var response = await GetProjectsReposUrl(projectKey, repositorySlug)
-                .PutJsonAsync(data.ToDictionary())
+                .PutJsonAsync(data)
                 .ConfigureAwait(false);
 
             return await HandleResponseAsync<Repository>(response).ConfigureAwait(false);
@@ -1693,15 +1693,15 @@ namespace Bitbucket.Net
             string startPoint,
             string message)
         {
-            var data = new DynamicDictionary
+            var data = new
             {
-                { name, "name" },
-                { startPoint, "startPoint" },
-                { message, "message" }
+                name,
+                startPoint,
+                message
             };
 
             var response = await GetProjectsReposUrl(projectKey, repositorySlug, "/tags")
-                .PostJsonAsync(data.ToDictionary())
+                .PostJsonAsync(data)
                 .ConfigureAwait(false);
 
             return await HandleResponseAsync<Tag>(response).ConfigureAwait(false);
