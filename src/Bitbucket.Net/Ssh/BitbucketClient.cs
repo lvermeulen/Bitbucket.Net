@@ -241,7 +241,7 @@ namespace Bitbucket.Net
 
         public async Task<bool> DeleteUserKeyAsync(int keyId)
         {
-            var response = await GetSshUrl("/keys/{keyId}")
+            var response = await GetSshUrl($"/keys/{keyId}")
                 .DeleteAsync()
                 .ConfigureAwait(false);
 
