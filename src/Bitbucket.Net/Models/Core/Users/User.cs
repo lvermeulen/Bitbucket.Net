@@ -7,6 +7,7 @@
         public bool Active { get; set; }
         public string Slug { get; set; }
         public string Type { get; set; }
+        public string AvatarUrl { get; set; }
 
         public override string ToString() => DisplayName;
     }
