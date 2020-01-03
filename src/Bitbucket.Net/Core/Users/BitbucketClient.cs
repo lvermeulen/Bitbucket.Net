@@ -19,12 +19,14 @@ namespace Bitbucket.Net
             int? maxPages = null,
             int? limit = null,
             int? start = null,
+            int? avatarSize = null,
             params string[] permissionN)
         {
             var queryParamValues = new Dictionary<string, object>
             {
                 ["limit"] = limit,
                 ["start"] = start,
+                ["avatarSize"] = avatarSize,
                 ["filter"] = filter,
                 ["group"] = group,
                 ["permission"] = permission
@@ -69,10 +71,10 @@ namespace Bitbucket.Net
             return await HandleResponseAsync(response).ConfigureAwait(false);
         }
 
-        public async Task<User> GetUserAsync(string userSlug)
+        public async Task<User> GetUserAsync(string userSlug, int? avatarSize = null)
         {
             return await GetUsersUrl($"/{userSlug}")
-                .SetQueryParam("avatarSize", "64")
+                .SetQueryParam("avatarSize", avatarSize)
                 .GetJsonAsync<User>()
                 .ConfigureAwait(false);
         }

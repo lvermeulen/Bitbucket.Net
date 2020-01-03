@@ -21,9 +21,10 @@ namespace Bitbucket.Net
             return await HandleResponseAsync<BitbucketTask>(response).ConfigureAwait(false);
         }
 
-        public async Task<BitbucketTask> GetTaskAsync(long taskId)
+        public async Task<BitbucketTask> GetTaskAsync(long taskId, int? avatarSize = null)
         {
             return await GetTasksUrl($"/{taskId}")
+	            .SetQueryParam("avatarSize", avatarSize)
                 .GetJsonAsync<BitbucketTask>()
                 .ConfigureAwait(false);
         }

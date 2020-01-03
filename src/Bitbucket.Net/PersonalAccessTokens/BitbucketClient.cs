@@ -16,12 +16,14 @@ namespace Bitbucket.Net
         public async Task<IEnumerable<AccessToken>> GetUserAccessTokensAsync(string userSlug,
             int? maxPages = null,
             int? limit = null,
-            int? start = null)
+            int? start = null,
+            int? avatarSize = null)
         {
             var queryParamValues = new Dictionary<string, object>
             {
                 ["limit"] = limit,
-                ["start"] = start
+                ["start"] = start,
+                ["avatarSize"] = avatarSize
             };
 
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
@@ -41,9 +43,10 @@ namespace Bitbucket.Net
             return await HandleResponseAsync<FullAccessToken>(response).ConfigureAwait(false);
         }
 
-        public async Task<AccessToken> GetUserAccessTokenAsync(string userSlug, string tokenId)
+        public async Task<AccessToken> GetUserAccessTokenAsync(string userSlug, string tokenId, int? avatarSize = null)
         {
             return await GetPatUrl($"/users/{userSlug}/{tokenId}")
+	            .SetQueryParam("avatarSize", avatarSize)
                 .GetJsonAsync<AccessToken>()
                 .ConfigureAwait(false);
         }

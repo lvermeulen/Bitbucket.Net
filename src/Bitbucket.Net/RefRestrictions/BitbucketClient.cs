@@ -20,7 +20,8 @@ namespace Bitbucket.Net
             string matcherId = null,
             int? maxPages = null,
             int? limit = null,
-            int? start = null)
+            int? start = null,
+            int? avatarSize = null)
         {
             var queryParamValues = new Dictionary<string, object>
             {
@@ -28,7 +29,8 @@ namespace Bitbucket.Net
                 ["matcherType"] = BitbucketHelpers.RefMatcherTypeToString(matcherType),
                 ["matcherId"] = matcherId,
                 ["limit"] = limit,
-                ["start"] = start
+                ["start"] = start,
+                ["avatarSize"] = avatarSize
             };
 
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
@@ -58,9 +60,10 @@ namespace Bitbucket.Net
             return await HandleResponseAsync<RefRestriction>(response).ConfigureAwait(false);
         }
 
-        public async Task<RefRestriction> GetProjectRefRestrictionAsync(string projectKey, int refRestrictionId)
+        public async Task<RefRestriction> GetProjectRefRestrictionAsync(string projectKey, int refRestrictionId, int? avatarSize = null)
         {
             return await GetRefRestrictionsUrl($"/projects/{projectKey}/restrictions/{refRestrictionId}")
+	            .SetQueryParam("avatarSize", avatarSize)
                 .GetJsonAsync<RefRestriction>()
                 .ConfigureAwait(false);
         }
@@ -80,7 +83,8 @@ namespace Bitbucket.Net
             string matcherId = null,
             int? maxPages = null,
             int? limit = null,
-            int? start = null)
+            int? start = null,
+            int? avatarSize = null)
         {
             var queryParamValues = new Dictionary<string, object>
             {
@@ -88,7 +92,8 @@ namespace Bitbucket.Net
                 ["matcherType"] = BitbucketHelpers.RefMatcherTypeToString(matcherType),
                 ["matcherId"] = matcherId,
                 ["limit"] = limit,
-                ["start"] = start
+                ["start"] = start,
+                ["avatarSize"] = avatarSize
             };
 
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
@@ -118,9 +123,11 @@ namespace Bitbucket.Net
             return await HandleResponseAsync<RefRestriction>(response).ConfigureAwait(false);
         }
 
-        public async Task<RefRestriction> GetRepositoryRefRestrictionAsync(string projectKey, string repositorySlug, int refRestrictionId)
+        public async Task<RefRestriction> GetRepositoryRefRestrictionAsync(string projectKey, string repositorySlug, int refRestrictionId,
+	        int? avatarSize = null)
         {
             return await GetRefRestrictionsUrl($"/projects/{projectKey}/repos/{repositorySlug}/restrictions/{refRestrictionId}")
+	            .SetQueryParam("avatarSize", avatarSize)
                 .GetJsonAsync<RefRestriction>()
                 .ConfigureAwait(false);
         }

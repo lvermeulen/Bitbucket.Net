@@ -70,14 +70,16 @@ namespace Bitbucket.Net
         public async Task<IEnumerable<UserInfo>> GetAdminGroupMoreMembersAsync(string context, string filter = null,
             int? maxPages = null,
             int? limit = null,
-            int? start = null)
+            int? start = null,
+            int? avatarSize = null)
         {
             var queryParamValues = new Dictionary<string, object>
             {
                 ["limit"] = limit,
                 ["start"] = start,
                 ["context"] = context,
-                ["filter"] = filter
+                ["filter"] = filter,
+                ["avatarSize"] = avatarSize
             };
 
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
@@ -91,14 +93,16 @@ namespace Bitbucket.Net
         public async Task<IEnumerable<UserInfo>> GetAdminGroupMoreNonMembersAsync(string context, string filter = null,
             int? maxPages = null,
             int? limit = null,
-            int? start = null)
+            int? start = null,
+            int? avatarSize = null)
         {
             var queryParamValues = new Dictionary<string, object>
             {
                 ["limit"] = limit,
                 ["start"] = start,
                 ["context"] = context,
-                ["filter"] = filter
+                ["filter"] = filter,
+                ["avatarSize"] = avatarSize
             };
 
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
@@ -112,13 +116,15 @@ namespace Bitbucket.Net
         public async Task<IEnumerable<UserInfo>> GetAdminUsersAsync(string filter = null,
             int? maxPages = null,
             int? limit = null,
-            int? start = null)
+            int? start = null,
+            int? avatarSize = null)
         {
             var queryParamValues = new Dictionary<string, object>
             {
                 ["limit"] = limit,
                 ["start"] = start,
-                ["filter"] = filter
+                ["filter"] = filter,
+                ["avatarSize"] = avatarSize
             };
 
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
@@ -261,9 +267,10 @@ namespace Bitbucket.Net
             return await HandleResponseAsync(response).ConfigureAwait(false);
         }
 
-        public async Task<UserInfo> RenameAdminUserAsync(UserRename userRename)
+        public async Task<UserInfo> RenameAdminUserAsync(UserRename userRename, int? avatarSize = null)
         {
             var response = await GetAdminUrl("users/rename")
+	            .SetQueryParam("avatarSize", avatarSize)
                 .PostJsonAsync(userRename)
                 .ConfigureAwait(false);
 
@@ -414,13 +421,15 @@ namespace Bitbucket.Net
         public async Task<IEnumerable<UserPermission>> GetAdminUserPermissionsAsync(string filter = null,
             int? maxPages = null,
             int? limit = null,
-            int? start = null)
+            int? start = null,
+            int? avatarSize = null)
         {
             var queryParamValues = new Dictionary<string, object>
             {
                 ["limit"] = limit,
                 ["start"] = start,
-                ["filter"] = filter
+                ["filter"] = filter,
+                ["avatarSize"] = avatarSize
             };
 
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
@@ -460,13 +469,15 @@ namespace Bitbucket.Net
         public async Task<IEnumerable<User>> GetAdminUserPermissionsNoneAsync(string filter = null,
             int? maxPages = null,
             int? limit = null,
-            int? start = null)
+            int? start = null,
+            int? avatarSize = null)
         {
             var queryParamValues = new Dictionary<string, object>
             {
                 ["limit"] = limit,
                 ["start"] = start,
-                ["filter"] = filter
+                ["filter"] = filter,
+                ["avatarSize"] = avatarSize
             };
 
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>

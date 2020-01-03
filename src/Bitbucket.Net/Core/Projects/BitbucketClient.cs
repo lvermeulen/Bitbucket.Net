@@ -92,13 +92,15 @@ namespace Bitbucket.Net
         public async Task<IEnumerable<UserPermission>> GetProjectUserPermissionsAsync(string projectKey, string filter = null,
             int? maxPages = null,
             int? limit = null,
-            int? start = null)
+            int? start = null,
+            int? avatarSize = null)
         {
             var queryParamValues = new Dictionary<string, object>
             {
                 ["limit"] = limit,
                 ["start"] = start,
-                ["filter"] = filter
+                ["filter"] = filter,
+                ["avatarSize"] = avatarSize
             };
 
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
@@ -495,13 +497,15 @@ namespace Bitbucket.Net
             string filter = null,
             int? maxPages = null,
             int? limit = null,
-            int? start = null)
+            int? start = null,
+            int? avatarSize = null)
         {
             var queryParamValues = new Dictionary<string, object>
             {
                 ["filter"] = filter,
                 ["limit"] = limit,
-                ["start"] = start
+                ["start"] = start,
+                ["avatarSize"] = avatarSize
             };
 
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
@@ -528,10 +532,12 @@ namespace Bitbucket.Net
             return await HandleResponseAsync(response).ConfigureAwait(false);
         }
 
-        public async Task<bool> DeleteProjectRepositoryUserPermissionsAsync(string projectKey, string repositorySlug, string name)
+        public async Task<bool> DeleteProjectRepositoryUserPermissionsAsync(string projectKey, string repositorySlug, string name,
+	        int? avatarSize = null)
         {
             var response = await GetProjectsReposUrl(projectKey, repositorySlug, "/permissions/users")
                 .SetQueryParam("name", name)
+                .SetQueryParam("avatarSize", avatarSize)
                 .DeleteAsync()
                 .ConfigureAwait(false);
 
@@ -824,10 +830,12 @@ namespace Bitbucket.Net
             return await HandleResponseAsync<CommentRef>(response).ConfigureAwait(false);
         }
 
-        public async Task<CommentRef> GetCommitCommentAsync(string projectKey, string repositorySlug, string commitId, long commentId)
+        public async Task<CommentRef> GetCommitCommentAsync(string projectKey, string repositorySlug, string commitId, long commentId,
+	        int? avatarSize = null)
         {
             return await GetProjectsReposUrl(projectKey, repositorySlug, $"/commits/{commitId}/comments/{commentId}")
-                .GetJsonAsync<CommentRef>()
+	            .SetQueryParam("avatarSize", avatarSize)
+	            .GetJsonAsync<CommentRef>()
                 .ConfigureAwait(false);
         }
 
@@ -1111,14 +1119,16 @@ namespace Bitbucket.Net
             PullRequestFromTypes? fromType = null,
             int? maxPages = null,
             int? limit = null,
-            int? start = null)
+            int? start = null,
+            int? avatarSize = null)
         {
             var queryParamValues = new Dictionary<string, object>
             {
                 ["limit"] = limit,
                 ["start"] = start,
                 ["fromId"] = fromId,
-                ["fromType"] = BitbucketHelpers.PullRequestFromTypeToString(fromType)
+                ["fromType"] = BitbucketHelpers.PullRequestFromTypeToString(fromType),
+                ["avatarSize"] = avatarSize
             };
 
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
@@ -1274,12 +1284,14 @@ namespace Bitbucket.Net
             string toHash = null,
             int? maxPages = null,
             int? limit = null,
-            int? start = null)
+            int? start = null,
+            int? avatarSize = null)
         {
             var queryParamValues = new Dictionary<string, object>
             {
                 ["limit"] = limit,
                 ["start"] = start,
+                ["avatarSize"] = avatarSize,
                 ["path"] = path,
                 ["anchorState"] = BitbucketHelpers.AnchorStateToString(anchorState),
                 ["diffType"] = BitbucketHelpers.DiffTypeToString(diffType),
@@ -1295,10 +1307,12 @@ namespace Bitbucket.Net
                 .ConfigureAwait(false);
         }
 
-        public async Task<CommentRef> GetPullRequestCommentAsync(string projectKey, string repositorySlug, long pullRequestId, long commentId)
+        public async Task<CommentRef> GetPullRequestCommentAsync(string projectKey, string repositorySlug, long pullRequestId, long commentId,
+	        int? avatarSize = null)
         {
             return await GetProjectsReposUrl(projectKey, repositorySlug)
                 .AppendPathSegment($"/pull-requests/{pullRequestId}/comments/{commentId}")
+                .SetQueryParam("avatarSize", avatarSize)
                 .GetJsonAsync<CommentRef>()
                 .ConfigureAwait(false);
         }
@@ -1412,12 +1426,14 @@ namespace Bitbucket.Net
         public async Task<IEnumerable<Participant>> GetPullRequestParticipantsAsync(string projectKey, string repositorySlug, long pullRequestId,
             int? maxPages = null,
             int? limit = null,
-            int? start = null)
+            int? start = null,
+            int? avatarSize = null)
         {
             var queryParamValues = new Dictionary<string, object>
             {
                 ["limit"] = limit,
-                ["start"] = start
+                ["start"] = start,
+                ["avatarSize"] = avatarSize
             };
 
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
@@ -1492,12 +1508,14 @@ namespace Bitbucket.Net
         public async Task<IEnumerable<BitbucketTask>> GetPullRequestTasksAsync(string projectKey, string repositorySlug, long pullRequestId,
             int? maxPages = null,
             int? limit = null,
-            int? start = null)
+            int? start = null,
+            int? avatarSize = null)
         {
             var queryParamValues = new Dictionary<string, object>
             {
                 ["limit"] = limit,
-                ["start"] = start
+                ["start"] = start,
+                ["avatarSize"] = avatarSize
             };
 
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>

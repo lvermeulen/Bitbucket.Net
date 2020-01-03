@@ -16,12 +16,14 @@ namespace Bitbucket.Net
         public async Task<IEnumerable<AuditEvent>> GetProjectAuditEventsAsync(string projectKey,
             int? maxPages = null,
             int? limit = null,
-            int? start = null)
+            int? start = null,
+            int? avatarSize = null)
         {
             var queryParamValues = new Dictionary<string, object>
             {
                 ["limit"] = limit,
-                ["start"] = start
+                ["start"] = start,
+                ["avatarSize"] = avatarSize
             };
 
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
@@ -35,12 +37,14 @@ namespace Bitbucket.Net
         public async Task<IEnumerable<AuditEvent>> GetProjectRepoAuditEventsAsync(string projectKey, string repositorySlug,
             int? maxPages = null,
             int? limit = null,
-            int? start = null)
+            int? start = null,
+            int? avatarSize = null)
         {
             var queryParamValues = new Dictionary<string, object>
             {
                 ["limit"] = limit,
-                ["start"] = start
+                ["start"] = start,
+                ["avatarSize"] = avatarSize
             };
 
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>

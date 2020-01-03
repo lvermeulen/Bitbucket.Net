@@ -13,9 +13,11 @@ namespace Bitbucket.Net
         private IFlurlRequest GetDefaultReviewersUrl(string path) => GetDefaultReviewersUrl()
             .AppendPathSegment(path);
 
-        public async Task<IEnumerable<DefaultReviewerPullRequestCondition>> GetDefaultReviewerConditionsAsync(string projectKey)
+        public async Task<IEnumerable<DefaultReviewerPullRequestCondition>> GetDefaultReviewerConditionsAsync(string projectKey,
+	        int? avatarSize = null)
         {
             return await GetDefaultReviewersUrl($"/projects/{projectKey}/conditions")
+	            .SetQueryParam("avatarSize", avatarSize)
                 .GetJsonAsync<IEnumerable<DefaultReviewerPullRequestCondition>>()
                 .ConfigureAwait(false);
         }
@@ -47,9 +49,11 @@ namespace Bitbucket.Net
             return await HandleResponseAsync(response).ConfigureAwait(false);
         }
 
-        public async Task<IEnumerable<DefaultReviewerPullRequestCondition>> GetDefaultReviewerConditionsAsync(string projectKey, string repositorySlug)
+        public async Task<IEnumerable<DefaultReviewerPullRequestCondition>> GetDefaultReviewerConditionsAsync(string projectKey, string repositorySlug,
+	        int? avatarSize = null)
         {
             return await GetDefaultReviewersUrl($"/projects/{projectKey}/repos/{repositorySlug}/conditions")
+	            .SetQueryParam("avatarSize", avatarSize)
                 .GetJsonAsync<IEnumerable<DefaultReviewerPullRequestCondition>>()
                 .ConfigureAwait(false);
         }
@@ -85,14 +89,16 @@ namespace Bitbucket.Net
             int? sourceRepoId = null,
             int? targetRepoId = null,
             string sourceRefId = null,
-            string targetRefId = null)
+            string targetRefId = null,
+            int? avatarSize = null)
         {
             var queryParamValues = new Dictionary<string, object>
             {
                 ["sourceRepoId"] = sourceRepoId,
                 ["targetRepoId"] = targetRepoId,
                 ["sourceRefId"] = sourceRefId,
-                ["targetRefId"] = targetRefId
+                ["targetRefId"] = targetRefId,
+                ["avatarSize"] = avatarSize
             };
 
             return await GetDefaultReviewersUrl($"/projects/{projectKey}/repos/{repositorySlug}/reviewers")
