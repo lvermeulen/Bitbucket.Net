@@ -11,7 +11,7 @@ namespace Bitbucket.Net.Tests
         public async Task GetInboxPullRequestsAsync()
         {
             var results = await _client.GetInboxPullRequestsAsync(role: Roles.Author).ConfigureAwait(false);
-            Assert.True(Enumerable.Any(results));
+            Assert.True(results.Any());
         }
 
         [Fact]

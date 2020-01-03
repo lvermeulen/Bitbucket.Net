@@ -36,7 +36,7 @@ namespace Bitbucket.Net
         public async Task<bool> LikeCommitCommentAsync(string projectKey, string repositorySlug, string commitId, string commentId)
         {
             var response = await GetCommentLikesUrl($"/projects/{projectKey}/repos/{repositorySlug}/commits/{commitId}/comments/{commentId}/likes")
-                .PostAsync(new StringContent(""))
+                .PostJsonAsync(new StringContent(""))
                 .ConfigureAwait(false);
 
             return await HandleResponseAsync(response).ConfigureAwait(false);
@@ -73,7 +73,7 @@ namespace Bitbucket.Net
         public async Task<bool> LikePullRequestCommentAsync(string projectKey, string repositorySlug, string pullRequestId, string commentId)
         {
             var response = await GetCommentLikesUrl($"/projects/{projectKey}/repos/{repositorySlug}/pull-requests/{pullRequestId}/comments/{commentId}/likes")
-                .PostAsync(new StringContent(""))
+                .PostJsonAsync(new StringContent(""))
                 .ConfigureAwait(false);
 
             return await HandleResponseAsync(response).ConfigureAwait(false);

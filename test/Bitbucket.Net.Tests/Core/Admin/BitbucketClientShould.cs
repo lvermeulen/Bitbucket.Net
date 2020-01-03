@@ -17,7 +17,7 @@ namespace Bitbucket.Net.Tests
         [Fact]
         public async Task AddAdminGroupUsersAsync()
         {
-            var result = await _client.AddAdminGroupUsersAsync(new GroupUsers
+            bool result = await _client.AddAdminGroupUsersAsync(new GroupUsers
             {
                 Group = "stash-users",
                 Users = new List<string> { "lvermeulen" }

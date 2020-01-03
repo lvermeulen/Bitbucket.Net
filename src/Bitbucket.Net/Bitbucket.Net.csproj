@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>net452;netstandard1.4</TargetFrameworks>
@@ -13,11 +13,12 @@
     <RepositoryType>git</RepositoryType>
     <PackageTags>bitbucket</PackageTags>
     <PackageIconUrl>https://i.imgur.com/OsDAzyV.png</PackageIconUrl>
+    <LangVersion>7</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Flurl.Http" Version="2.1.1" />
-    <PackageReference Include="Microsoft.CSharp" Version="4.4.1" />
+    <PackageReference Include="Flurl.Http" Version="2.4.1" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
   </ItemGroup>
 
 </Project>

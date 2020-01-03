@@ -26,6 +26,7 @@ namespace Bitbucket.Net
         public async Task<bool> DeleteProjectsReposKeysAsync(int keyId, params string[] projectsOrRepos)
         {
             var response =  await GetKeysUrl($"/ssh/{keyId}")
+                .WithHeader("Content-Type", "application/json")
                 .SendAsync(HttpMethod.Delete, new StringContent(JsonConvert.SerializeObject(projectsOrRepos)))
                 .ConfigureAwait(false);
 
@@ -240,7 +241,7 @@ namespace Bitbucket.Net
 
         public async Task<bool> DeleteUserKeyAsync(int keyId)
         {
-            var response = await GetSshUrl("/keys/{keyId}")
+            var response = await GetSshUrl($"/keys/{keyId}")
                 .DeleteAsync()
                 .ConfigureAwait(false);
 

@@ -11,7 +11,6 @@ using Bitbucket.Net.Models.Core.Tasks;
 using Bitbucket.Net.Models.Core.Users;
 using Flurl.Http;
 using Newtonsoft.Json;
-using NullValueHandling = Flurl.NullValueHandling;
 
 namespace Bitbucket.Net
 {
@@ -252,7 +251,7 @@ namespace Bitbucket.Net
 
             var response = await GetProjectsUrl($"/{projectKey}/permissions/{BitbucketHelpers.PermissionToString(permission)}/all")
                 .SetQueryParams(queryParamValues)
-                .PostAsync(new StringContent(""))
+                .PostJsonAsync(new StringContent(""))
                 .ConfigureAwait(false);
 
             return await HandleResponseAsync(response).ConfigureAwait(false);
@@ -315,7 +314,7 @@ namespace Bitbucket.Net
             {
                 slug = targetSlug ?? repositorySlug,
                 name = targetName,
-                project = new ProjectRef { Key = targetProjectKey }
+                project = targetProjectKey == null ? null : new ProjectRef { Key = targetProjectKey }
             };
 
             var response = await GetProjectsReposUrl(projectKey, repositorySlug)
@@ -340,16 +339,16 @@ namespace Bitbucket.Net
             string targetProjectKey = null,
             bool? isPublic = null)
         {
-            var data = new DynamicDictionary
+            var data = new
             {
-                { targetName, "name" },
-                { isForkable, "forkable" },
-                { targetProjectKey, "project", new ProjectRef { Key = targetProjectKey } },
-                { isPublic, "public" }
+                name = targetName,
+                forkable = isForkable,
+                project = targetProjectKey == null ? null : new ProjectRef { Key = targetProjectKey },
+                @public = isPublic
             };
 
             var response = await GetProjectsReposUrl(projectKey, repositorySlug)
-                .PutJsonAsync(data.ToDictionary())
+                .PutJsonAsync(data)
                 .ConfigureAwait(false);
 
             return await HandleResponseAsync<Repository>(response).ConfigureAwait(false);
@@ -631,7 +630,7 @@ namespace Bitbucket.Net
             }
 
             return await GetProjectsReposUrl(projectKey, repositorySlug, "/browse")
-                .SetQueryParams(queryParamValues, NullValueHandling.NameOnly)
+                .SetQueryParams(queryParamValues, Flurl.NullValueHandling.NameOnly)
                 .GetJsonAsync<BrowseItem>()
                 .ConfigureAwait(false);
         }
@@ -655,7 +654,7 @@ namespace Bitbucket.Net
             }
 
             return await GetProjectsReposUrl(projectKey, repositorySlug, $"/browse/{path}")
-                .SetQueryParams(queryParamValues, NullValueHandling.NameOnly)
+                .SetQueryParams(queryParamValues, Flurl.NullValueHandling.NameOnly)
                 .GetJsonAsync<BrowsePathItem>()
                 .ConfigureAwait(false);
         }
@@ -683,9 +682,9 @@ namespace Bitbucket.Net
                 {
                     { new StreamContent(memoryStream), "content" },
                     { new StringContent(branch), "branch" },
-                    { message, new StringContent(message), "message" },
-                    { sourceCommitId, new StringContent(sourceCommitId), "sourceCommitId" },
-                    { sourceBranch, new StringContent(sourceBranch), "sourceBranch" }
+                    { message, message == null ? null : new StringContent(message), "message" },
+                    { sourceCommitId, sourceCommitId == null ? null : new StringContent(sourceCommitId), "sourceCommitId" },
+                    { sourceBranch, sourceBranch == null ? null : new StringContent(sourceBranch), "sourceBranch" }
                 };
 
                 var response = await GetProjectsReposUrl(projectKey, repositorySlug, $"/browse/{path}")
@@ -885,7 +884,7 @@ namespace Bitbucket.Net
         public async Task<bool> CreateCommitWatchAsync(string projectKey, string repositorySlug, string commitId)
         {
             var response = await GetProjectsReposUrl(projectKey, repositorySlug, $"/commits/{commitId}/watch")
-                .PostAsync(new StringContent(""))
+                .PostJsonAsync(new StringContent(""))
                 .ConfigureAwait(false);
 
             return await HandleResponseAsync(response).ConfigureAwait(false);
@@ -1139,7 +1138,7 @@ namespace Bitbucket.Net
 
             var response = await GetProjectsReposUrl(projectKey, repositorySlug, $"/pull-requests/{pullRequestId}/decline")
                 .SetQueryParams(queryParamValues)
-                .DeleteAsync()
+                .PostJsonAsync(new StringContent(""))
                 .ConfigureAwait(false);
 
             return await HandleResponseAsync(response).ConfigureAwait(false);
@@ -1231,6 +1230,40 @@ namespace Bitbucket.Net
                         .GetJsonAsync<PagedResults<Change>>()
                         .ConfigureAwait(false))
                 .ConfigureAwait(false);
+        }
+
+        public async Task<CommentRef> CreatePullRequestCommentAsync(string projectKey, string repositorySlug, long pullRequestId, 
+            string text, 
+            string parentId = null,
+            DiffTypes? diffType = null,
+            string fromHash = null,
+            string path = null,
+            string srcPath = null,
+            string toHash = null,
+            int? line = null,
+            FileTypes? fileType = null,
+            LineTypes? lineType = null)
+        {
+            var data = new
+            {
+                text,
+                parent = parentId == null ? null : new { id = parentId },
+                diffType = BitbucketHelpers.DiffTypeToString(diffType),
+                fromHash,
+                path,
+                srcPath,
+                toHash,
+                line,
+                fileType = BitbucketHelpers.FileTypeToString(fileType),
+                lineType = BitbucketHelpers.LineTypeToString(lineType)
+            };
+
+            var response = await GetProjectsReposUrl(projectKey, repositorySlug)
+                .AppendPathSegment($"/pull-requests/{pullRequestId}/comments")
+                .PostJsonAsync(data)
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync<CommentRef>(response).ConfigureAwait(false);
         }
 
         public async Task<IEnumerable<CommentRef>> GetPullRequestCommentsAsync(string projectKey, string repositorySlug, long pullRequestId,
@@ -1487,7 +1520,7 @@ namespace Bitbucket.Net
         {
             var response = await GetProjectsReposUrl(projectKey, repositorySlug)
                 .AppendPathSegment($"/pull-requests/{pullRequestId}/watch")
-                .PostAsync(new StringContent(""))
+                .PostJsonAsync(new StringContent(""))
                 .ConfigureAwait(false);
 
             return await HandleResponseAsync(response).ConfigureAwait(false);
@@ -1659,15 +1692,15 @@ namespace Bitbucket.Net
             string startPoint,
             string message)
         {
-            var data = new DynamicDictionary
+            var data = new
             {
-                { name, "name" },
-                { startPoint, "startPoint" },
-                { message, "message" }
+                name,
+                startPoint,
+                message
             };
 
             var response = await GetProjectsReposUrl(projectKey, repositorySlug, "/tags")
-                .PostJsonAsync(data.ToDictionary())
+                .PostJsonAsync(data)
                 .ConfigureAwait(false);
 
             return await HandleResponseAsync<Tag>(response).ConfigureAwait(false);

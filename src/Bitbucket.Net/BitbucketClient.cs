@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Bitbucket.Net.Common;
 using Bitbucket.Net.Common.Models;
 using Flurl;
 using Flurl.Http;
@@ -14,23 +15,48 @@ namespace Bitbucket.Net
 {
     public partial class BitbucketClient
     {
-        private static readonly ISerializer s_serializer = new NewtonsoftJsonSerializer(new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() });
+        private static readonly ISerializer s_serializer = new NewtonsoftJsonSerializer(new JsonSerializerSettings
+        {
+            ContractResolver = new CamelCasePropertyNamesContractResolver(),
+            NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore
+        });
+
+        static BitbucketClient()
+        {
+            JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore
+            };
+        }
 
         private readonly Url _url;
+        private readonly Func<string> _getToken;
         private readonly string _userName;
         private readonly string _password;
 
-        public BitbucketClient(string url, string userName, string password)
+        private BitbucketClient(string url)
         {
             _url = url;
+        }
+
+        public BitbucketClient(string url, string userName, string password)
+            : this(url)
+        {
             _userName = userName;
             _password = password;
+        }
+
+        public BitbucketClient(string url, Func<string> getToken)
+            : this(url)
+        {
+            _getToken = getToken;
         }
 
         private IFlurlRequest GetBaseUrl(string root = "/api", string version = "1.0") => new Url(_url)
             .AppendPathSegment($"/rest{root}/{version}")
             .ConfigureRequest(settings => settings.JsonSerializer = s_serializer)
-            .WithBasicAuth(_userName, _password);
+            .WithAuthentication(_getToken, _userName, _password);
 
         private async Task<TResult> ReadResponseContentAsync<TResult>(HttpResponseMessage responseMessage, Func<string, TResult> contentHandler = null)
         {
