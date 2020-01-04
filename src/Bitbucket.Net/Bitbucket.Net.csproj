@@ -14,11 +14,14 @@
     <PackageTags>bitbucket</PackageTags>
     <PackageIconUrl>https://i.imgur.com/OsDAzyV.png</PackageIconUrl>
     <LangVersion>7</LangVersion>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\..\Bitbucket.Net.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Flurl.Http" Version="2.4.1" />
-    <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
+    <PackageReference Include="Flurl.Http.Signed" Version="2.3.2" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="System.Net.Http" Version="4.3.2" />
   </ItemGroup>
 
 </Project>
