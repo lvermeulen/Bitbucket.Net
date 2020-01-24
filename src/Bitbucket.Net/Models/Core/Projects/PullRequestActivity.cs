@@ -15,5 +15,6 @@ namespace Bitbucket.Net.Models.Core.Projects
         public string CommentAction { get; set; }
         public Comment Comment { get; set; }
         public CommentAnchor CommentAnchor { get; set; }
+        public Commit Commit { get; set; }
     }
 }
