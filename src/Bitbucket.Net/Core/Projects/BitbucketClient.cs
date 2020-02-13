@@ -677,7 +677,7 @@ namespace Bitbucket.Net
                 throw new ArgumentException($"File doesn't exist: {fileName}");
             }
 
-            long fileSize = new FileInfo(path).Length;
+            long fileSize = new FileInfo(fileName).Length;
             var buffer = new byte[fileSize];
             using (var stm = new FileStream(fileName, FileMode.OpenOrCreate, FileAccess.Read))
             {
