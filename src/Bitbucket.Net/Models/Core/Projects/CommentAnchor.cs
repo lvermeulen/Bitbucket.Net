@@ -10,6 +10,8 @@ namespace Bitbucket.Net.Models.Core.Projects
         public LineTypes LineType { get; set; }
         [JsonConverter(typeof(FileTypesConverter))]
         public FileTypes FileType { get; set; }
+        public string FromHash { get; set; }
+        public string ToHash { get; set; }
         public string Path { get; set; }
         public string SrcPath { get; set; }
     }
