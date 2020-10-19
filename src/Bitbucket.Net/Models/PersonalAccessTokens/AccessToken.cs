@@ -13,5 +13,7 @@ namespace Bitbucket.Net.Models.PersonalAccessTokens
         [JsonConverter(typeof(UnixDateTimeOffsetConverter))]
         public DateTimeOffset LastAuthenticated { get; set; }
         public User User { get; set; }
+        [JsonConverter(typeof(UnixDateTimeOffsetConverter))]
+        public DateTimeOffset ExpiryDate { get; set; }
     }
 }
