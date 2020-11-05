@@ -450,7 +450,7 @@ namespace Bitbucket.Net
         {
             var queryParamValues = new Dictionary<string, object>
             {
-                ["permission"] = permission,
+                ["permission"] = BitbucketHelpers.PermissionToString(permission),
                 ["name"] = name
             };
 
@@ -520,7 +520,7 @@ namespace Bitbucket.Net
         {
             var queryParamValues = new Dictionary<string, object>
             {
-                ["permission"] = permission,
+                ["permission"] = BitbucketHelpers.PermissionToString(permission),
                 ["name"] = name
             };
 
