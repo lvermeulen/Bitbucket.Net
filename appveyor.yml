@@ -1,10 +1,10 @@
 version: 1.0.0-{build}
 branches:
   only:
-  - master
+  - main
 pull_requests:
   do_not_increment_build_number: true
-image: Visual Studio 2017
+image: Visual Studio 2019
 build_script:
 - ps: .\build\build.ps1 $env:APPVEYOR_BUILD_VERSION $env:APPVEYOR_REPO_TAG_NAME
 #before_test:
@@ -24,5 +24,5 @@ deploy:
   skip_symbols: true
   artifact: /.*\.nupkg/
   on:
-      branch: master                # release from master branch only
+      branch: main                  # release from main branch only
       appveyor_repo_tag: true       # deploy on tag push only
