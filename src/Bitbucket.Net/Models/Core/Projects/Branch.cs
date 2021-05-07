@@ -26,7 +26,7 @@ namespace Bitbucket.Net.Models.Core.Projects
 
                 _branchMetadata = new BranchMetaData();
 
-                foreach (var metadata in Metadata)
+                foreach (dynamic metadata in Metadata)
                 {
                     if (metadata.Name.ToString() == "com.atlassian.bitbucket.server.bitbucket-branch:ahead-behind-metadata-provider")
                     {

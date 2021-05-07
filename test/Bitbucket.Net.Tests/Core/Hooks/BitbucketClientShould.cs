@@ -8,7 +8,7 @@ namespace Bitbucket.Net.Tests
         [Fact]
         public async Task GetProjectHooksAvatarAsync()
         {
-            var result = await _client.GetProjectHooksAvatarAsync("com.atlassian.bitbucket.server.bitbucket-bundled-hooks:all-approvers-merge-check").ConfigureAwait(false);
+            byte[] result = await _client.GetProjectHooksAvatarAsync("com.atlassian.bitbucket.server.bitbucket-bundled-hooks:all-approvers-merge-check").ConfigureAwait(false);
             Assert.NotNull(result);
         }
     }

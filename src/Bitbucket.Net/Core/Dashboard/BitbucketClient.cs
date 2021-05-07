@@ -33,7 +33,7 @@ namespace Bitbucket.Net
                 ["order"] = BitbucketHelpers.PullRequestOrderToString(order),
                 ["closedSince"] = closedSinceSeconds,
                 ["limit"] = limit,
-                ["start"] = start,
+                ["start"] = start
             };
 
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
@@ -53,7 +53,7 @@ namespace Bitbucket.Net
             {
                 ["changesSince"] = changesSinceSeconds,
                 ["limit"] = limit,
-                ["start"] = start,
+                ["start"] = start
             };
 
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>

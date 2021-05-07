@@ -19,7 +19,7 @@ namespace Bitbucket.Net
             {
                 ["filter"] = filter,
                 ["limit"] = limit,
-                ["start"] = start,
+                ["start"] = start
             };
 
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>

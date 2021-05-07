@@ -19,7 +19,7 @@ namespace Bitbucket.Net.Common
             : "false";
 
         public static string BoolToString(bool? value) => value.HasValue
-            ? BoolToString(value)
+            ? BoolToString(value.Value)
             : null;
 
         public static bool StringToBool(string value) => value.Equals("true", StringComparison.OrdinalIgnoreCase);
@@ -166,7 +166,7 @@ namespace Bitbucket.Net.Common
             [Permissions.RepoAdmin] = "REPO_ADMIN",
             [Permissions.RepoRead] = "REPO_READ",
             [Permissions.RepoWrite] = "REPO_WRITE",
-            [Permissions.SysAdmin] = "SYS_ADMIN",
+            [Permissions.SysAdmin] = "SYS_ADMIN"
         };
 
         public static string PermissionToString(Permissions permission)

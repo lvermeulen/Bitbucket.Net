@@ -82,7 +82,7 @@ namespace Bitbucket.Net
 
         public async Task<Project> GetProjectAsync(string projectKey)
         {
-            var response = await GetProjectsUrl($"/{projectKey}")
+            dynamic response = await GetProjectsUrl($"/{projectKey}")
                 .GetJsonAsync()
                 .ConfigureAwait(false);
 
@@ -624,7 +624,7 @@ namespace Bitbucket.Net
             var queryParamValues = new Dictionary<string, object>
             {
                 ["at"] = at,
-                ["type"] = BitbucketHelpers.BoolToString(type),
+                ["type"] = BitbucketHelpers.BoolToString(type)
             };
             if (blame)
             {
@@ -648,7 +648,7 @@ namespace Bitbucket.Net
             var queryParamValues = new Dictionary<string, object>
             {
                 ["at"] = at,
-                ["type"] = BitbucketHelpers.BoolToString(type),
+                ["type"] = BitbucketHelpers.BoolToString(type)
             };
             if (blame)
             {
@@ -678,7 +678,7 @@ namespace Bitbucket.Net
             }
 
             long fileSize = new FileInfo(fileName).Length;
-            var buffer = new byte[fileSize];
+            byte[] buffer = new byte[fileSize];
             using (var stm = new FileStream(fileName, FileMode.OpenOrCreate, FileAccess.Read))
             {
                 await stm.ReadAsync(buffer, 0, (int)fileSize);
@@ -744,7 +744,7 @@ namespace Bitbucket.Net
                 ["path"] = path,
                 ["since"] = since,
                 ["until"] = until,
-                ["withCounts"] = BitbucketHelpers.BoolToString(withCounts),
+                ["withCounts"] = BitbucketHelpers.BoolToString(withCounts)
             };
 
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
@@ -759,7 +759,7 @@ namespace Bitbucket.Net
         {
             var queryParamValues = new Dictionary<string, object>
             {
-                ["path"] = path,
+                ["path"] = path
             };
 
             return await GetProjectsReposUrl(projectKey, repositorySlug, $"/commits/{commitId}")
@@ -780,7 +780,7 @@ namespace Bitbucket.Net
                 ["limit"] = limit,
                 ["start"] = start,
                 ["since"] = since,
-                ["withComments"] = BitbucketHelpers.BoolToString(withComments),
+                ["withComments"] = BitbucketHelpers.BoolToString(withComments)
             };
 
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
@@ -880,7 +880,7 @@ namespace Bitbucket.Net
                 ["since"] = since,
                 ["srcPath"] = srcPath,
                 ["whitespace"] = whitespace,
-                ["withComments"] = BitbucketHelpers.BoolToString(withComments),
+                ["withComments"] = BitbucketHelpers.BoolToString(withComments)
             };
 
             return await GetProjectsReposUrl(projectKey, repositorySlug, $"/commits/{commitId}/diff")
@@ -943,7 +943,7 @@ namespace Bitbucket.Net
                 ["fromRepo"] = fromRepo,
                 ["srcPath"] = srcPath,
                 ["contextLines"] = contextLines,
-                ["whitespace"] = whitespace,
+                ["whitespace"] = whitespace
             };
 
             return await GetProjectsReposUrl(projectKey, repositorySlug, "/compare/diff")
@@ -1069,7 +1069,7 @@ namespace Bitbucket.Net
                 ["state"] = BitbucketHelpers.PullRequestStateToString(state),
                 ["order"] = BitbucketHelpers.PullRequestOrderToString(order),
                 ["withAttributes"] = BitbucketHelpers.BoolToString(withAttributes),
-                ["withProperties"] = BitbucketHelpers.BoolToString(withProperties),
+                ["withProperties"] = BitbucketHelpers.BoolToString(withProperties)
             };
 
             return await GetPagedResultsAsync(maxPages, queryParamValues, async qpv =>
