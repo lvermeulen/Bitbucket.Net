@@ -1258,14 +1258,17 @@ namespace Bitbucket.Net
             {
                 text,
                 parent = parentId == null ? null : new { id = parentId },
-                diffType = BitbucketHelpers.DiffTypeToString(diffType),
-                fromHash,
-                path,
-                srcPath,
-                toHash,
-                line,
-                fileType = BitbucketHelpers.FileTypeToString(fileType),
-                lineType = BitbucketHelpers.LineTypeToString(lineType)
+                anchor = new 
+                {
+                    diffType = BitbucketHelpers.DiffTypeToString(diffType),
+                    fromHash,
+                    path,
+                    srcPath,
+                    toHash,
+                    line,
+                    fileType = BitbucketHelpers.FileTypeToString(fileType),
+                    lineType = BitbucketHelpers.LineTypeToString(lineType)
+                }
             };
 
             var response = await GetProjectsReposUrl(projectKey, repositorySlug)
