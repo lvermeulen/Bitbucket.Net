@@ -52,7 +52,7 @@ namespace Bitbucket.Net
                 return new
                 {
                     text,
-                    parent = parent,
+                    parent,
                     anchor = new
                     {
                         diffType = BitbucketHelpers.DiffTypeToString(diffType),
@@ -70,7 +70,7 @@ namespace Bitbucket.Net
             return new
             {
                 text,
-                parent = parent,
+                parent,
             };
         }
 
