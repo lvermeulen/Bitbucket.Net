@@ -40,8 +40,7 @@ namespace Bitbucket.Net
             string toHash = null,
             int? line = null,
             FileTypes? fileType = null,
-            LineTypes? lineType = null
-            )
+            LineTypes? lineType = null)
         {
             var parent = parentId == null ? null : new { id = parentId };
 
@@ -74,8 +73,7 @@ namespace Bitbucket.Net
             };
         }
 
-
-            public async Task<IEnumerable<Project>> GetProjectsAsync(
+        public async Task<IEnumerable<Project>> GetProjectsAsync(
             int? maxPages = null,
             int? limit = null,
             int? start = null,
