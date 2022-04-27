@@ -55,5 +55,4 @@ jobs:
           ./.sonar/scanner/dotnet-sonarscanner begin /k:"lvermeulen_Bitbucket.Net" /o:"lvermeulen" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           dotnet restore
           dotnet build --no-restore
-          dotnet test --no-build --verbosity normal
           ./.sonar/scanner/dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
