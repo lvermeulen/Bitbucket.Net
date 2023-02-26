@@ -7,7 +7,7 @@
     <Company>Luk Vermeulen</Company>
     <Product>Bitbucket.Net</Product>
     <Copyright>Copyright 2018 by Luk Vermeulen. All rights reserved.</Copyright>
-    <PackageLicenseUrl>https://github.com/lvermeulen/Bitbucket.Net/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageLicenseUrl>https://github.com/lvermeulen/Bitbucket.Net/blob/main/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/lvermeulen/Bitbucket.Net</PackageProjectUrl>
     <RepositoryUrl>https://github.com/lvermeulen/Bitbucket.Net</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
@@ -25,6 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="..\..\.editorconfig" Link=".editorconfig" />
     <None Include="README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 

@@ -13,7 +13,8 @@ namespace Bitbucket.Net
         private IFlurlRequest GetAuditUrl(string path) => GetAuditUrl()
             .AppendPathSegment(path);
 
-        public async Task<IEnumerable<AuditEvent>> GetProjectAuditEventsAsync(string projectKey,
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("AsyncUsage", "AsyncFixer01:Unnecessary async/await usage", Justification = "<Pending>")]
+		public async Task<IEnumerable<AuditEvent>> GetProjectAuditEventsAsync(string projectKey,
             int? maxPages = null,
             int? limit = null,
             int? start = null,
@@ -34,6 +35,7 @@ namespace Bitbucket.Net
                 .ConfigureAwait(false);
         }
 
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("AsyncUsage", "AsyncFixer01:Unnecessary async/await usage", Justification = "<Pending>")]
         public async Task<IEnumerable<AuditEvent>> GetProjectRepoAuditEventsAsync(string projectKey, string repositorySlug,
             int? maxPages = null,
             int? limit = null,
