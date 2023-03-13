@@ -30,6 +30,49 @@ namespace Bitbucket.Net
         private IFlurlRequest GetProjectsReposUrl(string projectKey, string repositorySlug, string path) => GetProjectsReposUrl(projectKey, repositorySlug)
             .AppendPathSegment(path);
 
+        private static object GetCreatePullRequestCommentPayload(
+            string text,
+            string parentId = null,
+            DiffTypes? diffType = null,
+            string fromHash = null,
+            string path = null,
+            string srcPath = null,
+            string toHash = null,
+            int? line = null,
+            FileTypes? fileType = null,
+            LineTypes? lineType = null)
+        {
+            var parent = parentId == null ? null : new { id = parentId };
+
+            // We only want to include the anchor if there's anchor data available. Otherwise we'll get a 500 HTTP response when POSTing
+            if (diffType != null || fromHash != null || path != null || srcPath != null
+                || toHash != null || line != null || fileType != null || lineType != null)
+            {
+                return new
+                {
+                    text,
+                    parent,
+                    anchor = new
+                    {
+                        diffType = BitbucketHelpers.DiffTypeToString(diffType),
+                        fromHash,
+                        path,
+                        srcPath,
+                        toHash,
+                        line,
+                        fileType = BitbucketHelpers.FileTypeToString(fileType),
+                        lineType = BitbucketHelpers.LineTypeToString(lineType)
+                    }
+                };
+            }
+
+            return new
+            {
+                text,
+                parent,
+            };
+        }
+
         public async Task<IEnumerable<Project>> GetProjectsAsync(
             int? maxPages = null,
             int? limit = null,
@@ -1254,22 +1297,18 @@ namespace Bitbucket.Net
             FileTypes? fileType = null,
             LineTypes? lineType = null)
         {
-            var data = new
-            {
+            var data = GetCreatePullRequestCommentPayload(
                 text,
-                parent = parentId == null ? null : new { id = parentId },
-                anchor = new 
-                {
-                    diffType = BitbucketHelpers.DiffTypeToString(diffType),
-                    fromHash,
-                    path,
-                    srcPath,
-                    toHash,
-                    line,
-                    fileType = BitbucketHelpers.FileTypeToString(fileType),
-                    lineType = BitbucketHelpers.LineTypeToString(lineType)
-                }
-            };
+                parentId,
+                diffType,
+                fromHash,
+                path,
+                srcPath,
+                toHash,
+                line,
+                fileType,
+                lineType
+            );
 
             var response = await GetProjectsReposUrl(projectKey, repositorySlug)
                 .AppendPathSegment($"/pull-requests/{pullRequestId}/comments")
@@ -1348,6 +1387,39 @@ namespace Bitbucket.Net
                 .ConfigureAwait(false);
 
             return await HandleResponseAsync(response).ConfigureAwait(false);
+        }
+
+        public async Task<CommentRef> CreatePullRequestBlockerCommentAsync(string projectKey, string repositorySlug, long pullRequestId,
+            string text,
+            string parentId = null,
+            DiffTypes? diffType = null,
+            string fromHash = null,
+            string path = null,
+            string srcPath = null,
+            string toHash = null,
+            int? line = null,
+            FileTypes? fileType = null,
+            LineTypes? lineType = null)
+        {
+            var data = GetCreatePullRequestCommentPayload(
+                text,
+                parentId,
+                diffType,
+                fromHash,
+                path,
+                srcPath,
+                toHash,
+                line,
+                fileType,
+                lineType
+            );
+
+            var response = await GetProjectsReposUrl(projectKey, repositorySlug)
+                .AppendPathSegment($"/pull-requests/{pullRequestId}/blocker-comments")
+                .PostJsonAsync(data)
+                .ConfigureAwait(false);
+
+            return await HandleResponseAsync<CommentRef>(response).ConfigureAwait(false);
         }
 
         public async Task<IEnumerable<Commit>> GetPullRequestCommitsAsync(string projectKey, string repositorySlug, long pullRequestId,
